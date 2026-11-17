@@ -77,7 +77,7 @@ type Guest = {
 };
 ```
 Tab `Config` (key/giá trị) → `config: { sdtHoTro }`, chuẩn hoá về `0xxxxxxxxx`, trống thì ẩn dòng "Lạc đường?". Không hardcode số điện thoại trong code.
-Env (Cloudflare Pages): `SHEET_API_URL`, `SHEET_TOKEN` (chỉ lúc build), `PUBLIC_API_URL` (POST RSVP/view). Không env → `fixtures/guests.sample.json` + `fixtures/config.sample.json`. RSVP/view gửi body JSON dạng **text/plain**.
+Host: Cloudflare Workers chỉ phục vụ file tĩnh (`wrangler.jsonc`, `assets.directory: ./dist`). Build variables (Workers Builds): `SHEET_API_URL`, `SHEET_TOKEN` (chỉ lúc build), `PUBLIC_API_URL` (POST RSVP/view). Không env → `fixtures/guests.sample.json` + `fixtures/config.sample.json`. RSVP/view gửi body JSON dạng **text/plain**.
 
 ## Lệnh
 `npm run dev` · `npm run build` · `npm run preview` · `npm run budget` · Apps Script: `cd apps-script/<api|admin> && npx clasp push`; deploy lại bằng **Manage deployments → Edit → New version** (giữ URL).

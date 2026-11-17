@@ -14,7 +14,7 @@
 | Đối tượng thiệp online | Chủ yếu bạn bè, đồng nghiệp | Người lớn tuổi nhận thiệp giấy in ngoài |
 | Thiết kế | **Story**: 6 màn dọc, cuộn hoặc chạm cạnh để chuyển · màu **đỏ rượu + kem** | Mockup: canvas "Thiệp cưới online – bản trẻ trung", artboard 1 |
 | Stack | **Astro static + CSS thuần**, 0 framework runtime | Output = HTML tĩnh |
-| Host | Cloudflare Pages + **domain tên 2 bạn** (.com) | Mua ngay, deploy sớm |
+| Host | Cloudflare **Workers (static assets)** + **domain tên 2 bạn** (.com) | Cloudflare khuyên dự án mới dùng Workers thay Pages; Workers Builds có deploy hook. Cấu hình: `wrangler.jsonc` |
 | Nguồn dữ liệu | **Google Sheet duy nhất**, đọc **lúc build** | Lúc khách mở thiệp **không** gọi Sheet |
 | Link khách | `https://<domain>/k/<guestID>` | guestID = slug tên + 4 ký tự ngẫu nhiên. **Không** đưa tên/xưng hô lên query param |
 | Xưng hô | Cột `xungHo` (danh sách chọn sẵn, 8 giá trị) | Quyết định toàn bộ đại từ trên thiệp và tin nhắn Zalo, xem §2.1 |
@@ -40,7 +40,7 @@
    └───────▲────────┘             │ (Only myself)        │
            │                      │ menu: Sinh guestID,  │
    ┌───────┴───────────────────┐  │ Build lại thiệp ─────┼──► Deploy hook
-   │ Cloudflare Pages (Astro)  │◄─┴──────────────────────┘
+   │ Cloudflare Workers(Astro) │◄─┴──────────────────────┘
    └───────┬───────────────────┘
            ▼
    /k/<guestID>  → HTML tĩnh đã ghi sẵn tên + xưng hô, trả 200, không redirect
@@ -204,7 +204,7 @@ Placeholder lấy từ preset xưng hô: `{chao}` (= `ten` nếu `ban`, ngược
 
 | M | Thời gian | Việc | Done khi |
 |---|---|---|---|
-| **M0** Setup | 16–22/11 | Domain · Pages · repo Astro · import Excel → Sheet · cột `xungHo` dropdown · script sinh guestID | `curl -sI` trả 200; mọi khách `online` có guestID + xungHo |
+| **M0** Setup | 16–22/11 | Domain · Workers · repo Astro · import Excel → Sheet · cột `xungHo` dropdown · script sinh guestID | `curl -sI` trả 200; mọi khách `online` có guestID + xungHo |
 | **M1** UI tĩnh | 23–29/11 | 6 màn Story theo mockup, fixtures 3 preset (`ban`, `anh`, `co`) · tokens · font subset · `check-budget` | Budget pass · đúng ở 360×640 và 390×844 · không lỗi dấu |
 | **M2** Data | 30/11–06/12 | API · build fetch · `/k/[id]` · `xungho.ts` · RSVP · beacon · deploy hook | Đổi `xungHo` trong Sheet → Build lại → thiệp đổi đúng < 3 phút |
 | **M3** Admin | 07–13/12 | Trang admin · Templates theo preset · thống kê | Gửi thử 3 khách trên điện thoại < 30s/khách |
@@ -232,7 +232,7 @@ Placeholder lấy từ preset xưng hô: `{chao}` (= `ten` nếu `ban`, ngược
 
 | Rủi ro | Xử lý |
 |---|---|
-| Pages redirect thêm "/" → Zalo không lấy preview | `build.format:'file'` + `trailingSlash:'never'` + curl |
+| Host redirect thêm "/" → Zalo không lấy preview | `build.format:'file'` + `trailingSlash:'never'` + `html_handling: auto-trailing-slash` (đã thử: `/k/<id>` trả 200, không `Location`) + curl |
 | Zalo cache preview cũ | Chốt og.jpg trước 20/12; test bằng guestID test |
 | Đổi/sinh lại guestID → link chết | Script chỉ điền ô trống + Protected range |
 | Tên lẫn NFC/NFD | `.normalize('NFC')` khi build |

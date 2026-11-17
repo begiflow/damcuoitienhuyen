@@ -13,8 +13,8 @@ npm run build && npm run budget  # build + kiểm ngân sách, luật cứng
 1. **Sheet**: 2 file. File danh sách cũ giữ các tab "Khách …" (mọi người nhập khách ở đó). File thiệp (`ThiepCuoiBegi`) import từ `Guests-import.xlsx`, có tab `Guests`, `TongHop`, `Config`, `HuongDan`. Cột xem PLAN §2. `xungHo` là dropdown 8 giá trị, `showGift` là hộp kiểm. Khoá cột `guestID` bằng Protected range. Tab `Config` do admin tự tạo khi mở Sheet: điền số của Mai vào ô `sdtHoTro`.
 2. **Admin** (Tiện ích mở rộng → Apps Script **trong file thiệp**): dán `apps-script/admin/Code.js`, Script Properties `NGUON_SHEET_ID` = ID file danh sách cũ. Mở lại Sheet → menu **Thiệp cưới**: *Cập nhật khách từ danh sách cũ* (đồng bộ các tab "Khách …" sang `Guests`), *Sinh guestID cho dòng trống* (chỉ dòng `kenh = online`), *Build lại thiệp*.
 3. **API** (project Apps Script riêng): dán `apps-script/api/`. Script Properties: `SHEET_ID` (ID **file thiệp**), `TOKEN` (chuỗi ngẫu nhiên dài). Deploy → Web app, Execute as **Me**, Access **Anyone**. Lần sau đổi code: Manage deployments → Edit → New version (giữ URL).
-4. **Cloudflare Pages**: nối repo GitHub, build `npm run build`, output `dist`. Biến môi trường Production: `SHEET_API_URL`, `SHEET_TOKEN`, `PUBLIC_API_URL` (xem `.env.example`). Gắn domain `tienvahuyen.com`.
-5. Pages → Settings → Builds → **Deploy hook** → dán URL vào Script Properties `DEPLOY_HOOK` của admin. Từ đó sửa Sheet xong bấm **Build lại thiệp**.
+4. **Cloudflare Workers**: Workers & Pages → Create application → Import a repository → repo này. Project name `thiep-cuoi` (trùng `name` trong `wrangler.jsonc`), build `npm run build`, deploy `npx wrangler deploy`. **Build variables**: `SHEET_API_URL`, `SHEET_TOKEN`, `PUBLIC_API_URL`, `SITE_URL` (xem `.env.example`). Gắn domain ở Settings → Domains & Routes.
+5. Worker → Settings → Builds → **Deploy Hooks** → dán URL vào Script Properties `DEPLOY_HOOK` của admin. Từ đó sửa Sheet xong bấm **Build lại thiệp**.
 6. Kiểm: `curl -sI https://tienvahuyen.com/k/<guestID>` phải `200`, không có `Location`.
 
 ## Thay nội dung thật (M4, trước 20/12)

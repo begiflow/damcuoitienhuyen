@@ -7,7 +7,7 @@ export default defineConfig({
   output: 'static',
   trailingSlash: 'never',
   build: {
-    format: 'file', // /k/<id> → k/<id>.html, Pages trả 200 trực tiếp, không redirect thêm "/"
+    format: 'file', // /k/<id> → k/<id>.html, Workers trả 200 trực tiếp, không redirect thêm "/"
     inlineStylesheets: 'always',
   },
   compressHTML: true,
