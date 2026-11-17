@@ -1,4 +1,9 @@
-html { scroll-snap-type: y proximity; -webkit-text-size-adjust: 100%; }
+/* Vuốt = sang hẳn 1 màn như chạm cạnh: luôn hít về đầu màn, vuốt mạnh cũng không nhảy quá 1 màn */
+html { scroll-snap-type: y mandatory; -webkit-text-size-adjust: 100%; }
+/* Màn hình thấp hơn 1 màn story (640px): cuộn tự do, không thì có thể không với tới phần dưới (nút Gửi) */
+@media (max-height: 639px) { html { scroll-snap-type: y proximity; } }
+/* Đang gõ lời nhắn: tắt hít màn để bàn phím không kéo trang đi chỗ khác */
+html:has(input:focus) { scroll-snap-type: none; }
 body { margin: 0; background: var(--bg); }
 button, input { font: inherit; color: inherit; }
 input::placeholder { color: #767676; }
@@ -13,7 +18,7 @@ img { display: block; }
 /* ---------- khung màn ---------- */
 .scr {
   position: relative; height: clamp(640px, 100svh, 760px); border-radius: 14px; overflow: hidden;
-  scroll-snap-align: start; display: flex; flex-direction: column; background: #2a2522;
+  scroll-snap-align: start; scroll-snap-stop: always; display: flex; flex-direction: column; background: #2a2522;
 }
 .bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .shade-t, .shade-b { position: absolute; left: 0; right: 0; pointer-events: none; }
