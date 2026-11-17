@@ -2,7 +2,7 @@
 // Tên phải trùng tên Worker trên dashboard.
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "thiep-cuoi",
+  "name": "damcuoitienhuyen",
   "compatibility_date": "2026-11-01",
   "assets": {
     "directory": "./dist",

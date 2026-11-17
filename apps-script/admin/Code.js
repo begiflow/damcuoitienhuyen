@@ -1,7 +1,7 @@
 /**
  * Admin gắn vào file Sheet (Tiện ích mở rộng → Apps Script). Menu "Thiệp cưới".
  * Script Properties:
- *   DEPLOY_HOOK     Cloudflare: Worker thiep-cuoi → Settings → Builds → Deploy Hooks
+ *   DEPLOY_HOOK     Cloudflare: Worker damcuoitienhuyen → Settings → Builds → Deploy Hooks
  *   NGUON_SHEET_ID  (tuỳ chọn) ID file chứa các tab "Khách …" nếu khác file này
  * Trang gửi thiệp (M3) sẽ thêm sau.
  */
