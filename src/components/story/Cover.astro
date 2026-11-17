@@ -1,5 +1,7 @@
 ---
 import { Picture } from 'astro:assets';
+import { join } from 'node:path';
+import sharp from 'sharp'; // có sẵn: đây là bộ xử lý ảnh mặc định của Astro
 import cover from '../../assets/photos/01-cover.jpg';
 import type { Copy } from '../../lib/copy';
 import Screen from './Screen.astro';
@@ -8,10 +10,13 @@ import { FULL } from './img';
 
 interface Props { c: Copy; total: number }
 const { c, total } = Astro.props;
+// Ảnh bìa siêu mờ 24px (~400 byte) nhúng thẳng vào HTML: màn 1 có màu ảnh thật ngay khi trang hiện,
+// rồi ảnh thật đè lên. Ảnh nhỏ thế này Chrome không tính là LCP.
+const lqip = (await sharp(join(process.cwd(), 'src/assets/photos/01-cover.jpg')).resize(24).webp({ quality: 40 }).toBuffer()).toString('base64');
 ---
 <Screen i={0} total={total} label="Bìa">
   <Fragment slot="bg">
-    <Picture src={cover} {...FULL} alt="" class="bg develop" loading="eager" fetchpriority="high" />
+    <Picture src={cover} {...FULL} alt="" class="bg develop" loading="eager" fetchpriority="high" style={`background:url(data:image/webp;base64,${lqip}) center/cover`} />
     <div class="shade-t"></div>
     <div class="shade-b" style="--h:58%;--a:.6"></div>
   </Fragment>

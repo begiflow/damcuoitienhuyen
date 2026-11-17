@@ -33,6 +33,11 @@ HTML ≤ 30KB gzip · font ≤ 80KB · ảnh màn 1 ≤ 150KB (eager) · ảnh c
 - Hiệu ứng thông tin quan trọng (ngày, giờ, địa điểm, nút) **không bao giờ** bị ẩn chờ animation; chỉ phần trang trí được vẽ dần. Tổng thời gian vẽ mỗi màn ≤ 2.5s.
 - Hiệu ứng phụ: `animation-timeline: view()`, range `entry 0% entry 100%`, trong `@supports`. Thanh tiến trình story **tĩnh**, không tự chạy.
 - Ảnh: `astro:assets` `<Picture formats={['avif','webp']}>`, có kích thước; màn 1 `fetchpriority="high"`, còn lại `loading="lazy"`.
+- Tốc độ màn 1 (đã đo với ảnh nặng như ảnh film thật: LCP 3,8s → 1,7s):
+  - Ảnh tràn màn `widths [640, 800, 1080]`, `quality 50` (`img.ts`). Đừng bỏ 800w: máy 412px DPR 1.75 cần 721px, thiếu 800w là nhảy lên 1080w.
+  - Mỗi `.scr` có `content-visibility: auto`: màn còn xa chưa vẽ nên ảnh trong đó chưa tải, nhường băng thông cho ảnh bìa.
+  - Font viết tay chỉ tải khi `<html>` có class `fr` (JS gắn sau khi ảnh bìa tải xong, tối đa 2.5s).
+  - Ảnh bìa có bản mờ 24px base64 làm nền (`Cover.astro`, dùng `sharp` có sẵn của Astro). Ảnh này quá nhỏ nên Chrome không tính là LCP.
 - Tokens trong `src/styles/tokens.css` (PLAN §5). Câu chữ cố định trong `src/config/wedding.ts`; không tự viết lại.
 
 ## Cấu trúc

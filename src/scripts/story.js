@@ -3,6 +3,10 @@
   var d = document, main = d.querySelector('main'), ds = main.dataset;
   var api = ds.api, gid = ds.g;
 
+  // 0. Font viết tay: bật sau khi ảnh bìa tải xong (hoặc tối đa 2.5s)
+  var cover = d.querySelector('.bg'), fr = function () { d.documentElement.classList.add('fr'); };
+  if (cover && !cover.complete) { cover.addEventListener('load', fr); cover.addEventListener('error', fr); setTimeout(fr, 2500); } else fr();
+
   // 1. Hiệu ứng nét vẽ: màn nào lộ ≥ 45% thì gắn .in (một lần)
   if ('IntersectionObserver' in window) {
     var io = new IntersectionObserver(function (es) {

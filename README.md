@@ -19,7 +19,7 @@ npm run build && npm run budget  # build + kiểm ngân sách, luật cứng
 
 ## Thay nội dung thật (M4, trước 20/12)
 
-- Ảnh: ghi đè file trong `src/assets/photos/` giữ nguyên tên. `public/og.jpg` 1200×630. `src/assets/gift-qr.png` = QR ngân hàng.
+- Ảnh: ghi đè file trong `src/assets/photos/` giữ nguyên tên (ảnh hiện tại là ảnh giả có hạt film, cố ý nặng như ảnh thật để đo tốc độ sát thực tế). Đổi ảnh xong chạy lại PageSpeed. `public/og.jpg` 1200×630. `src/assets/gift-qr.png` = QR ngân hàng.
 - Số của Mai: ô `sdtHoTro` tab Config trong Sheet → Build lại thiệp.
 - `src/config/wedding.ts`: YouTube ID, STK, link Google Maps (các dòng `TODO`).
 - `npm run budget -- --strict` phải pass.

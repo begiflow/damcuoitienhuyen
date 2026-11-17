@@ -21,6 +21,8 @@ img { display: block; }
 .scr {
   position: relative; height: clamp(640px, 100svh, 760px); border-radius: 14px; overflow: hidden;
   scroll-snap-align: start; scroll-snap-stop: always; display: flex; flex-direction: column; background: #2a2522;
+  /* Màn còn xa thì trình duyệt chưa vẽ → ảnh trong đó chưa tải, nhường băng thông cho ảnh bìa (LCP) */
+  content-visibility: auto; contain-intrinsic-size: auto 760px;
 }
 .bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .shade-t, .shade-b { position: absolute; left: 0; right: 0; pointer-events: none; }
@@ -53,6 +55,9 @@ img { display: block; }
 .title { margin: 0; font-size: 30px; font-weight: 900; line-height: 1.5; }
 .hw { font-family: 'Playwrite VN', cursive; font-weight: 400; color: #fff; text-shadow: 0 1px 6px rgba(0,0,0,.55); margin: 0; line-height: 1.7; }
 .dark .hw { color: var(--ink); text-shadow: none; }
+/* Font viết tay (37KB) chỉ được tải khi html có .fr (JS gắn sau khi ảnh bìa tải xong): nhường băng thông cho LCP.
+   Không JS → không có .js → tải bình thường. Chữ viết tay màn 1 đến 2.3s mới hiện nên khách không thấy font tạm. */
+.js:not(.fr) .hw { font-family: cursive; }
 .sticker { background: #fff; border-radius: 8px; font-weight: 900; font-size: 17px; line-height: 1.35; color: var(--accent); }
 .center { text-align: center; align-self: center; }
 
