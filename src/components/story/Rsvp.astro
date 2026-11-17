@@ -2,13 +2,14 @@
 import { Picture } from 'astro:assets';
 import bg from '../../assets/photos/05-rsvp.jpg';
 import type { Copy } from '../../lib/copy';
+import type { Guest } from '../../lib/guests';
 import Screen from './Screen.astro';
 import { FULL } from './img';
 
-interface Props { c: Copy; total: number; diCung: string }
-const { c, total, diCung } = Astro.props;
-// Mặc định 2 người nếu thiệp ghi "đi cùng", còn lại 1. 4 = "4+".
-const defaultCount = diCung ? 2 : 1;
+interface Props { c: Copy; total: number; guest: Guest }
+const { c, total, guest } = Astro.props;
+// Mặc định 2 người nếu có "đi cùng" hoặc dòng ghi 2 người ("Dũng & Ngân", xưng hô anh chị), còn lại 1. 4 = "4+".
+const defaultCount = guest.diCung || guest.xungHo === 'anhchi' || guest.ten.includes('&') ? 2 : 1;
 ---
 <Screen i={4} total={total} label="Xác nhận tham dự" bodyStyle="padding-top:84px">
   <Fragment slot="bg">

@@ -65,7 +65,11 @@ Gộp 4 sheet nhóm của Excel cũ thành **1 tab `Guests`** có cột `nhom`. 
 | `diCung` | người thương / gia đình / (trống) | ✅ | Hiện trên nhãn tag: "@anh.tuan & người thương" |
 | `handle` | `anh.tuan` | ✅ | Tuỳ chọn. Trống = tự sinh từ xưng hô + tên. Tối đa ~22 ký tự |
 | `showGift` | ☑ / ☐ | ✅ | **Checkbox** (Chèn → Hộp kiểm). Tick = hiện nút quà mừng ở màn 6 cho khách đó. Mặc định bỏ tick |
-| `nhom`, `sdt`, `kenh` | Bạn ĐH, 090…, online | ❌ | Admin dùng |
+| `kenh` | online / giay | ❌ | Chỉ dòng `online` mới sinh guestID |
+| `nguoiMoi`, `nhom`, `tenGoc` | Chú Rể · VulcanLabs - Android · "A Dũng" | ❌ | Tab gốc, ghi chú cũ, tên như danh sách cũ |
+| `duKien`, `soDiCung` | Chắc chắn đi · 1 | ❌ | Tab `TongHop` đếm khách + bàn theo 2 cột này |
+| `canXem` | đoán xưng hô theo tên | ❌ | Lý do cần xem lại; xem xong xoá ô |
+| `sdt` | 090… | ❌ | Admin dùng (Zalo) |
 | `daGui`, `views`, `lastSeen`, `rsvp`, `soNguoi`, `ghiChu` | | ❌ | Admin/API ghi |
 
 ### 2.1 Bộ xưng hô (`src/config/xungho.ts`)
@@ -120,7 +124,7 @@ Mỗi màn: cao `clamp(640px, 100svh, 760px)`, bo góc 14px, cách nhau 8px trê
 | 2 | Đếm ngược | Thẻ đếm ngày/giờ/phút/giây · "Thứ Bảy, 23.01.2027 / nhằm 16 tháng Chạp năm Bính Ngọ" | Nút **Nhắc mình (lưu vào lịch)** = Google Calendar link |
 | 3 | Địa điểm | Nhãn vị trí venue · "17:00 đón khách & teabreak / 18:00 khai tiệc" · địa chỉ | Nút **CHỈ ĐƯỜNG** (Google Maps) + mũi tên viết tay |
 | 4 | Photo dump | 3 ảnh in nghiêng + 1 ảnh "phim cưới nè" có nút ▶ | Ảnh video mở `youtu.be/<id>` (không iframe) |
-| 5 | Xác nhận | Câu hỏi theo xưng hô · hạn 15/01 · 2 lựa chọn · "Số người tham dự" 1/2/3/4+ (mặc định 2 nếu có `diCung`, 1 nếu không) · ô nhắn, gợi ý "Lời chúc, dẫn bé theo…" | **Mặc định chưa chọn**; nút Gửi khoá tới khi chọn; gửi xong đổi "Đã gửi, cảm ơn {goi}!". Tiệc mặn, menu cố định: **không** gợi ý chọn món/ăn chay |
+| 5 | Xác nhận | Câu hỏi theo xưng hô · hạn 15/01 · 2 lựa chọn · "Số người tham dự" 1/2/3/4+ (mặc định 2 nếu có `diCung` hoặc dòng 2 người, 1 nếu không) · ô nhắn, gợi ý "Lời chúc, dẫn bé theo…" | **Mặc định chưa chọn**; nút Gửi khoá tới khi chọn; gửi xong đổi "Đã gửi, cảm ơn {goi}!". Tiệc mặn, menu cố định: **không** gợi ý chọn món/ăn chay |
 | 6 | Kết | "HẸN GẶP {GOI} TỐI 23.01!" · nút quà mừng (chỉ `showGift`) · dải ảnh photobooth 3 khung nghiêng + "hẹn chụp chung một tấm nha!" · song thân hai bên (nhà trai: Bà Phạm Thị Hoa · nhà gái: Bà Dương Thị Mỹ Dung) · "Lạc đường? Gọi Mai (bạn cô dâu): {sdtHoTro}" (số lấy từ tab Config) | QR chỉ tải khi mở (lúc đó ẩn dải ảnh). Dải ảnh tự co theo chỗ trống, tự ẩn khi còn < 150px (container query) |
 
 - `/` = bản chung (xưng hô `ban`, không RSVP, không QR). `404`: hướng dẫn liên hệ.
