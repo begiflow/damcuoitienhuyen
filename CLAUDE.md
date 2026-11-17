@@ -13,7 +13,7 @@ Thiết kế: **6 màn kiểu story** (xem PLAN §4, mockup: `design/story-mocku
 4. URL khách trả **200 trực tiếp**: `build.format: 'file'`, `trailingSlash: 'never'`. Không đưa tên hay xưng hô lên query param.
 5. Build output không chứa `sdt`, `nhom` hay cột nội bộ. QR/STK chỉ render khi `showGift === true`.
 6. **guestID bất biến.** Không viết code đổi/sinh lại guestID đã có.
-7. **Không hardcode đại từ.** Mọi câu chữ hướng tới khách đi qua preset trong `src/config/xungho.ts` (`goi`, `minh`, `le`). Preset có lễ (`co`, `chu`) dùng câu lịch sự, không dùng câu đùa.
+7. **Không hardcode đại từ.** Mọi câu chữ hướng tới khách đi qua preset trong `src/config/xungho.ts` (`goi`, `minh`, `le`). Preset có lễ (`co`, `chu`, `thay`) dùng câu lịch sự, không dùng câu đùa.
 8. Mọi chuỗi từ Sheet `.normalize('NFC')`. Không `set:html` với dữ liệu khách.
 9. `noindex` (meta + `X-Robots-Tag`); robots.txt **không** Disallow. og:image là JPEG tuyệt đối, không chứa QR/STK.
 10. RSVP **mặc định chưa chọn**; nút Gửi khoá tới khi khách chọn. Nhãn số người là "Số người tham dự" (không dùng "Đi mấy người?"). Tiệc mặn, menu cố định: không gợi ý ăn chay hay chọn món ở bất kỳ đâu.
@@ -38,7 +38,7 @@ HTML ≤ 30KB gzip · font ≤ 80KB · ảnh màn 1 ≤ 150KB (eager) · ảnh c
 ```
 src/
   config/wedding.ts       # tên cặp đôi, ngày, âm lịch (hardcode), venue, giờ, song thân, YouTube ID, STK (ô TODO)
-  config/xungho.ts        # 7 preset: ban, anh, chi, anhchi, em, co, chu → { goi, minh, le }
+  config/xungho.ts        # 8 preset: ban, anh, chi, anhchi, em, co, chu, thay → { goi, minh, le }
   lib/guests.ts           # fetch Apps Script lúc build → validate → NFC → handle; không env → fixtures
   lib/copy.ts             # MỌI câu chữ phụ thuộc xưng hô (mention, tiêu đề, câu hỏi, lời cảm ơn, og:title…)
   lib/calendar.ts         # Google Calendar URL
@@ -55,7 +55,7 @@ src/
   assets/fonts/           # woff2 đã subset (scripts/subset-fonts.sh), Vite gắn hash
   assets/gift-qr.png      # QR chuyển khoản, chỉ vào build khi có khách showGift
 public/  og.jpg  _headers  robots.txt
-fixtures/guests.sample.json   # 5 khách: anh / ban (showGift) / co / anhchi / chu
+fixtures/guests.sample.json   # 6 khách: anh / ban (showGift) / co / anhchi / chu / thay
 scripts/check-budget.mjs      # --strict: ô TODO trong wedding.ts thành lỗi
 scripts/subset-fonts.sh  scripts/playwrite-chars.txt
 apps-script/api/              # web app Anyone: GET guests (token), POST rsvp/view
@@ -66,7 +66,7 @@ apps-script/admin/            # bound vào Sheet: menu Sinh guestID, Build lại
 
 ## Data contract
 ```ts
-type XungHo = 'ban' | 'anh' | 'chi' | 'anhchi' | 'em' | 'co' | 'chu';
+type XungHo = 'ban' | 'anh' | 'chi' | 'anhchi' | 'em' | 'co' | 'chu' | 'thay';
 type Guest = {
   guestID: string;      // /^[a-z0-9-]{4,40}$/, unique → sai thì fail build
   ten: string;          // chỉ tên gọi: "Tuấn"

@@ -17,7 +17,7 @@
 | Host | Cloudflare Pages + **domain tên 2 bạn** (.com) | Mua ngay, deploy sớm |
 | Nguồn dữ liệu | **Google Sheet duy nhất**, đọc **lúc build** | Lúc khách mở thiệp **không** gọi Sheet |
 | Link khách | `https://<domain>/k/<guestID>` | guestID = slug tên + 4 ký tự ngẫu nhiên. **Không** đưa tên/xưng hô lên query param |
-| Xưng hô | Cột `xungHo` (danh sách chọn sẵn, 7 giá trị) | Quyết định toàn bộ đại từ trên thiệp và tin nhắn Zalo, xem §2.1 |
+| Xưng hô | Cột `xungHo` (danh sách chọn sẵn, 8 giá trị) | Quyết định toàn bộ đại từ trên thiệp và tin nhắn Zalo, xem §2.1 |
 | OG preview | 1 ảnh chung + og:title cá nhân hoá | "Gửi anh Tuấn · Tiên & Huyền cưới rồi!" |
 | Mừng cưới | QR ẩn sau nút, chỉ khi `showGift = TRUE` | Khách khác: QR không có trong HTML |
 | Tính năng | Đếm ngược · photo dump + video (thumbnail mở YouTube) · theo dõi đã mở · chạm cạnh để chuyển màn | |
@@ -61,7 +61,7 @@ Gộp 4 sheet nhóm của Excel cũ thành **1 tab `Guests`** có cột `nhom`. 
 |---|---|---|---|
 | `guestID` | `tuan-x7k2` | ✅ | **Bất biến sau khi gửi.** Protected range |
 | `ten` | Tuấn | ✅ | Chỉ tên gọi, không kèm danh xưng |
-| `xungHo` | `anh` | ✅ | Dropdown: `ban` · `anh` · `chi` · `anhchi` · `em` · `co` · `chu`. Trống = `ban` |
+| `xungHo` | `anh` | ✅ | Dropdown: `ban` · `anh` · `chi` · `anhchi` · `em` · `co` · `chu` · `thay`. Trống = `ban` |
 | `diCung` | người thương / gia đình / (trống) | ✅ | Hiện trên nhãn tag: "@anh.tuan & người thương" |
 | `handle` | `anh.tuan` | ✅ | Tuỳ chọn. Trống = tự sinh từ xưng hô + tên. Tối đa ~22 ký tự |
 | `showGift` | ☑ / ☐ | ✅ | **Checkbox** (Chèn → Hộp kiểm). Tick = hiện nút quà mừng ở màn 6 cho khách đó. Mặc định bỏ tick |
@@ -83,8 +83,9 @@ Gộp 4 sheet nhóm của Excel cũ thành **1 tab `Guests`** có cột `nhom`. 
 | `em` | em | anh chị | – | "ANH CHỊ CƯỚI RỒI!" |
 | `co` | cô | tụi con | ✅ | "Cô tới được không ạ?" |
 | `chu` | chú | tụi con | ✅ | "Hồi âm giúp tụi con ạ" |
+| `thay` | thầy | tụi em | ✅ | "Thầy tới được không ạ?" |
 
-Các chỗ đổi theo xưng hô: tiêu đề màn 1 ("TỤI MÌNH/TỤI EM… CƯỚI RỒI!"), dòng viết tay màn 1 + 2, tiêu đề + câu hỏi + hạn trả lời + nút + ô nhắn ở màn 5, tiêu đề + dòng viết tay + nút quà ở màn 6, lời cảm ơn sau khi gửi, og:title, tin nhắn Zalo. Preset có lễ (`co`, `chu`) dùng câu chữ lịch sự, bỏ các câu đùa ("chốt kèo", "bụng đói").
+Các chỗ đổi theo xưng hô: tiêu đề màn 1 ("TỤI MÌNH/TỤI EM… CƯỚI RỒI!"), dòng viết tay màn 1 + 2, tiêu đề + câu hỏi + hạn trả lời + nút + ô nhắn ở màn 5, tiêu đề + dòng viết tay + nút quà ở màn 6, lời cảm ơn sau khi gửi, og:title, tin nhắn Zalo. Preset có lễ (`co`, `chu`, `thay`) dùng câu chữ lịch sự, bỏ các câu đùa ("chốt kèo", "bụng đói").
 
 ### Tab `Config` (admin tự tạo khi mở Sheet)
 

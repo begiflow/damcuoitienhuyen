@@ -3,5 +3,6 @@
   { "guestID": "linh-p3m9", "ten": "Linh", "xungHo": "ban", "diCung": "", "handle": "", "showGift": true },
   { "guestID": "hanh-c4t8", "ten": "Hạnh", "xungHo": "co", "diCung": "gia đình", "handle": "", "showGift": false },
   { "guestID": "nam-thao-k8r2", "ten": "Nam & Thảo", "xungHo": "anhchi", "diCung": "", "handle": "", "showGift": false },
-  { "guestID": "hung-v5d3", "ten": "Hùng", "xungHo": "chu", "diCung": "", "handle": "", "showGift": false }
+  { "guestID": "hung-v5d3", "ten": "Hùng", "xungHo": "chu", "diCung": "", "handle": "", "showGift": false },
+  { "guestID": "nghiem-t4k7", "ten": "Nghiêm", "xungHo": "thay", "diCung": "người thương", "handle": "", "showGift": false }
 ]
