@@ -176,7 +176,12 @@ function syncGuests() {
       a.canXem = a.flags.join('; ');
       return head.map(function (h) { return h in a ? a[h] : (h === 'showGift' || h === 'daGui' ? false : ''); });
     });
-    var at = g.getLastRow() + 1;
+    // Dòng cuối có dữ liệu thật (cột hộp kiểm làm getLastRow() tính cả dòng trống chỉ có FALSE)
+    var last = 0;
+    data.forEach(function (r, i) { if (nfc_(r[c.guestID]) || nfc_(r[c.ten]) || nfc_(r[c.tenGoc])) last = i + 1; });
+    var at = last + 2;
+    var need = at + rows.length - 1 - g.getMaxRows();
+    if (need > 0) g.insertRowsAfter(g.getMaxRows(), need);
     var dest = g.getRange(at, 1, rows.length, head.length);
     if (at > 2) {
       g.getRange(2, 1, 1, head.length).copyTo(dest, SpreadsheetApp.CopyPasteType.PASTE_DATA_VALIDATION, false);

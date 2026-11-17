@@ -53,7 +53,7 @@
 
 ## 2. Google Sheet
 
-Gộp 4 sheet nhóm của Excel cũ thành **1 tab `Guests`** có cột `nhom`. `TỔNG HỢP` viết lại bằng `COUNTIFS`.
+Hai file: **file danh sách cũ** (các tab "Khách …" mỗi người tự nhập, tab chi phí) và **file thiệp** (`Guests`, `TongHop`, `Config`). Menu admin "Cập nhật khách từ danh sách cũ" đồng bộ các tab "Khách …" sang `Guests` (đọc file cũ qua Script Property `NGUON_SHEET_ID`). `TongHop` viết lại bằng `COUNTIFS`.
 
 ### Tab `Guests`
 
