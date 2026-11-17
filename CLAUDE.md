@@ -24,6 +24,7 @@ HTML ≤ 30KB gzip · font ≤ 80KB · ảnh màn 1 ≤ 150KB (eager) · ảnh c
 
 ## UI rules
 - Mỗi màn `height: clamp(640px, 100svh, 760px)`; nội dung dùng flex (đỉnh/đáy), **không** định vị tuyệt đối theo px cố định cho nội dung chính. Phải đúng ở 360×640 và 390×844.
+- Vuốt dọc sang đúng 1 màn: `scroll-snap-type: y mandatory` + `scroll-snap-stop: always`. **Mở trang không được tự cuộn**: `scroll-padding-top` phải bằng padding trên của `.story`, nếu lệch thì trình duyệt tự cuộn để hít màn 1 và Chrome không đo LCP (NO_LCP).
 - Chạm 28% cạnh phải/trái = `scrollIntoView` màn sau/trước. Vùng chạm nằm **dưới** nội dung; nội dung `pointer-events: none`, phần tử bấm được `pointer-events: auto`.
 - Font: Be Vietnam Pro **600/900**; Playwrite VN 400 cho câu viết tay, subset đúng ký tự hoặc SVG. Fontsource Playwrite VN thiếu `unicode-range` tiếng Việt → tự viết `@font-face`.
 - Chữ in hoa tiếng Việt `line-height ≥ 1.2`. Chữ trên ảnh luôn có lớp phủ tối + `text-shadow`.

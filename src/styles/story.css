@@ -1,5 +1,7 @@
 /* Vuốt = sang hẳn 1 màn như chạm cạnh: luôn hít về đầu màn, vuốt mạnh cũng không nhảy quá 1 màn */
-html { scroll-snap-type: y mandatory; -webkit-text-size-adjust: 100%; }
+/* scroll-padding-top = padding trên của .story: vị trí hít màn 1 trùng scrollY 0, mở trang không bị tự cuộn.
+   Tự cuộn lúc tải bị Chrome coi là người dùng cuộn → ngừng đo LCP (PageSpeed báo NO_LCP). */
+html { scroll-snap-type: y mandatory; scroll-padding-top: 8px; -webkit-text-size-adjust: 100%; }
 /* Màn hình thấp hơn 1 màn story (640px): cuộn tự do, không thì có thể không với tới phần dưới (nút Gửi) */
 @media (max-height: 639px) { html { scroll-snap-type: y proximity; } }
 /* Đang gõ lời nhắn: tắt hít màn để bàn phím không kéo trang đi chỗ khác */
