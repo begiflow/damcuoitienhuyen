@@ -22,5 +22,6 @@ const api = import.meta.env.PUBLIC_API_URL || '';
   <PhotoDump c={c} total={total} />
   {guest && <Rsvp c={c} total={total} guest={guest} />}
   <Farewell c={c} i={total - 1} total={total} showGift={!!guest?.showGift} phone={phone} />
+  {guest && <a class="rsvp-pill" href="#hoi-am">HỒI ÂM</a>}
 </main>
 <script is:inline set:html={storyJs}></script>

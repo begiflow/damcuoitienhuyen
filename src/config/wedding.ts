@@ -6,6 +6,8 @@ export const WEDDING = {
   bride: 'Huyền',
   handle: 'tienvahuyen',
   dateShort: '23.01.27',
+  dateDots: '23.01.2027',
+  dateDow: 'Thứ Bảy',
   dateLong: 'Thứ Bảy, 23.01.2027',
   dateOg: 'Thứ Bảy 23/01/2027',
   lunar: 'nhằm 16 tháng Chạp năm Bính Ngọ', // soát lại lịch vạn niên ở M4

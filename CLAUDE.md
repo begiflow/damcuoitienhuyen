@@ -27,14 +27,15 @@ HTML ≤ 30KB gzip · font ≤ 80KB · ảnh màn 1 ≤ 150KB (eager) · ảnh c
 - Vuốt dọc sang đúng 1 màn: `scroll-snap-type: y mandatory` + `scroll-snap-stop: always`. **Mở trang không được tự cuộn**: `scroll-padding-top` phải bằng padding trên của `.story`, nếu lệch thì trình duyệt tự cuộn để hít màn 1 và Chrome không đo LCP (NO_LCP).
 - Chạm 28% cạnh phải/trái = `scrollIntoView` màn sau/trước. Vùng chạm nằm **dưới** nội dung; nội dung `pointer-events: none`, phần tử bấm được `pointer-events: auto`.
 - Font: Be Vietnam Pro **600/900**; Playwrite VN 400 cho câu viết tay, subset đúng ký tự hoặc SVG. Fontsource Playwrite VN thiếu `unicode-range` tiếng Việt → tự viết `@font-face`.
-- Chữ in hoa tiếng Việt `line-height ≥ 1.2`. Chữ trên ảnh luôn có lớp phủ tối + `text-shadow`.
+- **Bố cục giấy** (theo góp ý của cô dâu, tham khảo các mẫu thiệp online đang được chuộng): nền giấy `--paper`/`--soft` xen kẽ, màn 6 nền `--accent`; căn giữa, nhiều khoảng trống, **mỗi màn 1 điểm nhấn**. Ảnh luôn **đóng khung polaroid + băng keo**, không tràn màn, không đặt chữ đè lên ảnh. Không chữ trong hộp màu; tiêu đề đậm 900 cỡ vừa, chữ phụ nhỏ, kicker viết hoa giãn chữ. Nút viền mực bo tròn. Không avatar/tài khoản; thanh tiến trình mảnh. Không thêm sticker hay thẻ nghiêng (ngoài nhãn mention trên ảnh bìa).
+- Chữ in hoa tiếng Việt `line-height ≥ 1.2`.
 - Nút/vùng chạm ≥ 44px. Tương phản ≥ 4.5:1 (chữ ≥ 24px đậm: ≥ 3:1).
 - Hiệu ứng nét vẽ tay theo PLAN §5: SVG `pathLength="1"` + `stroke-dashoffset`, `clip-path` cho chữ viết tay, `filter` cho ảnh bìa. Trạng thái "ẩn trước khi vẽ" **chỉ** áp dụng dưới `.js .scr:not(.in)` và trong `prefers-reduced-motion: no-preference` — không JS hoặc giảm chuyển động thì mọi thứ hiện sẵn. Class `js` gắn bằng script inline trong `<head>`; class `in` gắn bằng IntersectionObserver (threshold 0.45), mỗi màn chạy một lần.
 - Hiệu ứng thông tin quan trọng (ngày, giờ, địa điểm, nút) **không bao giờ** bị ẩn chờ animation; chỉ phần trang trí được vẽ dần. Tổng thời gian vẽ mỗi màn ≤ 2.5s.
 - Hiệu ứng phụ: `animation-timeline: view()`, range `entry 0% entry 100%`, trong `@supports`. Thanh tiến trình story **tĩnh**, không tự chạy.
 - Ảnh: `astro:assets` `<Picture formats={['avif','webp']}>`, có kích thước; màn 1 `fetchpriority="high"`, còn lại `loading="lazy"`.
-- Tốc độ màn 1 (đã đo với ảnh nặng như ảnh film thật: LCP 3,8s → 1,7s):
-  - Ảnh tràn màn `widths [640, 800, 1080]`, `quality 50` (`img.ts`). Đừng bỏ 800w: máy 412px DPR 1.75 cần 721px, thiếu 800w là nhảy lên 1080w.
+- Tốc độ màn 1 (đã đo với ảnh nặng như ảnh film thật: LCP 1,4–1,6s, Lighthouse mobile):
+  - Kích thước ảnh theo khung trong `img.ts` (`COVER`, `SMALL`, `DUMP`, `BOOTH`). Ảnh trong khung có tỉ lệ cố định qua `.ph` (`--ar`). Màn dùng `container-type: size`: kích thước ảnh tính theo `cqh` để vừa máy 360×640.
   - Mỗi `.scr` có `content-visibility: auto`: màn còn xa chưa vẽ nên ảnh trong đó chưa tải, nhường băng thông cho ảnh bìa.
   - Font viết tay chỉ tải khi `<html>` có class `fr` (JS gắn sau khi ảnh bìa tải xong, tối đa 2.5s).
   - Ảnh bìa có bản mờ 24px base64 làm nền (`Cover.astro`, dùng `sharp` có sẵn của Astro). Ảnh này quá nhỏ nên Chrome không tính là LCP.
@@ -57,7 +58,7 @@ src/
   pages/404.astro
   styles/tokens.css       # @font-face tự viết + biến màu
   styles/story.css        # toàn bộ CSS (global, inline vào HTML lúc build)
-  assets/photos/          # ảnh đặt tên cố định (01-cover.jpg …); thay ảnh thật giữ nguyên tên
+  assets/photos/          # 01-cover, 03-venue, 04-dump-1..3, 04-video, 06-booth-1..3 (.jpg); thay ảnh thật giữ nguyên tên
   assets/fonts/           # woff2 đã subset (scripts/subset-fonts.sh), Vite gắn hash
   assets/gift-qr.png      # QR chuyển khoản, chỉ vào build khi có khách showGift
 public/  og.jpg  _headers  robots.txt

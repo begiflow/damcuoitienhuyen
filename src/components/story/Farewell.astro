@@ -13,18 +13,34 @@ interface Props { c: Copy; i: number; total: number; showGift: boolean; phone: s
 const { c, i, total, showGift, phone } = Astro.props;
 const h = WEDDING.helper;
 ---
-<Screen i={i} total={total} label="Hẹn gặp" class="f6" bodyStyle="padding-top:96px">
-  <svg slot="deco" class="rings" width="70" height="44" viewBox="0 0 70 44" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<Screen i={i} total={total} label="Hẹn gặp" class="f6">
+  <svg width="64" height="40" viewBox="0 0 70 44" fill="none" stroke="var(--soft)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="margin-top:6px">
     <path class="draw" pathLength="1" d="M26 14 A 13 13 0 1 0 26.01 14" style="animation-delay:.3s"></path>
     <path class="draw" pathLength="1" d="M44 16 A 13 13 0 1 1 43.99 16" style="animation-delay:.7s"></path>
     <path class="draw" pathLength="1" d="M20 9 L23 4 L29 4 L32 9 L26 14 Z" style="animation-delay:1.1s"></path>
   </svg>
-  <h2 class="bye pop">{c.bye}</h2>
-  <p class="hw ink" style="animation-delay:.5s;margin-top:14px;font-size:18px">{c.s6note}</p>
+  <h2 class="bye">{c.bye}</h2>
+  <p class="hw ink" style="animation-delay:.6s;margin-top:8px">{c.s6note}</p>
+  <div class="booth">
+    <div class="booth-in">
+      <div class="booth-note">
+        <p class="hw ink" style="animation-delay:1s">{c.boothNote}</p>
+        <svg width="54" height="34" viewBox="0 0 64 40" fill="none" stroke="var(--soft)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path class="draw" pathLength="1" d="M4 6c18 2 38 10 52 26" style="animation-delay:1.3s"></path>
+          <path class="draw" pathLength="1" d="M46 31l11 2-1-11" style="animation-delay:1.8s"></path>
+        </svg>
+      </div>
+      <div class="strip">
+        <div>
+          {[b1, b2, b3].map((src) => <Picture src={src} {...BOOTH} alt="" loading="lazy" />)}
+        </div>
+      </div>
+    </div>
+  </div>
   {showGift && (
     <details class="gift">
-      <summary class="pill">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="8" width="17" height="4"></rect><path d="M5 12v8h14v-8M12 8v12M12 8c-2-4-7-4-6-1s6 1 6 1zM12 8c2-4 7-4 6-1s-6 1-6 1z"></path></svg>
+      <summary class="btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="8" width="17" height="4"></rect><path d="M5 12v8h14v-8M12 8v12M12 8c-2-4-7-4-6-1s6 1 6 1zM12 8c2-4 7-4 6-1s-6 1-6 1z"></path></svg>
         {c.giftLabel}
       </summary>
       <div class="gift-card">
@@ -37,27 +53,11 @@ const h = WEDDING.helper;
       </div>
     </details>
   )}
-  <div class="booth">
-    <div class="booth-in">
-      <div class="booth-note">
-        <p class="hw ink" style="animation-delay:.9s">{c.boothNote}</p>
-        <svg width="64" height="40" viewBox="0 0 64 40" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path class="draw" pathLength="1" d="M4 6c18 2 38 10 52 26" style="animation-delay:1.2s"></path>
-          <path class="draw" pathLength="1" d="M46 31l11 2-1-11" style="animation-delay:1.7s"></path>
-        </svg>
-      </div>
-      <div class="strip pop">
-        <div>
-          {[b1, b2, b3].map((src) => <Picture src={src} {...BOOTH} alt="" loading="lazy" />)}
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="fam">
-    <p>Nhà trai: {WEDDING.parents.groom}</p>
-    <p>Nhà gái: {WEDDING.parents.bride}</p>
+  <div class="fam" style="margin-top:14px">
+    <p>NHÀ TRAI · {WEDDING.parents.groom}</p>
+    <p>NHÀ GÁI · {WEDDING.parents.bride}</p>
     {phone && (
-      <p style="margin-top:8px" data-helper>Lạc đường? Gọi {h.name} ({h.role}):
+      <p style="margin-top:6px" data-helper>Lạc đường? Gọi {h.name} ({h.role}):
         <a href={`tel:${phone}`}>{phone.replace(/(\d{4})(\d{3})(\d{3})/, '$1 $2 $3')}</a>
       </p>
     )}

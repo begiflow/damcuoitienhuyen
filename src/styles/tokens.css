@@ -20,13 +20,11 @@
 
 :root {
   --accent: #7d2433; /* đỏ rượu */
-  --soft: #f2e6d8; /* kem */
-  --ink: #141414;
-  --paper: #ffffff;
-  --bg: #111111;
-  --muted: #5e5e5e;
-  --muted-2: #3a3a3a;
+  --soft: #f2e6d8; /* kem đậm (màn xen kẽ) */
+  --paper: #f8f2ea; /* giấy kem nhạt (nền chính) */
+  --ink: #2a2421; /* mực nâu đen, dịu hơn đen thuần */
+  --bg: #1d1916;
+  --muted: #6e625a; /* chữ phụ: tương phản ≥ 4.5 trên cả --paper và --soft */
+  --line: #d6c9bb;
   --ok: #1e7f5c;
-  --off: #9a9a9a;
-  --line: #dadada;
 }

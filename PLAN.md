@@ -121,12 +121,12 @@ Mỗi màn: cao `clamp(640px, 100svh, 760px)`, bo góc 14px, cách nhau 8px trê
 
 | # | Màn | Nội dung | Chức năng |
 |---|---|---|---|
-| 1 | Bìa | Ảnh hero · nhãn tag "@{handle} & {diCung}" · "{TỤI EM} CƯỚI RỒI!" · dòng viết tay · gợi ý "Vuốt lên hoặc chạm cạnh phải" | Ảnh duy nhất tải ngay |
-| 2 | Đếm ngược | Thẻ đếm ngày/giờ/phút/giây · "Thứ Bảy, 23.01.2027 / nhằm 16 tháng Chạp năm Bính Ngọ" | Nút **Nhắc mình (lưu vào lịch)** = Google Calendar link |
-| 3 | Địa điểm | Nhãn vị trí venue · "17:00 đón khách & teabreak / 18:00 khai tiệc" · địa chỉ | Nút **CHỈ ĐƯỜNG** (Google Maps) + mũi tên viết tay |
-| 4 | Photo dump | 3 ảnh in nghiêng + 1 ảnh "phim cưới nè" có nút ▶ | Ảnh video mở `youtu.be/<id>` (không iframe) |
-| 5 | Xác nhận | Câu hỏi theo xưng hô · hạn 15/01 · 2 lựa chọn · "Số người tham dự" 1/2/3/4+ (mặc định 2 nếu có `diCung` hoặc dòng 2 người, 1 nếu không) · ô nhắn, gợi ý "Lời chúc, dẫn bé theo…" | **Mặc định chưa chọn**; nút Gửi khoá tới khi chọn; gửi xong đổi "Đã gửi, cảm ơn {goi}!". Tiệc mặn, menu cố định: **không** gợi ý chọn món/ăn chay |
-| 6 | Kết | "HẸN GẶP {GOI} TỐI 23.01!" · nút quà mừng (chỉ `showGift`) · dải ảnh photobooth 3 khung nghiêng + "hẹn chụp chung một tấm nha!" · song thân hai bên (nhà trai: Bà Phạm Thị Hoa · nhà gái: Bà Dương Thị Mỹ Dung) · "Lạc đường? Gọi Mai (bạn cô dâu): {sdtHoTro}" (số lấy từ tab Config) | QR chỉ tải khi mở (lúc đó ẩn dải ảnh). Dải ảnh tự co theo chỗ trống, tự ẩn khi còn < 150px (container query) |
+| 1 | Bìa | Kicker "THIỆP MỜI CƯỚI · 23.01.2027" · ảnh bìa trong khung polaroid + nhãn "@{handle} & {diCung}" · chữ ký "Tiên & Huyền" · "{TỤI EM} CƯỚI RỒI!" · dòng viết tay · "VUỐT LÊN" | Ảnh duy nhất tải ngay |
+| 2 | Đếm ngược | "Còn bao lâu nữa?" · 4 số ngày/giờ/phút/giây trong vòng vẽ tay · "Thứ Bảy, 23.01.2027 / nhằm 16 tháng Chạp năm Bính Ngọ" · hình 2 ly chạm nhau | Nút viền **NHẮC MÌNH (LƯU VÀO LỊCH)** = Google Calendar link |
+| 3 | Tối hôm ấy | Dòng thời gian "17:00 Đón khách & teabreak / 18:00 Khai tiệc" (khoanh tay 18:00) · ảnh địa điểm trong khung · "HIDDEN HAVEN" · địa chỉ | Nút viền **CHỈ ĐƯỜNG** (Google Maps) + "bấm vô đây" |
+| 4 | Photo dump | Lưới 2×2 ảnh polaroid nghiêng nhẹ + băng keo; 1 ô "phim cưới" có nút ▶ | Ảnh video mở `youtu.be/<id>` (không iframe) |
+| 5 | Hồi âm | Câu hỏi theo xưng hô · hạn 15/01 · 2 lựa chọn dạng nút bo tròn · "Số người tham dự" 1/2/3/4+ (mặc định 2 nếu có `diCung` hoặc dòng 2 người, 1 nếu không) · ô nhắn gạch chân, gợi ý "Lời chúc, dẫn bé theo…" | **Mặc định chưa chọn**; nút Gửi khoá tới khi chọn; gửi xong đổi "Đã gửi, cảm ơn {goi}!". Tiệc mặn, menu cố định: **không** gợi ý chọn món/ăn chay. Nút nổi **HỒI ÂM** ở góc mọi màn nhảy tới đây |
+| 6 | Kết | Nền đỏ rượu · "HẸN GẶP {GOI} TỐI 23.01!" · dải ảnh photobooth 3 khung nghiêng · nút viền quà mừng (chỉ `showGift`) + "hẹn chụp chung một tấm nha!" · song thân hai bên (nhà trai: Bà Phạm Thị Hoa · nhà gái: Bà Dương Thị Mỹ Dung) · "Lạc đường? Gọi Mai (bạn cô dâu): {sdtHoTro}" (số lấy từ tab Config) | QR chỉ tải khi mở (lúc đó ẩn dải ảnh). Dải ảnh tự co theo chỗ trống, tự ẩn khi còn < 150px (container query) |
 
 - `/` = bản chung (xưng hô `ban`, không RSVP, không QR). `404`: hướng dẫn liên hệ.
 - Ngày âm lịch hardcode, soát lịch vạn niên ở M4.
