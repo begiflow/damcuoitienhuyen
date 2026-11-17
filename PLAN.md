@@ -183,7 +183,8 @@ Cấu hình bắt buộc: `output: 'static'`, `build.format: 'file'`, `trailingS
 - Thống kê: đã gửi / đã xem / RSVP có–không / tổng người / ước số bàn (÷10).
 - Lọc: nhóm · chưa gửi · đã gửi chưa xem · đã xem chưa RSVP.
 - Mỗi khách: **Copy tin mời** · **Copy tin nhắc** · **Mở Zalo** (`zalo.me/<sdt>`) · **Đã gửi ✓**.
-- Menu Sheet: "Sinh guestID cho dòng trống" · "Build lại thiệp".
+- Menu Sheet: "Cập nhật khách từ danh sách cũ" · "Sinh guestID cho dòng trống" · "Build lại thiệp".
+- **Cập nhật khách từ danh sách cũ**: các tab "Khách …" (mỗi người tự nhập) vẫn là nơi thêm khách. Nút này khớp dòng theo (người mời, ghi chú, tên): khách mới → thêm vào `Guests` (đoán tên gọi, xưng hô, đi cùng, kênh) rồi sinh guestID cho dòng online; khách cũ → chỉ cập nhật `nhom`, `duKien`, `soDiCung`; khách bị xoá ở tab gốc → giữ dòng, ghi vào `canXem`. Không bao giờ sửa `ten`, `xungHo`, `diCung`, `kenh`, `guestID` đã có. Đổi tên ở tab gốc = 1 dòng mới + dòng cũ bị đánh dấu → muốn sửa tên trên thiệp thì sửa cột `ten` trong `Guests`.
 - Clipboard trong iframe HtmlService có thể bị chặn → fallback `execCommand('copy')`, test ở M3.
 
 ### Tin nhắn mẫu (tab `Templates`)

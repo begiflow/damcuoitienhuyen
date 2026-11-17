@@ -59,7 +59,7 @@ fixtures/guests.sample.json   # 6 khách: anh / ban (showGift) / co / anhchi / c
 scripts/check-budget.mjs      # --strict: ô TODO trong wedding.ts thành lỗi
 scripts/subset-fonts.sh  scripts/playwrite-chars.txt
 apps-script/api/              # web app Anyone: GET guests (token), POST rsvp/view
-apps-script/admin/            # bound vào Sheet: menu Sinh guestID, Build lại thiệp
+apps-script/admin/            # bound vào Sheet: menu Cập nhật khách từ tab "Khách …", Sinh guestID, Build lại thiệp
 ```
 - Quà mừng dùng `<details>` (không JS); mở ra thì `:has()` ẩn dải photobooth. RSVP dùng radio + label, nút Gửi bật bằng JS.
 - Câu viết tay (class `hw`) chỉ dùng ký tự trong `scripts/playwrite-chars.txt`; budget fail nếu lệch.
