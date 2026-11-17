@@ -2,7 +2,7 @@
 import Story from '../../components/story/Story.astro';
 import Base from '../../layouts/Base.astro';
 import { buildCopy } from '../../lib/copy';
-import { loadGuests, type Guest } from '../../lib/guests';
+import { loadConfig, loadGuests, type Guest } from '../../lib/guests';
 
 export async function getStaticPaths() {
   const guests = await loadGuests();
@@ -11,7 +11,8 @@ export async function getStaticPaths() {
 
 const { guest } = Astro.props as { guest: Guest };
 const c = buildCopy(guest);
+const { sdtHoTro } = await loadConfig();
 ---
 <Base title={c.ogTitle} description={c.ogDescription}>
-  <Story c={c} guest={guest} />
+  <Story c={c} guest={guest} phone={sdtHoTro} />
 </Base>

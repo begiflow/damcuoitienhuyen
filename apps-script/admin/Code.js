@@ -6,12 +6,35 @@
 
 var ALPHABET = 'abcdefghjkmnpqrstuvwxyz23456789'; // bỏ i, l, o, 0, 1 cho dễ đọc
 
+var CONFIG_ROWS = [
+  ['sdtHoTro', '', 'Số của Mai (bạn cô dâu), hiện ở màn cuối: "Lạc đường? Gọi Mai". Trống = ẩn dòng này. Sửa xong bấm Build lại thiệp.'],
+];
+
 function onOpen() {
+  ensureConfig_();
   SpreadsheetApp.getUi()
     .createMenu('Thiệp cưới')
     .addItem('Sinh guestID cho dòng trống', 'generateIds')
     .addItem('Build lại thiệp', 'rebuild')
     .addToUi();
+}
+
+/** Tạo tab Config và các ô cấu hình nếu chưa có. Không ghi đè giá trị đã điền. */
+function ensureConfig_() {
+  var book = SpreadsheetApp.getActive();
+  var sh = book.getSheetByName('Config');
+  if (!sh) {
+    sh = book.insertSheet('Config');
+    sh.getRange(1, 1, 1, 3).setValues([['key', 'giá trị', 'ghi chú']]).setFontWeight('bold');
+    sh.setFrozenRows(1);
+  }
+  var keys = sh.getLastRow() > 1 ? sh.getRange(2, 1, sh.getLastRow() - 1, 1).getValues().map(function (r) { return String(r[0]).trim(); }) : [];
+  CONFIG_ROWS.forEach(function (row) {
+    if (keys.indexOf(row[0]) >= 0) return;
+    var r = sh.getLastRow() + 1;
+    sh.getRange(r, 2).setNumberFormat('@'); // dạng chữ: giữ số 0 đầu của số điện thoại
+    sh.getRange(r, 1, 1, 3).setValues([row]);
+  });
 }
 
 /** Chỉ điền ô guestID đang trống. Không bao giờ sửa ID đã có (link đã gửi sẽ chết). */

@@ -22,7 +22,8 @@ export const WEDDING = {
   schedule: ['17:00 đón khách & teabreak', '18:00 khai tiệc'],
   rsvpDeadline: '15/01',
   parents: { groom: 'Bà Phạm Thị Hoa', bride: 'Bà Dương Thị Mỹ Dung' },
-  helper: { name: 'Mai', role: 'bạn cô dâu', phone: '' }, // TODO: số của Mai, dạng 0901234567
+  // Số điện thoại KHÔNG nằm ở đây: điền ô `sdtHoTro` trong tab Config của Sheet (đọc lúc build).
+  helper: { name: 'Mai', role: 'bạn cô dâu' },
   youtubeId: '', // TODO: ID video phim cưới (youtu.be/<id>)
   gift: { bank: 'Vietcombank', account: 'xxxx xxxx 1234', holder: 'Tiên (chú rể)' }, // TODO: STK thật + thay src/assets/gift-qr.png
 } as const;

@@ -82,6 +82,14 @@ Gộp 4 sheet nhóm của Excel cũ thành **1 tab `Guests`** có cột `nhom`. 
 
 Các chỗ đổi theo xưng hô: tiêu đề màn 1 ("TỤI MÌNH/TỤI EM… CƯỚI RỒI!"), dòng viết tay màn 1 + 2, tiêu đề + câu hỏi + hạn trả lời + nút + ô nhắn ở màn 5, tiêu đề + dòng viết tay + nút quà ở màn 6, lời cảm ơn sau khi gửi, og:title, tin nhắn Zalo. Preset có lễ (`co`, `chu`) dùng câu chữ lịch sự, bỏ các câu đùa ("chốt kèo", "bụng đói").
 
+### Tab `Config` (admin tự tạo khi mở Sheet)
+
+| key | giá trị | Ghi chú |
+|---|---|---|
+| `sdtHoTro` | 0901234567 | Số của Mai (bạn cô dâu) ở màn 6. Ô định dạng chữ để giữ số 0 đầu. Trống = ẩn dòng "Lạc đường?". Sửa xong bấm **Build lại** |
+
+Chỉ key nằm trong danh sách cho phép của API mới được đưa vào build. Số sai định dạng (không phải di động VN 10 số) → build fail.
+
 ### Tab log (chỉ append)
 `RSVP`: `ts | guestID | attending | soNguoi | ghiChu` · `Views`: `ts | guestID` · `Templates`: `key | text`
 
@@ -94,7 +102,7 @@ Các chỗ đổi theo xưng hô: tiêu đề màn 1 ("TỤI MÌNH/TỤI EM… C
 
 | Request | Ai gọi | Payload | Trả về | Quy tắc |
 |---|---|---|---|---|
-| `GET ?action=guests&token=…` | Build | — | `[{guestID, ten, xungHo, diCung, handle, showGift}]` | Token trong Script Properties. **Không trả** `sdt`, `nhom` |
+| `GET ?action=guests&token=…` | Build | — | `{ok, guests:[{guestID, ten, xungHo, diCung, handle, showGift}], config:{sdtHoTro}}` | Token trong Script Properties. **Không trả** `sdt`, `nhom` |
 | `POST {action:"rsvp", guestID, attending, soNguoi, ghiChu}` | Màn 5 | text/plain | `{ok:true}` | Validate guestID; `ghiChu` ≤ 300; `soNguoi` 1–6; LockService |
 | `POST {action:"view", guestID}` | sendBeacon | text/plain | — | Sau 2s; bỏ qua `?preview=1` / `localStorage.noTrack` |
 
@@ -113,7 +121,7 @@ Mỗi màn: cao `clamp(640px, 100svh, 760px)`, bo góc 14px, cách nhau 8px trê
 | 3 | Địa điểm | Nhãn vị trí venue · "17:00 đón khách & teabreak / 18:00 khai tiệc" · địa chỉ | Nút **CHỈ ĐƯỜNG** (Google Maps) + mũi tên viết tay |
 | 4 | Photo dump | 3 ảnh in nghiêng + 1 ảnh "phim cưới nè" có nút ▶ | Ảnh video mở `youtu.be/<id>` (không iframe) |
 | 5 | Xác nhận | Câu hỏi theo xưng hô · hạn 15/01 · 2 lựa chọn · "Số người tham dự" 1/2/3/4+ (mặc định 2 nếu có `diCung`, 1 nếu không) · ô nhắn, gợi ý "Lời chúc, dẫn bé theo…" | **Mặc định chưa chọn**; nút Gửi khoá tới khi chọn; gửi xong đổi "Đã gửi, cảm ơn {goi}!". Tiệc mặn, menu cố định: **không** gợi ý chọn món/ăn chay |
-| 6 | Kết | "HẸN GẶP {GOI} TỐI 23.01!" · nút quà mừng (chỉ `showGift`) · dải ảnh photobooth 3 khung nghiêng + "hẹn chụp chung một tấm nha!" · song thân hai bên (nhà trai: Bà Phạm Thị Hoa · nhà gái: Bà Dương Thị Mỹ Dung) · "Lạc đường? Gọi Mai (bạn cô dâu)…" | QR chỉ tải khi mở (lúc đó ẩn dải ảnh). Dải ảnh tự co theo chỗ trống, tự ẩn khi còn < 150px (container query) |
+| 6 | Kết | "HẸN GẶP {GOI} TỐI 23.01!" · nút quà mừng (chỉ `showGift`) · dải ảnh photobooth 3 khung nghiêng + "hẹn chụp chung một tấm nha!" · song thân hai bên (nhà trai: Bà Phạm Thị Hoa · nhà gái: Bà Dương Thị Mỹ Dung) · "Lạc đường? Gọi Mai (bạn cô dâu): {sdtHoTro}" (số lấy từ tab Config) | QR chỉ tải khi mở (lúc đó ẩn dải ảnh). Dải ảnh tự co theo chỗ trống, tự ẩn khi còn < 150px (container query) |
 
 - `/` = bản chung (xưng hô `ban`, không RSVP, không QR). `404`: hướng dẫn liên hệ.
 - Ngày âm lịch hardcode, soát lịch vạn niên ở M4.

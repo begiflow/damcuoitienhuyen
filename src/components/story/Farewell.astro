@@ -9,8 +9,8 @@ import type { Copy } from '../../lib/copy';
 import Screen from './Screen.astro';
 import { BOOTH } from './img';
 
-interface Props { c: Copy; i: number; total: number; showGift: boolean }
-const { c, i, total, showGift } = Astro.props;
+interface Props { c: Copy; i: number; total: number; showGift: boolean; phone: string }
+const { c, i, total, showGift, phone } = Astro.props;
 const h = WEDDING.helper;
 ---
 <Screen i={i} total={total} label="Hẹn gặp" class="f6" bodyStyle="padding-top:96px">
@@ -56,8 +56,10 @@ const h = WEDDING.helper;
   <div class="fam">
     <p>Nhà trai: {WEDDING.parents.groom}</p>
     <p>Nhà gái: {WEDDING.parents.bride}</p>
-    <p style="margin-top:8px">Lạc đường? Gọi {h.name} ({h.role}):{' '}
-      {h.phone ? <a href={`tel:${h.phone.replace(/\s/g, '')}`}>{h.phone.replace(/(\d{4})(\d{3})(\d+)/, '$1 $2 $3')}</a> : <a>090x xxx xxx</a>}
-    </p>
+    {phone && (
+      <p style="margin-top:8px" data-helper>Lạc đường? Gọi {h.name} ({h.role}):
+        <a href={`tel:${phone}`}>{phone.replace(/(\d{4})(\d{3})(\d{3})/, '$1 $2 $3')}</a>
+      </p>
+    )}
   </div>
 </Screen>

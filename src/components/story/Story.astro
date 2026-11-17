@@ -10,8 +10,8 @@ import PhotoDump from './PhotoDump.astro';
 import Rsvp from './Rsvp.astro';
 import Venue from './Venue.astro';
 
-interface Props { c: Copy; guest: Guest | null }
-const { c, guest } = Astro.props;
+interface Props { c: Copy; guest: Guest | null; phone: string }
+const { c, guest, phone } = Astro.props;
 const total = guest ? 6 : 5;
 const api = import.meta.env.PUBLIC_API_URL || '';
 ---
@@ -21,6 +21,6 @@ const api = import.meta.env.PUBLIC_API_URL || '';
   <Venue total={total} />
   <PhotoDump c={c} total={total} />
   {guest && <Rsvp c={c} total={total} diCung={guest.diCung} />}
-  <Farewell c={c} i={total - 1} total={total} showGift={!!guest?.showGift} />
+  <Farewell c={c} i={total - 1} total={total} showGift={!!guest?.showGift} phone={phone} />
 </main>
 <script is:inline set:html={storyJs}></script>

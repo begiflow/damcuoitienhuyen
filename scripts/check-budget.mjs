@@ -87,7 +87,9 @@ const fonts = files.filter((f) => f.endsWith('.woff2')).reduce((n, f) => n + sta
 if (fonts > LIMIT.fonts) errors.push(`Font ${kb(fonts)} > ${kb(LIMIT.fonts)}`);
 
 // Nội dung còn để trống
-if (!WEDDING.helper.phone) warns.push('wedding.ts: chưa có số điện thoại của ' + WEDDING.helper.name);
+const sample = readFileSync(join(DIST, 'index.html'), 'utf8');
+if (!/data-helper/.test(sample)) warns.push(`Sheet: ô sdtHoTro (tab Config) trống → thiệp đang ẩn dòng "Lạc đường? Gọi ${WEDDING.helper.name}"`);
+else if (/tel:0900000000/.test(sample)) warns.push('Đang build bằng số mẫu trong fixtures/config.sample.json (chưa nối Sheet)');
 if (!WEDDING.youtubeId) warns.push('wedding.ts: chưa có youtubeId phim cưới');
 if (/x{3}/i.test(WEDDING.gift.account)) warns.push('wedding.ts: STK quà mừng vẫn là placeholder');
 if (WEDDING.venue.mapsUrl.includes('/maps/search/')) warns.push('wedding.ts: mapsUrl đang là link tìm kiếm, nên thay bằng link chia sẻ của đúng địa điểm');

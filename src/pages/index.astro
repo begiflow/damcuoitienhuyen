@@ -3,9 +3,11 @@
 import Story from '../components/story/Story.astro';
 import Base from '../layouts/Base.astro';
 import { buildCopy } from '../lib/copy';
+import { loadConfig } from '../lib/guests';
 
 const c = buildCopy({ xungHo: 'ban', handle: 'ban.be' });
+const { sdtHoTro } = await loadConfig();
 ---
 <Base title={c.ogTitle} description={c.ogDescription}>
-  <Story c={c} guest={null} />
+  <Story c={c} guest={null} phone={sdtHoTro} />
 </Base>

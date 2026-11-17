@@ -2,7 +2,7 @@
  * API thiệp cưới (Web app, Execute as: Me, Who has access: Anyone).
  * Script Properties: SHEET_ID (ID file Google Sheet), TOKEN (chuỗi bí mật, trùng SHEET_TOKEN trên Cloudflare).
  *
- * GET  ?action=guests&token=…              → build đọc danh sách khách (không trả sdt, nhom)
+ * GET  ?action=guests&token=…              → build đọc danh sách khách (không trả sdt, nhom) + tab Config
  * POST {action:"rsvp", guestID, attending, soNguoi, ghiChu}   (text/plain)
  * POST {action:"view", guestID}                               (sendBeacon)
  */
@@ -10,13 +10,14 @@
 var ID_RE = /^[a-z0-9-]{4,40}$/;
 var PUBLIC_COLS = ['guestID', 'ten', 'xungHo', 'diCung', 'handle', 'showGift'];
 var RATE = 10; // request / giờ / guestID / action
+var CONFIG_KEYS = ['sdtHoTro']; // chỉ các ô này của tab Config được đưa vào build
 
 function doGet(e) {
   var p = (e && e.parameter) || {};
   if (p.action !== 'guests') return json_({ ok: false, error: 'bad_action' });
   var token = prop_('TOKEN');
   if (!token || p.token !== token) return json_({ ok: false, error: 'unauthorized' });
-  return json_({ ok: true, guests: readGuests_() });
+  return json_({ ok: true, guests: readGuests_(), config: readConfig_() });
 }
 
 function doPost(e) {
@@ -77,6 +78,18 @@ function log_(name, head, row) {
   var sh = b.getSheetByName(name) || b.insertSheet(name);
   if (sh.getLastRow() === 0) sh.appendRow(head);
   sh.appendRow(row);
+}
+
+// Tab Config: cột A = key, cột B = giá trị. Đọc dạng chữ để số điện thoại giữ số 0 đầu.
+function readConfig_() {
+  var sh = book_().getSheetByName('Config');
+  var out = {};
+  if (!sh || sh.getLastRow() < 1) return out;
+  sh.getRange(1, 1, sh.getLastRow(), 2).getDisplayValues().forEach(function (r) {
+    var k = String(r[0]).trim();
+    if (CONFIG_KEYS.indexOf(k) >= 0) out[k] = String(r[1]).trim();
+  });
+  return out;
 }
 
 function book_() { return SpreadsheetApp.openById(prop_('SHEET_ID')); }
