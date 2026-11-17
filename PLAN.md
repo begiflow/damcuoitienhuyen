@@ -1,0 +1,231 @@
+# PLAN — Thiệp cưới online · Tiệc cưới Thứ Bảy 23/01/2027
+
+> Cập nhật 16/11/2026: chốt thiết kế **Story** (6 màn kiểu story mạng xã hội) và xưng hô cấu hình bằng cột `xungHo` trong Sheet.
+> Cập nhật 17/11/2026: đã có code M1 + phần site của M2 + Apps Script `api` và menu admin (Sinh guestID, Build lại). Ảnh, og.jpg, QR đang là ảnh giả.
+> Nguyên tắc: **load nhanh nhất > đẹp > nhiều tính năng.** Cái gì không có trong plan này thì không làm.
+
+---
+
+## 0. Quyết định đã chốt
+
+| Hạng mục | Chốt | Ghi chú |
+|---|---|---|
+| Sự kiện | 1 tiệc chung · **Hidden Haven**, 393/12 Bình Quới, TP.HCM | 17:00 đón khách & teabreak · 18:00 khai tiệc |
+| Đối tượng thiệp online | Chủ yếu bạn bè, đồng nghiệp | Người lớn tuổi nhận thiệp giấy in ngoài |
+| Thiết kế | **Story**: 6 màn dọc, cuộn hoặc chạm cạnh để chuyển · màu **đỏ rượu + kem** | Mockup: canvas "Thiệp cưới online – bản trẻ trung", artboard 1 |
+| Stack | **Astro static + CSS thuần**, 0 framework runtime | Output = HTML tĩnh |
+| Host | Cloudflare Pages + **domain tên 2 bạn** (.com) | Mua ngay, deploy sớm |
+| Nguồn dữ liệu | **Google Sheet duy nhất**, đọc **lúc build** | Lúc khách mở thiệp **không** gọi Sheet |
+| Link khách | `https://<domain>/k/<guestID>` | guestID = slug tên + 4 ký tự ngẫu nhiên. **Không** đưa tên/xưng hô lên query param |
+| Xưng hô | Cột `xungHo` (danh sách chọn sẵn, 7 giá trị) | Quyết định toàn bộ đại từ trên thiệp và tin nhắn Zalo, xem §2.1 |
+| OG preview | 1 ảnh chung + og:title cá nhân hoá | "Gửi anh Tuấn · Tiên & Huyền cưới rồi!" |
+| Mừng cưới | QR ẩn sau nút, chỉ khi `showGift = TRUE` | Khách khác: QR không có trong HTML |
+| Tính năng | Đếm ngược · photo dump + video (thumbnail mở YouTube) · theo dõi đã mở · chạm cạnh để chuyển màn | |
+
+**Không làm:** nhạc nền, sổ lời chúc, ảnh OG riêng từng khách, bản in, song ngữ, Zalo Mini App, lightbox, CMS, analytics, thư viện âm lịch, story tự chạy.
+
+---
+
+## 1. Kiến trúc
+
+```
+            ┌──────────── Google Sheet ────────────┐
+            │  Guests │ RSVP │ Views │ Templates   │
+            └───▲──────────▲───────────────▲───────┘
+   GET guests   │          │ POST rsvp/view│ google.script.run
+   (lúc build)  │          │ (sau khi trang│
+   ┌────────────┴───┐      │  đã hiện)     │
+   │ Apps Script API│◄─────┘      ┌────────┴─────────────┐
+   │ (Anyone)       │             │ Apps Script Admin    │
+   └───────▲────────┘             │ (Only myself)        │
+           │                      │ menu: Sinh guestID,  │
+   ┌───────┴───────────────────┐  │ Build lại thiệp ─────┼──► Deploy hook
+   │ Cloudflare Pages (Astro)  │◄─┴──────────────────────┘
+   └───────┬───────────────────┘
+           ▼
+   /k/<guestID>  → HTML tĩnh đã ghi sẵn tên + xưng hô, trả 200, không redirect
+```
+
+- Sửa tên/xưng hô trong Sheet → bấm **Build lại** → 1–2 phút sau thiệp cập nhật. Link cũ giữ nguyên.
+- Hai project Apps Script riêng: `api` (Access: Anyone) và `admin` (bound vào Sheet, Access: Only myself).
+
+---
+
+## 2. Google Sheet
+
+Gộp 4 sheet nhóm của Excel cũ thành **1 tab `Guests`** có cột `nhom`. `TỔNG HỢP` viết lại bằng `COUNTIFS`.
+
+### Tab `Guests`
+
+| Cột | Ví dụ | Vào build? | Ghi chú |
+|---|---|---|---|
+| `guestID` | `tuan-x7k2` | ✅ | **Bất biến sau khi gửi.** Protected range |
+| `ten` | Tuấn | ✅ | Chỉ tên gọi, không kèm danh xưng |
+| `xungHo` | `anh` | ✅ | Dropdown: `ban` · `anh` · `chi` · `anhchi` · `em` · `co` · `chu`. Trống = `ban` |
+| `diCung` | người thương / gia đình / (trống) | ✅ | Hiện trên nhãn tag: "@anh.tuan & người thương" |
+| `handle` | `anh.tuan` | ✅ | Tuỳ chọn. Trống = tự sinh từ xưng hô + tên. Tối đa ~22 ký tự |
+| `showGift` | ☑ / ☐ | ✅ | **Checkbox** (Chèn → Hộp kiểm). Tick = hiện nút quà mừng ở màn 6 cho khách đó. Mặc định bỏ tick |
+| `nhom`, `sdt`, `kenh` | Bạn ĐH, 090…, online | ❌ | Admin dùng |
+| `daGui`, `views`, `lastSeen`, `rsvp`, `soNguoi`, `ghiChu` | | ❌ | Admin/API ghi |
+
+### 2.1 Bộ xưng hô (`src/config/xungho.ts`)
+
+| `xungHo` | Gọi khách | Tự xưng | Lễ (`ạ`) | Ví dụ |
+|---|---|---|---|---|
+| `ban` | bạn | tụi mình | – | "Bạn tới được không?" |
+| `anh` | anh | tụi em | – | "HẸN GẶP ANH TỐI 23.01!" |
+| `chi` | chị | tụi em | – | "Chị tới được không?" |
+| `anhchi` | anh chị | tụi em | – | "Nhắn gì cho tụi em?" |
+| `em` | em | anh chị | – | "ANH CHỊ CƯỚI RỒI!" |
+| `co` | cô | tụi con | ✅ | "Cô tới được không ạ?" |
+| `chu` | chú | tụi con | ✅ | "Hồi âm giúp tụi con ạ" |
+
+Các chỗ đổi theo xưng hô: tiêu đề màn 1 ("TỤI MÌNH/TỤI EM… CƯỚI RỒI!"), dòng viết tay màn 1 + 2, tiêu đề + câu hỏi + hạn trả lời + nút + ô nhắn ở màn 5, tiêu đề + dòng viết tay + nút quà ở màn 6, lời cảm ơn sau khi gửi, og:title, tin nhắn Zalo. Preset có lễ (`co`, `chu`) dùng câu chữ lịch sự, bỏ các câu đùa ("chốt kèo", "bụng đói").
+
+### Tab log (chỉ append)
+`RSVP`: `ts | guestID | attending | soNguoi | ghiChu` · `Views`: `ts | guestID` · `Templates`: `key | text`
+
+### Sinh guestID (menu admin)
+`slug(ten)` + `-` + 4 ký tự từ `abcdefghjkmnpqrstuvwxyz23456789`. **Chỉ điền ô trống**, kiểm tra trùng.
+
+---
+
+## 3. API contract (`apps-script/api`)
+
+| Request | Ai gọi | Payload | Trả về | Quy tắc |
+|---|---|---|---|---|
+| `GET ?action=guests&token=…` | Build | — | `[{guestID, ten, xungHo, diCung, handle, showGift}]` | Token trong Script Properties. **Không trả** `sdt`, `nhom` |
+| `POST {action:"rsvp", guestID, attending, soNguoi, ghiChu}` | Màn 5 | text/plain | `{ok:true}` | Validate guestID; `ghiChu` ≤ 300; `soNguoi` 1–6; LockService |
+| `POST {action:"view", guestID}` | sendBeacon | text/plain | — | Sau 2s; bỏ qua `?preview=1` / `localStorage.noTrack` |
+
+Rate limit: CacheService ≤ 10 request/giờ/guestID/action.
+
+---
+
+## 4. Trang khách — 6 màn Story
+
+Mỗi màn: cao `clamp(640px, 100svh, 760px)`, bo góc 14px, cách nhau 8px trên nền tối. Đầu màn có thanh tiến trình 6 đoạn (tĩnh: màn đã qua đầy, màn hiện tại nửa) và tên `tienvahuyen · 23.01.27`. Chạm 28% cạnh phải/trái = sang màn sau/trước (cuộn mượt); cuộn dọc vẫn dùng được.
+
+| # | Màn | Nội dung | Chức năng |
+|---|---|---|---|
+| 1 | Bìa | Ảnh hero · nhãn tag "@{handle} & {diCung}" · "{TỤI EM} CƯỚI RỒI!" · dòng viết tay · gợi ý "Vuốt lên hoặc chạm cạnh phải" | Ảnh duy nhất tải ngay |
+| 2 | Đếm ngược | Thẻ đếm ngày/giờ/phút/giây · "Thứ Bảy, 23.01.2027 / nhằm 16 tháng Chạp năm Bính Ngọ" | Nút **Nhắc mình (lưu vào lịch)** = Google Calendar link |
+| 3 | Địa điểm | Nhãn vị trí venue · "17:00 đón khách & teabreak / 18:00 khai tiệc" · địa chỉ | Nút **CHỈ ĐƯỜNG** (Google Maps) + mũi tên viết tay |
+| 4 | Photo dump | 3 ảnh in nghiêng + 1 ảnh "phim cưới nè" có nút ▶ | Ảnh video mở `youtu.be/<id>` (không iframe) |
+| 5 | Xác nhận | Câu hỏi theo xưng hô · hạn 15/01 · 2 lựa chọn · "Số người tham dự" 1/2/3/4+ (mặc định 2 nếu có `diCung`, 1 nếu không) · ô nhắn, gợi ý "Lời chúc, dẫn bé theo…" | **Mặc định chưa chọn**; nút Gửi khoá tới khi chọn; gửi xong đổi "Đã gửi, cảm ơn {goi}!". Tiệc mặn, menu cố định: **không** gợi ý chọn món/ăn chay |
+| 6 | Kết | "HẸN GẶP {GOI} TỐI 23.01!" · nút quà mừng (chỉ `showGift`) · dải ảnh photobooth 3 khung nghiêng + "hẹn chụp chung một tấm nha!" · song thân hai bên (nhà trai: Bà Phạm Thị Hoa · nhà gái: Bà Dương Thị Mỹ Dung) · "Lạc đường? Gọi Mai (bạn cô dâu)…" | QR chỉ tải khi mở (lúc đó ẩn dải ảnh). Dải ảnh tự co theo chỗ trống, tự ẩn khi còn < 150px (container query) |
+
+- `/` = bản chung (xưng hô `ban`, không RSVP, không QR). `404`: hướng dẫn liên hệ.
+- Ngày âm lịch hardcode, soát lịch vạn niên ở M4.
+- og:title: `Gửi {goi} {ten} · Tiên & Huyền cưới rồi!` (preset `ban` chỉ ghi tên: "Gửi Linh · …") · og:description: `Thứ Bảy 23/01/2027 · {venue}` · og:image JPEG 1200×630 chung · `noindex` (meta + header), robots.txt không Disallow.
+
+---
+
+## 5. Design
+
+| Token | Giá trị | Dùng cho |
+|---|---|---|
+| `--accent` | `#7D2433` (đỏ rượu) | Nút chính, nền màn 6, nhãn tag, băng dính ảnh (trắng trên nền này ≈ 9.7:1) |
+| `--soft` | `#F2E6D8` (kem) | Nền màn photo dump |
+| `--ink` | `#141414` | Chữ, nút phụ |
+| `--paper` | `#FFFFFF` | Nhãn, thẻ, chữ trên ảnh |
+| `--bg` | `#111111` | Nền giữa các màn |
+
+- **Font:** Be Vietnam Pro **600 + 900** (chỉ 2 độ đậm). Playwrite VN 400 cho câu viết tay, **subset đúng các ký tự đang dùng** hoặc xuất SVG.
+- **Chữ in hoa tiếng Việt:** `line-height ≥ 1.2` (dưới mức này dấu nặng dòng trên đè dấu sắc dòng dưới).
+- **Chữ trên ảnh:** luôn có lớp phủ tối (trên 130px, dưới 30–58%) + `text-shadow` cho chữ viết tay.
+- **Nhãn kiểu story:** chữ 900 trên nền trắng/đỏ, `box-decoration-break: clone`.
+- **Hiệu ứng nét vẽ tay ("art")** — chạy khi màn vào khung nhìn, mỗi màn một lần:
+  | Màn | Hiệu ứng |
+  |---|---|
+  | 1 | Ảnh bìa hiện dần như tráng phim (mờ → rõ) · chữ ký "Tiên & Huyền" tự viết từng nét rồi tô đầy · ngôi sao lấp lánh vẽ tay · dòng chữ viết tay hiện như mực chảy |
+  | 2 | Gạch chân nguệch ngoạc dưới tiêu đề · vòng bút khoanh số ngày |
+  | 3 | Vòng bút khoanh "18:00 khai tiệc" · mũi tên tự vẽ tới nút Chỉ đường |
+  | 4 | Chữ "photo dump" tự viết · tim + sao vẽ tay quanh ảnh |
+  | 5 | Gạch chân dưới tiêu đề · dấu tick tự vẽ khi bấm Gửi |
+  | 6 | Hai chiếc nhẫn vẽ nét · mũi tên tới dải photobooth · chữ viết tay hiện dần |
+- **Kỹ thuật:** SVG `pathLength="1"` + `stroke-dashoffset` (nét vẽ), `clip-path` (chữ viết tay), `filter` (tráng phim). Chữ ký = outline của Playwrite VN xuất sẵn thành SVG lúc build (~4KB gzip, không cần tải font cho tên). Thẻ `<html>` nhận class `js` bằng script inline trong `<head>` (tránh nháy); IntersectionObserver gắn class `in` cho màn đã thấy (≥45%). Không JS → mọi thứ hiện sẵn, không ẩn gì. `prefers-reduced-motion` → tắt hết, nội dung hiện đầy đủ.
+- **Hiệu ứng phụ:** nhãn bật lên, ảnh thả rơi bằng CSS scroll-driven (`animation-timeline: view()`, range `entry 0% entry 100%`), trong `@supports`.
+
+---
+
+## 6. Performance budget (fail build nếu vượt)
+
+| Tài nguyên | Ngân sách |
+|---|---|
+| HTML trang khách (CSS + JS inline) | ≤ 30KB gzip |
+| Font tải lần đầu | ≤ 80KB (Be Vietnam Pro 600+900 ≈ 66KB + Playwrite đã subset) |
+| Ảnh màn 1 (eager, `fetchpriority=high`) | ≤ 150KB AVIF |
+| Ảnh màn 2–6 + photo dump (lazy) | ≤ 800KB tổng |
+| JS | ≤ 5KB, vanilla (đếm ngược, chạm cạnh, RSVP, quà, beacon, IntersectionObserver cho hiệu ứng) |
+| Request bên thứ 3 trước khi trang hiển thị | **0** |
+| Lighthouse mobile | Perf ≥ 95 · LCP ≤ 2.0s · CLS < 0.05 |
+
+Cấu hình bắt buộc: `output: 'static'`, `build.format: 'file'`, `trailingSlash: 'never'`, `build.inlineStylesheets: 'always'`.
+
+---
+
+## 7. Admin (Apps Script `admin`)
+
+- Thống kê: đã gửi / đã xem / RSVP có–không / tổng người / ước số bàn (÷10).
+- Lọc: nhóm · chưa gửi · đã gửi chưa xem · đã xem chưa RSVP.
+- Mỗi khách: **Copy tin mời** · **Copy tin nhắc** · **Mở Zalo** (`zalo.me/<sdt>`) · **Đã gửi ✓**.
+- Menu Sheet: "Sinh guestID cho dòng trống" · "Build lại thiệp".
+- Clipboard trong iframe HtmlService có thể bị chặn → fallback `execCommand('copy')`, test ở M3.
+
+### Tin nhắn mẫu (tab `Templates`)
+Placeholder lấy từ preset xưng hô: `{chao}` (= `ten` nếu `ban`, ngược lại `{Goi} {ten}`), `{goi}`, `{minh}`, `{tail}` (` nha` / ` ạ`).
+
+**`moi`**
+> {chao} ơi, {minh} cưới rồi nè! Tiệc cưới lúc {gio}, Thứ Bảy 23/01/2027 (16 tháng Chạp) tại {venue}, {diaChi}.
+> Thiệp mời của {goi}: {link}
+> (Link chỉ để xem thông tin và xác nhận, không cần đăng nhập hay cài gì.) Mong {goi} tới chung vui{tail}!
+
+**`nhac`**
+> {chao} ơi, còn {soNgay} ngày nữa là tiệc cưới của {minh} rồi. {Goi} xác nhận giúp {minh} để xếp chỗ{tail}: {link}
+
+---
+
+## 8. Milestones
+
+| M | Thời gian | Việc | Done khi |
+|---|---|---|---|
+| **M0** Setup | 16–22/11 | Domain · Pages · repo Astro · import Excel → Sheet · cột `xungHo` dropdown · script sinh guestID | `curl -sI` trả 200; mọi khách `online` có guestID + xungHo |
+| **M1** UI tĩnh | 23–29/11 | 6 màn Story theo mockup, fixtures 3 preset (`ban`, `anh`, `co`) · tokens · font subset · `check-budget` | Budget pass · đúng ở 360×640 và 390×844 · không lỗi dấu |
+| **M2** Data | 30/11–06/12 | API · build fetch · `/k/[id]` · `xungho.ts` · RSVP · beacon · deploy hook | Đổi `xungHo` trong Sheet → Build lại → thiệp đổi đúng < 3 phút |
+| **M3** Admin | 07–13/12 | Trang admin · Templates theo preset · thống kê | Gửi thử 3 khách trên điện thoại < 30s/khách |
+| **M4** Content | 14–20/12 | Ảnh thật · og.jpg · video · venue/giờ · soát âm lịch | **Content freeze 20/12** |
+| **M5** QA | 21–27/12 | Test matrix §9 · gửi thử 5–10 bạn thân | Không lỗi trên Zalo iOS/Android |
+| **Launch** | 02–06/01 | Đăng thông báo cá nhân → gửi đợt chính · 15/01 hạn RSVP · 19–20/01 nhắc | |
+
+---
+
+## 9. Test matrix (M5)
+
+| Môi trường / ca | Kiểm tra |
+|---|---|
+| Zalo in-app iPhone + Android cũ, Messenger | Load 4G, dấu tiếng Việt, chạm cạnh chuyển màn, cuộn snap, RSVP, Chỉ đường, Google Calendar |
+| 360×640 (máy nhỏ) | Không màn nào bị cắt nút Gửi / dòng song thân |
+| 3 preset `ban`, `anh`, `co` | Đúng đại từ ở cả 6 màn + og:title + tin nhắn Zalo |
+| Zalo Sharing Debugger | Preview đúng với guestID test (không dùng link khách thật) |
+| `curl -sI /k/test-xxxx` | 200, không `Location` |
+| View-source khách `showGift=FALSE` | Không có QR/STK |
+| `prefers-reduced-motion` | Không animation, nội dung vẫn hiện đủ |
+
+---
+
+## 10. Rủi ro đã biết
+
+| Rủi ro | Xử lý |
+|---|---|
+| Pages redirect thêm "/" → Zalo không lấy preview | `build.format:'file'` + `trailingSlash:'never'` + curl |
+| Zalo cache preview cũ | Chốt og.jpg trước 20/12; test bằng guestID test |
+| Đổi/sinh lại guestID → link chết | Script chỉ điền ô trống + Protected range |
+| Tên lẫn NFC/NFD | `.normalize('NFC')` khi build |
+| **Fontsource Playwrite VN khai báo `unicode-range` thiếu tiếng Việt** → chữ có dấu rơi sang font khác dù file có đủ glyph | Tự viết `@font-face` không có `unicode-range`, hoặc subset bằng `pyftsubset` |
+| Chữ in hoa có dấu bị đè dòng | `line-height ≥ 1.2` cho mọi tiêu đề in hoa |
+| Khách lướt qua bị tính "Tới" | RSVP mặc định chưa chọn |
+| `handle` quá dài vỡ nhãn tag | Giới hạn ~22 ký tự; nhãn cho phép xuống dòng |
+| Scroll-driven animation không hỗ trợ (iOS < 26) | Chỉ là trang trí; nội dung luôn hiện |
+| Apps Script chậm 1–3s | Chỉ gọi khi bấm Gửi / beacon ngầm |
+| Khách nghi link lừa đảo | Domain tên 2 bạn · tin nhắn tự đủ thông tin · Zalo chính chủ · bật 2FA |

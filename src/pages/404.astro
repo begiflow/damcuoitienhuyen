@@ -1,0 +1,11 @@
+---
+import Base from '../layouts/Base.astro';
+import { WEDDING } from '../config/wedding';
+---
+<Base title={`Không tìm thấy thiệp · ${WEDDING.groom} & ${WEDDING.bride}`} description="Link thiệp có thể bị thiếu ký tự.">
+  <main class="story" style="min-height:100svh;justify-content:center;padding:24px;color:#fff">
+    <h1 class="title"><span class="hl">Ơ, không thấy thiệp</span></h1>
+    <p style="margin:18px 0 0;font-size:17px">Link có thể bị thiếu ký tự khi copy. Bạn mở lại đúng link trong tin nhắn, hoặc nhắn {WEDDING.groom} hay {WEDDING.bride} gửi lại giúp nha.</p>
+    <p style="margin:18px 0 0"><a href="/" style="color:#fff;font-weight:900">Xem thiệp chung →</a></p>
+  </main>
+</Base>

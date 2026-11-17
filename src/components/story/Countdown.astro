@@ -1,0 +1,42 @@
+---
+import { Picture } from 'astro:assets';
+import bg from '../../assets/photos/02-countdown.jpg';
+import { WEDDING } from '../../config/wedding';
+import { googleCalendarUrl } from '../../lib/calendar';
+import type { Copy } from '../../lib/copy';
+import Screen from './Screen.astro';
+import { FULL } from './img';
+
+interface Props { c: Copy; total: number }
+const { c, total } = Astro.props;
+const units = [['d', 'ngày'], ['h', 'giờ'], ['m', 'phút'], ['s', 'giây']];
+---
+<Screen i={1} total={total} label="Đếm ngược">
+  <Fragment slot="bg">
+    <Picture src={bg} {...FULL} alt="" class="bg" loading="lazy" />
+    <div class="shade-t"></div>
+    <div class="shade-b" style="--h:30%"></div>
+  </Fragment>
+  <h2 class="title center pop" style="margin-top:26px"><span class="hl">Đếm ngược nè</span></h2>
+  <svg width="150" height="14" viewBox="0 0 160 14" fill="none" aria-hidden="true" class="center" style="margin-top:2px">
+    <path class="draw" pathLength="1" d="M2 8 C 20 2, 30 13, 48 7 S 78 2, 96 8 S 128 13, 158 5" stroke="#fff" stroke-width="3" stroke-linecap="round" style="animation-delay:.2s"></path>
+  </svg>
+  <div class="cd-card pop">
+    <div class="card">
+      <p class="kicker">TIỆC CƯỚI {WEDDING.groom.toUpperCase()} &amp; {WEDDING.bride.toUpperCase()}</p>
+      <div class="cd" data-t={Date.parse(WEDDING.partyStart)} role="timer" aria-label="Thời gian còn lại tới giờ khai tiệc">
+        <svg class="cd-ring" viewBox="0 0 100 60" preserveAspectRatio="none" aria-hidden="true">
+          <path class="draw" pathLength="1" d="M84 10 C 66 0, 18 2, 7 22 C -3 42, 28 60, 60 55 C 92 50, 101 28, 80 13 C 70 6, 52 5, 40 9" fill="none" stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round" vector-effect="non-scaling-stroke" style="animation-delay:.7s"></path>
+        </svg>
+        {units.map(([k, l]) => <div><b data-u={k}>–</b><span>{l}</span></div>)}
+      </div>
+      <p class="date">{WEDDING.dateLong}<br />{WEDDING.lunar}</p>
+      <a class="btn btn-acc" href={googleCalendarUrl()} target="_blank" rel="noopener">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path></svg>
+        Nhắc mình (lưu vào lịch)
+      </a>
+    </div>
+  </div>
+  <div class="grow"></div>
+  <p class="hw ink" style="animation-delay:1s;margin:0 6px;font-size:18px">{c.s2note}</p>
+</Screen>

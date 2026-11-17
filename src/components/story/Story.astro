@@ -1,0 +1,26 @@
+---
+// Ghép các màn. guest = null → bản chung ở "/": không RSVP, không quà, không beacon.
+import type { Guest } from '../../lib/guests';
+import type { Copy } from '../../lib/copy';
+import storyJs from '../../scripts/story.js?raw';
+import Countdown from './Countdown.astro';
+import Cover from './Cover.astro';
+import Farewell from './Farewell.astro';
+import PhotoDump from './PhotoDump.astro';
+import Rsvp from './Rsvp.astro';
+import Venue from './Venue.astro';
+
+interface Props { c: Copy; guest: Guest | null }
+const { c, guest } = Astro.props;
+const total = guest ? 6 : 5;
+const api = import.meta.env.PUBLIC_API_URL || '';
+---
+<main class="story" data-g={guest?.guestID} data-api={guest ? api : undefined}>
+  <Cover c={c} total={total} />
+  <Countdown c={c} total={total} />
+  <Venue total={total} />
+  <PhotoDump c={c} total={total} />
+  {guest && <Rsvp c={c} total={total} diCung={guest.diCung} />}
+  <Farewell c={c} i={total - 1} total={total} showGift={!!guest?.showGift} />
+</main>
+<script is:inline set:html={storyJs}></script>

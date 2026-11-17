@@ -1,0 +1,29 @@
+---
+// Khung 1 màn story: nền (slot "bg"), vùng chạm cạnh, thanh tiến trình tĩnh, chip tài khoản, nội dung.
+import { Image } from 'astro:assets';
+import avatar from '../../assets/photos/avatar.jpg';
+import { WEDDING } from '../../config/wedding';
+
+interface Props {
+  i: number; // vị trí màn, bắt đầu từ 0
+  total: number;
+  label: string;
+  class?: string;
+  dark?: boolean; // thanh tiến trình + chip màu mực (màn nền kem)
+  bodyStyle?: string;
+}
+const { i, total, label, class: cls = '', dark = false, bodyStyle } = Astro.props;
+const bars = Array.from({ length: total }, (_, k) => (k < i ? '100%' : k === i ? '50%' : '0%'));
+---
+<section class:list={['scr', cls, { dark }]} aria-label={label}>
+  <slot name="bg" />
+  {i > 0 && <button type="button" class="tap prev" aria-label="Màn trước" data-go="-1"></button>}
+  {i < total - 1 && <button type="button" class="tap next" aria-label="Màn tiếp theo" data-go="1"></button>}
+  <div class="bars" aria-hidden="true">{bars.map((w) => <i style={`--w:${w}`}></i>)}</div>
+  <div class="acct" aria-hidden="true">
+    <Image src={avatar} alt="" width={32} height={32} densities={[2]} format="webp" loading={i === 0 ? 'eager' : 'lazy'} />
+    <span>{WEDDING.handle}</span><small>{WEDDING.dateShort}</small>
+  </div>
+  <slot name="deco" />
+  <div class="body" style={bodyStyle}><slot /></div>
+</section>

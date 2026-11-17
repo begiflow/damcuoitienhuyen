@@ -1,0 +1,41 @@
+---
+import { Picture } from 'astro:assets';
+import p1 from '../../assets/photos/04-dump-1.jpg';
+import p2 from '../../assets/photos/04-dump-2.jpg';
+import p3 from '../../assets/photos/04-dump-3.jpg';
+import vid from '../../assets/photos/04-video.jpg';
+import { WEDDING } from '../../config/wedding';
+import type { Copy } from '../../lib/copy';
+import Screen from './Screen.astro';
+import { DUMP } from './img';
+
+interface Props { c: Copy; total: number }
+const { c, total } = Astro.props;
+const yt = WEDDING.youtubeId ? `https://youtu.be/${WEDDING.youtubeId}` : '';
+const Tag = yt ? 'a' : 'div';
+---
+<Screen i={3} total={total} label="Ảnh cưới" dark bodyStyle="padding-top:70px" class="dump-scr">
+  <p class="hw ink dump-title" aria-hidden="true">photo dump</p>
+  <div class="collage">
+    <svg class="doodle" width="40" height="36" viewBox="0 0 40 36" fill="none" stroke="#141414" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="right:6%;top:44%;transform:rotate(10deg)"><path class="draw" pathLength="1" d="M20 33 C 6 22, 1 14, 4 8 C 8 0, 18 2, 20 10 C 22 2, 33 0, 36 8 C 39 15, 33 23, 20 33" style="animation-delay:1.2s"></path></svg>
+    <svg class="doodle" width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="#141414" stroke-width="1.8" stroke-linecap="round" aria-hidden="true" style="left:50%;top:2%"><path class="draw" pathLength="1" d="M15 2 L17 13 L28 15 L17 17 L15 28 L13 17 L2 15 L13 13 Z" style="animation-delay:1.5s"></path></svg>
+    <div class="drop pd" style="left:0;top:0;width:52%"><div class="pola" style="transform:rotate(-6deg)"><Picture src={p1} {...DUMP} alt="Ảnh cưới Tiên và Huyền" loading="lazy" /></div></div>
+    <div class="drop pd" style="right:0;top:5%;width:42%"><div class="pola" style="transform:rotate(5deg)"><Picture src={p2} {...DUMP} alt="Ảnh cưới Tiên và Huyền" loading="lazy" /></div></div>
+    <div class="tape" style="right:16%;top:2%;width:70px;background:#7d24338c;transform:rotate(-8deg)"></div>
+    <div class="drop pd" style="left:4%;top:52%;width:54%">
+      <Tag class="pola" style="transform:rotate(3deg);padding-bottom:26px" {...(yt ? { href: yt, target: '_blank', rel: 'noopener', 'aria-label': 'Xem phim cưới trên YouTube' } : {})}>
+        <span class="vimg">
+          <Picture src={vid} {...DUMP} alt="" loading="lazy" />
+          {yt && <span class="play" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z" fill="#141414"></path></svg></span>}
+        </span>
+        <span class="hw cap" aria-hidden="true">{yt ? 'phim cưới nè' : 'phim cưới sắp có'}</span>
+      </Tag>
+    </div>
+    <div class="tape" style="left:14%;top:49%;width:64px;background:rgba(20,20,20,.22);transform:rotate(10deg)"></div>
+    <div class="drop pd" style="right:2%;top:58%;width:40%"><div class="pola" style="transform:rotate(-4deg)"><Picture src={p3} {...DUMP} alt="Ảnh cưới Tiên và Huyền" loading="lazy" /></div></div>
+  </div>
+  <p class="hw ink dump-note">{c.dumpNote}</p>
+</Screen>
+<style is:global>
+  .dump-scr { background: var(--soft); }
+</style>

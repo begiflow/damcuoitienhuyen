@@ -1,0 +1,32 @@
+/* Tự viết @font-face: Fontsource Playwrite VN thiếu unicode-range tiếng Việt. File đã subset (scripts/subset-fonts.sh). */
+@font-face {
+  font-family: 'Be Vietnam Pro';
+  font-weight: 600;
+  font-display: swap;
+  src: url('../assets/fonts/bvp-600.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Be Vietnam Pro';
+  font-weight: 900;
+  font-display: swap;
+  src: url('../assets/fonts/bvp-900.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Playwrite VN';
+  font-weight: 400;
+  font-display: swap;
+  src: url('../assets/fonts/playwrite-400.woff2') format('woff2');
+}
+
+:root {
+  --accent: #7d2433; /* đỏ rượu */
+  --soft: #f2e6d8; /* kem */
+  --ink: #141414;
+  --paper: #ffffff;
+  --bg: #111111;
+  --muted: #5e5e5e;
+  --muted-2: #3a3a3a;
+  --ok: #1e7f5c;
+  --off: #9a9a9a;
+  --line: #dadada;
+}
