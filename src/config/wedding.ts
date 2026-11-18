@@ -11,8 +11,8 @@ export const WEDDING = {
   dateLong: 'Thứ Bảy, 23.01.2027',
   dateOg: 'Thứ Bảy 23/01/2027',
   lunar: 'nhằm 16 tháng Chạp năm Bính Ngọ', // soát lại lịch vạn niên ở M4
-  // Đếm ngược tới giờ làm lễ 17:30 (UTC+7); mục timeline trùng giờ này được khoanh bút
-  partyStart: '2027-01-23T17:30:00+07:00',
+  // Đếm ngược tới giờ làm lễ & khai tiệc 18:00 (UTC+7); mục timeline trùng giờ này được khoanh bút
+  partyStart: '2027-01-23T18:00:00+07:00',
   // Sự kiện lịch: 16:00–21:00 giờ VN
   calendar: { start: '20270123T090000Z', end: '20270123T140000Z' },
   venue: {
@@ -21,12 +21,11 @@ export const WEDDING = {
     // TODO: thay bằng link "Chia sẻ" từ Google Maps của đúng địa điểm
     mapsUrl: 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent('Hidden Haven, 393/12 Bình Quới, TP.HCM'),
   },
-  // Giờ hiển thị cho khách (cô dâu chú rể chủ động ghi sớm để trừ hao khách đến trễ). Không đại từ ở đây.
+  // Giờ hiển thị cho khách. Không đại từ ở đây (câu chữ dùng chung cho mọi xưng hô).
   schedule: [
-    { t: '16:00', what: 'Tiệc trà & đón khách', note: 'Trà bánh, chụp hình cùng cô dâu chú rể' },
-    { t: '17:00', what: 'Ổn định chỗ ngồi', note: 'Mời vào bàn' },
-    { t: '17:30', what: 'Lễ thành hôn', note: 'Nghi thức & chúc phúc' },
-    { t: '18:30', what: 'Khai tiệc', note: 'Cùng nâng ly chung vui' },
+    { t: '16:00', what: 'Tiệc trà & chụp hình', note: 'Giao lưu, chụp hình cùng cô dâu chú rể' },
+    { t: '17:00', what: 'Đón khách & vào bàn', note: 'Chuẩn bị bắt đầu chương trình' },
+    { t: '18:00', what: 'Lễ thành hôn & khai tiệc', note: 'Nghi thức, chúc phúc và cùng nâng ly' },
   ],
   rsvpDeadline: '15/01',
   parents: { groom: 'Bà Phạm Thị Hoa', bride: 'Bà Dương Thị Mỹ Dung' },
