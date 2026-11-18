@@ -1,0 +1,20 @@
+---
+// Một hình vẽ tay trong doodles.ts. Trang trí thuần: aria-hidden, vẽ dần bằng .draw (ẩn chỉ khi có .js và không giảm chuyển động).
+// Nét run nhờ filter #ink định nghĩa 1 lần trong Story.astro. Tổng thời gian vẽ: delay + ~0.8s + 1.1s (mảng tô đặc thêm ~0.1s).
+import { DOODLES, type DoodleName } from './doodles';
+
+interface Props { name: DoodleName; w: number; delay?: number; class?: string; style?: string }
+const { name, w, delay = 0, class: cls, style } = Astro.props;
+const { vb, d } = DOODLES[name];
+const [, , vw, vh] = vb.split(' ').map(Number);
+const step = Math.min(0.15, 0.8 / d.length);
+---
+<svg class:list={['dd', cls]} style={style} width={w} height={Math.round((w * vh) / vw)} viewBox={vb} aria-hidden="true">
+  <g filter="url(#ink)">
+    {d.map((p, k) => {
+      const t = +(delay + k * step).toFixed(2);
+      // f: mảng tô đặc: vẽ viền rồi đổ mực (2 animation, delay riêng)
+      return <path class:list={['draw', { a: p.startsWith('a:'), f: p.startsWith('f:') }]} pathLength="1" d={p.replace(/^[af]:/, '')} style={`animation-delay:${p.startsWith('f:') ? `${t}s,${+(t + 0.6).toFixed(2)}s` : `${t}s`}`}></path>;
+    })}
+  </g>
+</svg>

@@ -22,5 +22,11 @@ const api = import.meta.env.PUBLIC_API_URL || '';
   <PhotoDump c={c} total={total} />
   {guest && <Rsvp c={c} total={total} guest={guest} />}
   <Farewell c={c} i={total - 1} total={total} showGift={!!guest?.showGift} phone={phone} />
+  {guest && <a class="rsvp-pill" href="#hoi-am">HỒI ÂM</a>}
 </main>
+<!-- nét mực run cho hình vẽ tay (#ink) và tiêu đề kiểu bút dạ (#txt) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="ink" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="4"></feTurbulence><feDisplacementMap in="SourceGraphic" scale="1.8"></feDisplacementMap></filter>
+  <filter id="txt" x="-2%" y="-5%" width="104%" height="110%"><feTurbulence type="fractalNoise" baseFrequency=".7" numOctaves="2" seed="7"></feTurbulence><feDisplacementMap in="SourceGraphic" scale="2.2"></feDisplacementMap></filter>
+</svg>
 <script is:inline set:html={storyJs}></script>

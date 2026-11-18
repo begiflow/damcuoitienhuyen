@@ -4,7 +4,7 @@
   var api = ds.api, gid = ds.g;
 
   // 0. Font viết tay: bật sau khi ảnh bìa tải xong (hoặc tối đa 2.5s)
-  var cover = d.querySelector('.bg'), fr = function () { d.documentElement.classList.add('fr'); };
+  var cover = d.querySelector('.bgp'), fr = function () { d.documentElement.classList.add('fr'); };
   if (cover && !cover.complete) { cover.addEventListener('load', fr); cover.addEventListener('error', fr); setTimeout(fr, 2500); } else fr();
 
   // 1. Hiệu ứng nét vẽ: màn nào lộ ≥ 45% thì gắn .in (một lần)

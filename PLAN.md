@@ -10,7 +10,7 @@
 
 | Hạng mục | Chốt | Ghi chú |
 |---|---|---|
-| Sự kiện | 1 tiệc chung · **Hidden Haven**, 393/12 Bình Quới, TP.HCM | 17:00 đón khách & teabreak · 18:00 khai tiệc |
+| Sự kiện | 1 tiệc chung · **Hidden Haven**, 393/12 Bình Quới, TP.HCM | 16:00 tiệc trà & chụp hình · 17:00 đón khách & vào bàn · 18:00 lễ thành hôn & khai tiệc |
 | Đối tượng thiệp online | Chủ yếu bạn bè, đồng nghiệp | Người lớn tuổi nhận thiệp giấy in ngoài |
 | Thiết kế | **Story**: 6 màn dọc, cuộn hoặc chạm cạnh để chuyển · màu **đỏ rượu + kem** | Mockup: canvas "Thiệp cưới online – bản trẻ trung", artboard 1 |
 | Stack | **Astro static + CSS thuần**, 0 framework runtime | Output = HTML tĩnh |
@@ -121,12 +121,12 @@ Mỗi màn: cao `clamp(640px, 100svh, 760px)`, bo góc 14px, cách nhau 8px trê
 
 | # | Màn | Nội dung | Chức năng |
 |---|---|---|---|
-| 1 | Bìa | Ảnh hero · nhãn tag "@{handle} & {diCung}" · "{TỤI EM} CƯỚI RỒI!" · dòng viết tay · gợi ý "Vuốt lên hoặc chạm cạnh phải" | Ảnh duy nhất tải ngay |
-| 2 | Đếm ngược | Thẻ đếm ngày/giờ/phút/giây · "Thứ Bảy, 23.01.2027 / nhằm 16 tháng Chạp năm Bính Ngọ" | Nút **Nhắc mình (lưu vào lịch)** = Google Calendar link |
-| 3 | Địa điểm | Nhãn vị trí venue · "17:00 đón khách & teabreak / 18:00 khai tiệc" · địa chỉ | Nút **CHỈ ĐƯỜNG** (Google Maps) + mũi tên viết tay |
-| 4 | Photo dump | 3 ảnh in nghiêng + 1 ảnh "phim cưới nè" có nút ▶ | Ảnh video mở `youtu.be/<id>` (không iframe) |
-| 5 | Xác nhận | Câu hỏi theo xưng hô · hạn 15/01 · 2 lựa chọn · "Số người tham dự" 1/2/3/4+ (mặc định 2 nếu có `diCung` hoặc dòng 2 người, 1 nếu không) · ô nhắn, gợi ý "Lời chúc, dẫn bé theo…" | **Mặc định chưa chọn**; nút Gửi khoá tới khi chọn; gửi xong đổi "Đã gửi, cảm ơn {goi}!". Tiệc mặn, menu cố định: **không** gợi ý chọn món/ăn chay |
-| 6 | Kết | "HẸN GẶP {GOI} TỐI 23.01!" · nút quà mừng (chỉ `showGift`) · dải ảnh photobooth 3 khung nghiêng + "hẹn chụp chung một tấm nha!" · song thân hai bên (nhà trai: Bà Phạm Thị Hoa · nhà gái: Bà Dương Thị Mỹ Dung) · "Lạc đường? Gọi Mai (bạn cô dâu): {sdtHoTro}" (số lấy từ tab Config) | QR chỉ tải khi mở (lúc đó ẩn dải ảnh). Dải ảnh tự co theo chỗ trống, tự ẩn khi còn < 150px (container query) |
+| 1 | Bìa | Kicker "THIỆP MỜI CƯỚI · 23.01.2027" · ảnh bìa trong khung polaroid + nhãn "@{handle} & {diCung}" · chữ ký "Tiên & Huyền" · "{TỤI EM} CƯỚI RỒI!" · dòng viết tay · "VUỐT LÊN" | Ảnh duy nhất tải ngay |
+| 2 | Đếm ngược | "Còn bao lâu nữa?" · 4 số ngày/giờ/phút/giây trong vòng vẽ tay · "Thứ Bảy, 23.01.2027 / nhằm 16 tháng Chạp năm Bính Ngọ" · hình 2 ly chạm nhau | Nút viền **NHẮC MÌNH (LƯU VÀO LỊCH)** = Google Calendar link |
+| 3 | Tối hôm ấy | Dòng thời gian zig-zag quanh trục giữa, mỗi mục 1 hình vẽ tay theo việc (khoanh giờ khai tiệc) · "HIDDEN HAVEN" · địa chỉ (không ảnh địa điểm: timeline nhiều mục không vừa máy 360×640) | Nút viền **CHỈ ĐƯỜNG** (Google Maps) + "bấm vô đây" |
+| 4 | Photo dump | Lưới 2×2 ảnh polaroid nghiêng nhẹ + băng keo; 1 ô "phim cưới" có nút ▶ | Ảnh video mở `youtu.be/<id>` (không iframe) |
+| 5 | Hồi âm | Câu hỏi theo xưng hô · hạn 15/01 · 2 lựa chọn dạng nút bo tròn · "Số người tham dự" 1/2/3/4+ (mặc định 2 nếu có `diCung` hoặc dòng 2 người, 1 nếu không) · ô nhắn gạch chân, gợi ý "Lời chúc, dẫn bé theo…" | **Mặc định chưa chọn**; nút Gửi khoá tới khi chọn; gửi xong đổi "Đã gửi, cảm ơn {goi}!". Tiệc mặn, menu cố định: **không** gợi ý chọn món/ăn chay. Nút nổi **HỒI ÂM** ở góc mọi màn nhảy tới đây |
+| 6 | Kết | Nền đỏ rượu · "HẸN GẶP {GOI} TỐI 23.01!" · dải ảnh photobooth 3 khung nghiêng · nút viền quà mừng (chỉ `showGift`) + "hẹn chụp chung một tấm nha!" · song thân hai bên (nhà trai: Bà Phạm Thị Hoa · nhà gái: Bà Dương Thị Mỹ Dung) · "Lạc đường? Gọi Mai (bạn cô dâu): {sdtHoTro}" (số lấy từ tab Config) | QR chỉ tải khi mở (lúc đó ẩn dải ảnh). Dải ảnh tự co theo chỗ trống, tự ẩn khi còn < 150px (container query) |
 
 - `/` = bản chung (xưng hô `ban`, không RSVP, không QR). `404`: hướng dẫn liên hệ.
 - Ngày âm lịch hardcode, soát lịch vạn niên ở M4.
@@ -138,11 +138,12 @@ Mỗi màn: cao `clamp(640px, 100svh, 760px)`, bo góc 14px, cách nhau 8px trê
 
 | Token | Giá trị | Dùng cho |
 |---|---|---|
-| `--accent` | `#7D2433` (đỏ rượu) | Nút chính, nền màn 6, nhãn tag, băng dính ảnh (trắng trên nền này ≈ 9.7:1) |
-| `--soft` | `#F2E6D8` (kem) | Nền màn photo dump |
-| `--ink` | `#141414` | Chữ, nút phụ |
-| `--paper` | `#FFFFFF` | Nhãn, thẻ, chữ trên ảnh |
-| `--bg` | `#111111` | Nền giữa các màn |
+| `--accent` | `#4E3A7A` (tím oải hương đậm, cô dâu chọn) | Tiêu đề nhấn, giờ, nhãn mention, nền màn 6 (trắng trên nền này ≈ 9.5:1) |
+| `--soft` | `#EAE3F5` (tím nhạt) | Nền màn xen kẽ (2, 4) |
+| `--paper` | `#F6F3FA` (trắng ngà ánh tím) | Nền chính |
+| `--ink` | `#241F2E` (mực tím than) | Chữ, nét vẽ tay, nút viền |
+| `--muted` | `#645C73` | Chữ phụ (≥ 5:1 trên paper và soft) |
+| `--bg` | `#1B1822` | Nền giữa các màn |
 
 - **Font:** Be Vietnam Pro **600 + 900** (chỉ 2 độ đậm). Playwrite VN 400 cho câu viết tay, **subset đúng các ký tự đang dùng** hoặc xuất SVG.
 - **Chữ in hoa tiếng Việt:** `line-height ≥ 1.2` (dưới mức này dấu nặng dòng trên đè dấu sắc dòng dưới).
@@ -153,10 +154,11 @@ Mỗi màn: cao `clamp(640px, 100svh, 760px)`, bo góc 14px, cách nhau 8px trê
   |---|---|
   | 1 | Ảnh bìa hiện dần như tráng phim (mờ → rõ) · chữ ký "Tiên & Huyền" tự viết từng nét rồi tô đầy · ngôi sao lấp lánh vẽ tay · dòng chữ viết tay hiện như mực chảy |
   | 2 | Gạch chân nguệch ngoạc dưới tiêu đề · vòng bút khoanh số ngày |
-  | 3 | Vòng bút khoanh "18:00 khai tiệc" · mũi tên tự vẽ tới nút Chỉ đường |
+  | 3 | Vòng bút khoanh giờ làm lễ & khai tiệc (18:00) · mũi tên tự vẽ tới nút Chỉ đường |
   | 4 | Chữ "photo dump" tự viết · tim + sao vẽ tay quanh ảnh |
   | 5 | Gạch chân dưới tiêu đề · dấu tick tự vẽ khi bấm Gửi |
   | 6 | Hai chiếc nhẫn vẽ nét · mũi tên tới dải photobooth · chữ viết tay hiện dần |
+- **Hình vẽ tay kiểu "Save the date"** (`doodles.ts`, vẽ dần như trên): bìa: ly martini, cành lá, sao · màn 2: quả cầu disco treo, sao, 2 ly chạm · màn 3: mỗi mục lịch trình 1 hình (tách trà, ly martini, nhẫn) · màn 4: máy ảnh cạnh "photo dump" · màn 5: phong bì · màn 6: bó hoa, sao. Mép nét run bằng 1 filter SVG dùng chung, không tải thêm file.
 - **Kỹ thuật:** SVG `pathLength="1"` + `stroke-dashoffset` (nét vẽ), `clip-path` (chữ viết tay), `filter` (tráng phim). Chữ ký = outline của Playwrite VN xuất sẵn thành SVG lúc build (~4KB gzip, không cần tải font cho tên). Thẻ `<html>` nhận class `js` bằng script inline trong `<head>` (tránh nháy); IntersectionObserver gắn class `in` cho màn đã thấy (≥45%). Không JS → mọi thứ hiện sẵn, không ẩn gì. `prefers-reduced-motion` → tắt hết, nội dung hiện đầy đủ.
 - **Hiệu ứng phụ:** nhãn bật lên, ảnh thả rơi bằng CSS scroll-driven (`animation-timeline: view()`, range `entry 0% entry 100%`), trong `@supports`.
 
