@@ -8,7 +8,7 @@ html { scroll-snap-type: y mandatory; scroll-padding-top: 8px; -webkit-text-size
 html:has(input:focus) { scroll-snap-type: none; }
 body { margin: 0; background: var(--bg); }
 button, input { font: inherit; color: inherit; }
-input::placeholder { color: #8c8077; }
+input::placeholder { color: #7a728a; }
 img { display: block; }
 
 .story {

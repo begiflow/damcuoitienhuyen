@@ -19,12 +19,12 @@
 }
 
 :root {
-  --accent: #7d2433; /* đỏ rượu */
-  --soft: #f2e6d8; /* kem đậm (màn xen kẽ) */
-  --paper: #f8f2ea; /* giấy kem nhạt (nền chính) */
-  --ink: #2a2421; /* mực nâu đen, dịu hơn đen thuần */
-  --bg: #1d1916;
-  --muted: #6e625a; /* chữ phụ: tương phản ≥ 4.5 trên cả --paper và --soft */
-  --line: #d6c9bb;
+  --accent: #4e3a7a; /* tím oải hương đậm (cô dâu chọn, phương án D) */
+  --soft: #eae3f5; /* tím nhạt (màn xen kẽ) */
+  --paper: #f6f3fa; /* giấy trắng ngà ánh tím (nền chính) */
+  --ink: #241f2e; /* mực tím than, dịu hơn đen thuần */
+  --bg: #1b1822;
+  --muted: #645c73; /* chữ phụ: tương phản ≥ 4.5 trên cả --paper và --soft */
+  --line: #d4cbe0;
   --ok: #1e7f5c;
 }

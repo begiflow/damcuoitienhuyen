@@ -138,11 +138,12 @@ Mỗi màn: cao `clamp(640px, 100svh, 760px)`, bo góc 14px, cách nhau 8px trê
 
 | Token | Giá trị | Dùng cho |
 |---|---|---|
-| `--accent` | `#7D2433` (đỏ rượu) | Nút chính, nền màn 6, nhãn tag, băng dính ảnh (trắng trên nền này ≈ 9.7:1) |
-| `--soft` | `#F2E6D8` (kem) | Nền màn photo dump |
-| `--ink` | `#141414` | Chữ, nút phụ |
-| `--paper` | `#FFFFFF` | Nhãn, thẻ, chữ trên ảnh |
-| `--bg` | `#111111` | Nền giữa các màn |
+| `--accent` | `#4E3A7A` (tím oải hương đậm, cô dâu chọn) | Tiêu đề nhấn, giờ, nhãn mention, nền màn 6 (trắng trên nền này ≈ 9.5:1) |
+| `--soft` | `#EAE3F5` (tím nhạt) | Nền màn xen kẽ (2, 4) |
+| `--paper` | `#F6F3FA` (trắng ngà ánh tím) | Nền chính |
+| `--ink` | `#241F2E` (mực tím than) | Chữ, nét vẽ tay, nút viền |
+| `--muted` | `#645C73` | Chữ phụ (≥ 5:1 trên paper và soft) |
+| `--bg` | `#1B1822` | Nền giữa các màn |
 
 - **Font:** Be Vietnam Pro **600 + 900** (chỉ 2 độ đậm). Playwrite VN 400 cho câu viết tay, **subset đúng các ký tự đang dùng** hoặc xuất SVG.
 - **Chữ in hoa tiếng Việt:** `line-height ≥ 1.2` (dưới mức này dấu nặng dòng trên đè dấu sắc dòng dưới).
