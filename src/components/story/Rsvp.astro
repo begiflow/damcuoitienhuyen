@@ -2,7 +2,6 @@
 import type { Copy } from '../../lib/copy';
 import type { Guest } from '../../lib/guests';
 import Doodle from './Doodle.astro';
-import FillPhoto from './FillPhoto.astro';
 import photo from '../../assets/photos/05-rsvp.jpg';
 import Screen from './Screen.astro';
 
@@ -11,8 +10,8 @@ const { c, total, guest } = Astro.props;
 // Mặc định 2 người nếu có "đi cùng" hoặc dòng ghi 2 người ("Dũng & Ngân", xưng hô anh chị), còn lại 1. 4 = "4+".
 const defaultCount = guest.diCung || guest.xungHo === 'anhchi' || guest.ten.includes('&') ? 2 : 1;
 ---
-<Screen i={4} total={total} label="Xác nhận tham dự" id="hoi-am">
-  <Doodle slot="deco" name="envelope" w={46} delay={.3} class="corner" />
+<Screen bg={photo} i={4} total={total} label="Xác nhận tham dự" id="hoi-am">
+  <Doodle slot="deco" name="envelope" w={46} delay={.3} class="w corner" />
   <p class="kicker">Hồi âm</p>
   <h2 class="title" style="margin-top:10px">{c.s5title}</h2>
   <svg class="under" width="130" height="12" viewBox="0 0 160 14" fill="none" aria-hidden="true">
@@ -45,5 +44,4 @@ const defaultCount = guest.diCung || guest.xungHo === 'anhchi' || guest.ten.incl
     </button>
     <p class="sr" role="status" aria-live="polite"></p>
   </form>
-  <FillPhoto src={photo} rot={-2} />
 </Screen>

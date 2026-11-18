@@ -1,19 +1,35 @@
 ---
-// Khung 1 màn story: nền giấy, vùng chạm cạnh, thanh tiến trình mảnh, nội dung căn giữa.
+// Khung 1 màn story. Có `bg`: ảnh tràn màn làm nền, nội dung nằm trên tờ giấy xé mép dán băng keo.
+// Không `bg`: cả màn là nền giấy (màn chữ, như màn "Create" của story).
+import { Picture } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import { WEDDING } from '../../config/wedding';
+import { BG } from './img';
 interface Props {
+  bg?: ImageMetadata;
+  eager?: boolean; // chỉ màn bìa: ảnh là LCP
+  lqip?: string; // data URI ảnh mờ 24px làm nền chờ (màn bìa)
   i: number; // vị trí màn, bắt đầu từ 0
   total: number;
   label: string;
   class?: string;
   id?: string;
 }
-const { i, total, label, class: cls = '', id } = Astro.props;
+const { i, total, label, class: cls = '', id, bg, eager = false, lqip } = Astro.props;
 const bars = Array.from({ length: total }, (_, k) => (k < i ? '100%' : k === i ? '50%' : '0%'));
 ---
-<section class:list={['scr', cls]} aria-label={label} id={id}>
+<section class:list={['scr', cls, { photo: bg }]} aria-label={label} id={id}>
+  {bg && (
+    <Picture src={bg} {...BG} alt={`Ảnh cưới ${WEDDING.groom} và ${WEDDING.bride}`} class:list={['bgp', { develop: eager }]}
+      loading={eager ? 'eager' : 'lazy'} fetchpriority={eager ? 'high' : undefined} style={lqip ? `background:url(${lqip}) center/cover` : undefined} />
+  )}
   {i > 0 && <button type="button" class="tap prev" aria-label="Màn trước" data-go="-1"></button>}
   {i < total - 1 && <button type="button" class="tap next" aria-label="Màn tiếp theo" data-go="1"></button>}
   <div class="bars" aria-hidden="true">{bars.map((w) => <i style={`--w:${w}`}></i>)}</div>
   <slot name="deco" />
-  <div class="body"><slot /></div>
+  {bg ? (
+    <div class="body"><div class="sheet-wrap"><span class="tape" aria-hidden="true"></span><div class="sheet"><slot /></div></div></div>
+  ) : (
+    <div class="body"><slot /></div>
+  )}
 </section>

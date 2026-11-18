@@ -3,7 +3,6 @@ import { WEDDING } from '../../config/wedding';
 import { googleCalendarUrl } from '../../lib/calendar';
 import type { Copy } from '../../lib/copy';
 import Doodle from './Doodle.astro';
-import FillPhoto from './FillPhoto.astro';
 import photo from '../../assets/photos/02-countdown.jpg';
 import Screen from './Screen.astro';
 
@@ -18,15 +17,14 @@ const rings = [
   'M47 6 C 73 4, 94 25, 95 51 C 96 76, 75 95, 50 94 C 24 93, 6 74, 6 48 C 6 23, 25 7, 51 8',
 ];
 ---
-<Screen i={1} total={total} label="Đếm ngược" class="soft">
-  <Doodle slot="deco" name="disco" w={42} delay={.3} class="hang" />
-  <Doodle slot="deco" name="spark" w={12} delay={.9} class="hang-s" />
+<Screen bg={photo} i={1} total={total} label="Đếm ngược" class="soft">
+  <Doodle slot="deco" name="disco" w={42} delay={.3} class="w hang" />
+  <Doodle slot="deco" name="spark" w={12} delay={.9} class="w hang-s" />
   <p class="kicker">Tiệc cưới {WEDDING.groom} &amp; {WEDDING.bride}</p>
   <h2 class="title" style="margin-top:10px">Còn bao lâu nữa?</h2>
   <svg class="under" width="150" height="12" viewBox="0 0 160 14" fill="none" aria-hidden="true">
     <path class="draw" pathLength="1" filter="url(#ink)" d="M2 8 C 20 2, 30 13, 48 7 S 78 2, 96 8 S 128 13, 158 5" stroke="var(--accent)" stroke-width="2.4" stroke-linecap="round" style="animation-delay:.2s"></path>
   </svg>
-  <FillPhoto src={photo} rot={-3} />
   <div class="cd" data-t={Date.parse(WEDDING.partyStart)} role="timer" aria-label="Thời gian còn lại tới giờ làm lễ và khai tiệc">
     {units.map(([k, l], n) => (
       <div>

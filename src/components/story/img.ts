@@ -5,12 +5,14 @@ export const DUMP = {
   sizes: '(max-width: 480px) 42vw, 160px',
   quality: 60,
 };
-// Ảnh lấp chỗ trống (FillPhoto): cao tối đa ~280px → rộng ≤ ~230px
-export const FILL = {
+// Ảnh nền tràn màn (màn 1, 2, 3, 5): rộng 100% màn ≤ 480px. Fallback webp cho nhẹ (mọi trình duyệt hiện nay đều đọc được).
+export const BG = {
   formats: ['avif', 'webp'] as Array<'avif' | 'webp'>,
-  widths: [240, 360, 480],
-  sizes: '(max-width: 480px) 50vw, 230px',
-  quality: 55,
+  fallbackFormat: 'webp' as const,
+  // 760 chứ không 720: máy giả lập Lighthouse cần 412 × 1.75 = 721px, lệch 1px là nhảy lên bản 960
+  widths: [480, 760, 960],
+  sizes: '(max-width: 480px) 100vw, 480px',
+  quality: 50,
 };
 export const BOOTH = {
   formats: ['avif', 'webp'] as Array<'avif' | 'webp'>,
@@ -19,10 +21,3 @@ export const BOOTH = {
   quality: 60,
 };
 
-// Ảnh bìa trong khung polaroid: rộng ~72% màn (≤ 300px)
-export const COVER = {
-  formats: ['avif', 'webp'] as Array<'avif' | 'webp'>,
-  widths: [400, 560, 800],
-  sizes: '(max-width: 480px) 72vw, 300px',
-  quality: 55,
-};

@@ -1,5 +1,4 @@
 ---
-import { Picture } from 'astro:assets';
 import { join } from 'node:path';
 import sharp from 'sharp'; // có sẵn: đây là bộ xử lý ảnh mặc định của Astro
 import cover from '../../assets/photos/01-cover.jpg';
@@ -8,7 +7,6 @@ import type { Copy } from '../../lib/copy';
 import Screen from './Screen.astro';
 import Signature from './Signature.astro';
 import Doodle from './Doodle.astro';
-import { COVER } from './img';
 
 interface Props { c: Copy; total: number }
 const { c, total } = Astro.props;
@@ -16,19 +14,13 @@ const { c, total } = Astro.props;
 // rồi ảnh thật đè lên. Ảnh nhỏ thế này Chrome không tính là LCP.
 const lqip = (await sharp(join(process.cwd(), 'src/assets/photos/01-cover.jpg')).resize(24).webp({ quality: 40 }).toBuffer()).toString('base64');
 ---
-<Screen i={0} total={total} label="Bìa">
+<Screen i={0} total={total} label="Bìa" bg={cover} eager lqip={`data:image/webp;base64,${lqip}`}>
+  {c.mention !== '@ban.be' && <span slot="deco" class="mention">{c.mention}</span>}
+  <Doodle slot="deco" name="martini" w={40} delay={.5} class="w c-tr" />
+  <Doodle slot="deco" name="sprig" w={34} delay={.6} class="w c-tl" />
+  <Doodle slot="deco" name="spark" w={16} delay={1.2} class="w c-s1" />
+  <Doodle slot="deco" name="spark" w={12} delay={1.4} class="w c-s2" />
   <p class="kicker">Thiệp mời cưới · {WEDDING.dateDots}</p>
-  <div class="frame cover-photo">
-    <span class="tape" aria-hidden="true"></span>
-    <div class="ph">
-      <Picture src={cover} {...COVER} alt={`Ảnh cưới ${WEDDING.groom} và ${WEDDING.bride}`} class="develop" loading="eager" fetchpriority="high" style={`background:url(data:image/webp;base64,${lqip}) center/cover`} />
-    </div>
-    {c.mention !== '@ban.be' && <span class="mention">{c.mention}</span>}
-    <Doodle name="martini" w={34} delay={.5} class="d-tr" />
-    <Doodle name="sprig" w={30} delay={.6} class="d-bl" />
-    <Doodle name="spark" w={14} delay={1.2} class="d-tl" />
-    <Doodle name="spark" w={11} delay={1.4} class="d-mr" />
-  </div>
   <Signature />
   <h1 class="cover-title">{c.MINH} <em>CƯỚI RỒI!</em></h1>
   <p class="hw ink" style="animation-delay:2.1s;margin-top:6px">{c.s1note}</p>

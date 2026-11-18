@@ -1,7 +1,6 @@
 ---
 import { WEDDING } from '../../config/wedding';
 import Doodle from './Doodle.astro';
-import FillPhoto from './FillPhoto.astro';
 import photo from '../../assets/photos/03-venue.jpg';
 import { DOODLES, type DoodleName } from './doodles';
 import Screen from './Screen.astro';
@@ -23,7 +22,7 @@ const icon = (w: string): DoodleName => ICONS.find(([re]) => re.test(w))?.[1] ??
 const iw = (n: DoodleName) => { const [, , w, h] = DOODLES[n].vb.split(' ').map(Number); return Math.min(50, Math.round((34 * w) / h)); };
 const gap = 0.45 / Math.max(1, items.length - 1);
 ---
-<Screen i={2} total={total} label="Lịch trình và địa điểm">
+<Screen bg={photo} i={2} total={total} label="Lịch trình và địa điểm">
   <p class="kicker">{WEDDING.dateDow} · {WEDDING.dateDots}</p>
   <h2 class="title" style="margin-top:10px">Tối hôm ấy</h2>
   <div class="grow"></div>
@@ -44,7 +43,6 @@ const gap = 0.45 / Math.max(1, items.length - 1);
       </li>
     ))}
   </ol>
-  <FillPhoto src={photo} rot={2} grow={6} />
   <p class="venue-name">
     <svg width="14" height="18" viewBox="0 0 24 30" aria-hidden="true"><path d="M12 29s-10-9.5-10-17a10 10 0 0 1 20 0c0 7.5-10 17-10 17z" fill="var(--accent)"></path><circle cx="12" cy="12" r="3.6" fill="var(--paper)"></circle></svg>
     {WEDDING.venue.name.toUpperCase()}

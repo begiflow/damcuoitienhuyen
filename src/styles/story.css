@@ -50,6 +50,28 @@ img { display: block; }
 .body a, .body button, .body input, .body label, .body summary { pointer-events: auto; }
 .grow { flex: 1; min-height: 8px; }
 
+/* ---------- màn ảnh: ảnh tràn màn + tờ giấy xé mép đè lên (story + giấy) ---------- */
+.scr.photo { background: var(--bg); }
+.scr.photo::before { display: none; }
+.bgp { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.scr.photo .bars i { background: rgba(255,255,255,.35); }
+.scr.photo .bars i::after { background: rgba(255,255,255,.95); }
+/* tờ giấy nằm sát đáy, cao theo nội dung → phần ảnh lộ ra phía trên; bóng đổ theo mép xé */
+.scr.photo .body { padding: 44px 12px 14px; justify-content: flex-end; filter: drop-shadow(0 8px 16px rgba(20,12,30,.35)); }
+.sheet-wrap { position: relative; width: 100%; min-height: 0; display: flex; flex-direction: column; }
+.sheet-wrap > .tape { top: -8px; }
+.sheet { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; align-items: center; padding: 28px 16px 20px; background: var(--paper); clip-path: polygon(0% 6.3px, 2.5% 0.0px, 5% 4.5px, 7.5% 1.8px, 10% 6.3px, 12.5% 0.9px, 15% 2.7px, 17.5% 1.8px, 20% 3.6px, 22.5% 1.8px, 25% 5.4px, 27.5% 5.4px, 30% 0.9px, 32.5% 5.4px, 35% 5.4px, 37.5% 2.7px, 40% 1.8px, 42.5% 0.9px, 45% 3.6px, 47.5% 2.7px, 50% 2.7px, 52.5% 5.4px, 55% 0.0px, 57.5% 3.6px, 60% 4.5px, 62.5% 4.5px, 65% 3.6px, 67.5% 3.6px, 70% 6.3px, 72.5% 1.8px, 75% 6.3px, 77.5% 0.9px, 80% 0.9px, 82.5% 1.8px, 85% 1.8px, 87.5% 2.7px, 90% 3.6px, 92.5% 2.7px, 95% 3.6px, 97.5% 2.7px, 100% 1.8px, 100% calc(100% - 3.6px), 97.5% calc(100% - 3.6px), 95% calc(100% - 3.6px), 92.5% calc(100% - 1.8px), 90% calc(100% - 2.7px), 87.5% calc(100% - 3.6px), 85% calc(100% - 6.3px), 82.5% calc(100% - 0.0px), 80% calc(100% - 0.9px), 77.5% calc(100% - 6.3px), 75% calc(100% - 0.9px), 72.5% calc(100% - 0.0px), 70% calc(100% - 4.5px), 67.5% calc(100% - 0.9px), 65% calc(100% - 3.6px), 62.5% calc(100% - 5.4px), 60% calc(100% - 1.8px), 57.5% calc(100% - 0.0px), 55% calc(100% - 0.9px), 52.5% calc(100% - 5.4px), 50% calc(100% - 1.8px), 47.5% calc(100% - 5.4px), 45% calc(100% - 6.3px), 42.5% calc(100% - 5.4px), 40% calc(100% - 5.4px), 37.5% calc(100% - 1.8px), 35% calc(100% - 1.8px), 32.5% calc(100% - 1.8px), 30% calc(100% - 5.4px), 27.5% calc(100% - 0.0px), 25% calc(100% - 1.8px), 22.5% calc(100% - 2.7px), 20% calc(100% - 6.3px), 17.5% calc(100% - 0.0px), 15% calc(100% - 4.5px), 12.5% calc(100% - 2.7px), 10% calc(100% - 3.6px), 7.5% calc(100% - 5.4px), 5% calc(100% - 1.8px), 2.5% calc(100% - 0.0px), 0% calc(100% - 1.8px)); }
+.scr.soft .sheet { background: var(--soft); }
+.sheet .grow { flex: 0 1 18px; }
+/* nét vẽ tay & nhãn nằm trên ảnh: nét trắng như bút vẽ của story, bóng nhẹ cho ảnh sáng */
+.dd.w, .dd.w .a { color: #fff; stroke: #fff; }
+.dd.w { filter: drop-shadow(0 1px 1.5px rgba(0,0,0,.45)); }
+.scr.photo > .mention { top: 62px; right: 16px; bottom: auto; transform: rotate(4deg); max-width: 70%; }
+.c-tr { position: absolute; z-index: 2; right: 22px; top: 112px; transform: rotate(8deg); }
+.c-tl { position: absolute; z-index: 2; left: 20px; top: 70px; transform: rotate(-10deg); }
+.c-s1 { position: absolute; z-index: 2; left: 64px; top: 150px; }
+.c-s2 { position: absolute; z-index: 2; right: 74px; top: 168px; }
+
 /* ---------- chữ ---------- */
 .kicker { margin: 0; font-size: 12px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
 .title { margin: 0; font-size: 28px; font-weight: 900; line-height: 1.25; letter-spacing: -.01em; }
@@ -80,24 +102,14 @@ img { display: block; }
 .frame { position: relative; display: block; background: #fff; padding: 8px 8px 30px; box-shadow: 0 6px 18px rgba(60,40,30,.16); }
 .ph { position: relative; display: block; overflow: hidden; aspect-ratio: var(--ar, 4 / 5); background: #e9dfd3; }
 .ph img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.fill { flex: 3 1 0; min-height: 0; max-height: 300px; width: 100%; margin-top: 6px; display: flex; align-items: center; justify-content: center; container-type: size; }
-.fill .frame { height: calc(100% - 22px); aspect-ratio: 5 / 6; box-sizing: border-box; display: flex; flex-direction: column; padding-bottom: 24px; }
-.fill .ph { flex: 1; min-height: 0; aspect-ratio: auto; }
-@container (max-height: 100px) { .fill .frame { display: none; } }
 .tape { position: absolute; z-index: 2; height: 20px; width: 78px; left: 50%; top: -10px; margin-left: -39px; background: rgba(214,196,170,.75); transform: rotate(-3deg); }
 
 /* ---------- màn 1: bìa ---------- */
-.cover-photo { width: min(70%, 290px, calc((100cqh - 360px) * .8)); margin-top: 18px; transform: rotate(-2deg); }
 .mention { position: absolute; z-index: 3; right: -14px; bottom: 6px; transform: rotate(4deg); max-width: 92%; padding: 5px 10px; border-radius: 6px; background: var(--accent); color: #fff; font-size: 13px; font-weight: 900; line-height: 1.35; overflow-wrap: anywhere; text-align: left; }
 .sig { display: block; width: min(86%, 300px); height: auto; margin: -6px 0 0; overflow: visible; color: var(--accent); }
 .sig path { fill: currentColor; stroke: currentColor; stroke-width: 22; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 0; }
 .cover-title { margin: 2px 0 0; font-size: 30px; font-weight: 900; line-height: 1.25; letter-spacing: .01em; }
 .cover-title em { font-style: normal; color: var(--accent); }
-.cover-photo .dd { position: absolute; z-index: 3; }
-.d-tr { right: -46px; top: 4px; transform: rotate(8deg); }
-.d-bl { left: -42px; bottom: 30px; transform: rotate(-10deg); }
-.d-tl { left: -30px; top: 24%; }
-.d-mr { right: -28px; top: 44%; }
 .hint { display: flex; flex-direction: column; align-items: center; color: var(--muted); font-size: 12px; letter-spacing: .08em; }
 
 /* ---------- màn 2: đếm ngược ---------- */
@@ -134,7 +146,7 @@ img { display: block; }
 .tl .sub { display: block; margin-top: 2px; font-size: 12px; line-height: 1.35; color: var(--muted); text-wrap: balance; }
 .tl .circ { position: relative; display: inline-block; margin-bottom: 5px; }
 .tl .circ svg { position: absolute; left: -10px; top: -4px; width: calc(100% + 20px); height: calc(100% + 8px); overflow: visible; pointer-events: none; }
-.venue-name { margin: 0; display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 20px; font-weight: 900; letter-spacing: .04em; }
+.venue-name { margin: 14px 0 0; display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 20px; font-weight: 900; letter-spacing: .04em; }
 .addr { margin: 2px 0 14px; color: var(--muted); }
 .go { display: flex; align-items: center; gap: 8px; }
 .go .hw { font-size: 14px; transform: rotate(-6deg); }
