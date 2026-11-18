@@ -50,6 +50,13 @@ img { display: block; }
 .body a, .body button, .body input, .body label, .body summary { pointer-events: auto; }
 .grow { flex: 1; min-height: 8px; }
 
+/* dòng tài khoản kiểu story ở đầu màn: mực trên nền giấy, trắng trên ảnh và nền tím */
+.acct { position: absolute; left: 12px; top: 20px; z-index: 3; display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 900; line-height: 1.2; color: var(--ink); pointer-events: none; }
+.acct img { width: 30px; height: 30px; border-radius: 50%; box-shadow: 0 0 0 1.5px currentColor; }
+.acct small { font-size: 12px; font-weight: 600; opacity: .8; }
+.scr.photo .acct, .f6 .acct { color: #fff; }
+.scr.photo .acct { text-shadow: 0 1px 3px rgba(0,0,0,.5); }
+
 /* ---------- màn ảnh: ảnh tràn màn + tờ giấy xé mép đè lên (story + giấy) ---------- */
 .scr.photo { background: var(--bg); }
 .scr.photo::before { display: none; }
@@ -57,7 +64,7 @@ img { display: block; }
 .scr.photo .bars i { background: rgba(255,255,255,.35); }
 .scr.photo .bars i::after { background: rgba(255,255,255,.95); }
 /* tờ giấy nằm sát đáy, cao theo nội dung → phần ảnh lộ ra phía trên; bóng đổ theo mép xé */
-.scr.photo .body { padding: 44px 12px 14px; justify-content: flex-end; filter: drop-shadow(0 8px 16px rgba(20,12,30,.35)); }
+.scr.photo .body { padding: 62px 12px 14px; justify-content: flex-end; filter: drop-shadow(0 8px 16px rgba(20,12,30,.35)); }
 .sheet-wrap { position: relative; width: 100%; min-height: 0; display: flex; flex-direction: column; }
 .sheet-wrap > .tape { top: -8px; }
 .sheet { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; align-items: center; padding: 28px 16px 20px; background: var(--paper); clip-path: polygon(0% 6.3px, 2.5% 0.0px, 5% 4.5px, 7.5% 1.8px, 10% 6.3px, 12.5% 0.9px, 15% 2.7px, 17.5% 1.8px, 20% 3.6px, 22.5% 1.8px, 25% 5.4px, 27.5% 5.4px, 30% 0.9px, 32.5% 5.4px, 35% 5.4px, 37.5% 2.7px, 40% 1.8px, 42.5% 0.9px, 45% 3.6px, 47.5% 2.7px, 50% 2.7px, 52.5% 5.4px, 55% 0.0px, 57.5% 3.6px, 60% 4.5px, 62.5% 4.5px, 65% 3.6px, 67.5% 3.6px, 70% 6.3px, 72.5% 1.8px, 75% 6.3px, 77.5% 0.9px, 80% 0.9px, 82.5% 1.8px, 85% 1.8px, 87.5% 2.7px, 90% 3.6px, 92.5% 2.7px, 95% 3.6px, 97.5% 2.7px, 100% 1.8px, 100% calc(100% - 3.6px), 97.5% calc(100% - 3.6px), 95% calc(100% - 3.6px), 92.5% calc(100% - 1.8px), 90% calc(100% - 2.7px), 87.5% calc(100% - 3.6px), 85% calc(100% - 6.3px), 82.5% calc(100% - 0.0px), 80% calc(100% - 0.9px), 77.5% calc(100% - 6.3px), 75% calc(100% - 0.9px), 72.5% calc(100% - 0.0px), 70% calc(100% - 4.5px), 67.5% calc(100% - 0.9px), 65% calc(100% - 3.6px), 62.5% calc(100% - 5.4px), 60% calc(100% - 1.8px), 57.5% calc(100% - 0.0px), 55% calc(100% - 0.9px), 52.5% calc(100% - 5.4px), 50% calc(100% - 1.8px), 47.5% calc(100% - 5.4px), 45% calc(100% - 6.3px), 42.5% calc(100% - 5.4px), 40% calc(100% - 5.4px), 37.5% calc(100% - 1.8px), 35% calc(100% - 1.8px), 32.5% calc(100% - 1.8px), 30% calc(100% - 5.4px), 27.5% calc(100% - 0.0px), 25% calc(100% - 1.8px), 22.5% calc(100% - 2.7px), 20% calc(100% - 6.3px), 17.5% calc(100% - 0.0px), 15% calc(100% - 4.5px), 12.5% calc(100% - 2.7px), 10% calc(100% - 3.6px), 7.5% calc(100% - 5.4px), 5% calc(100% - 1.8px), 2.5% calc(100% - 0.0px), 0% calc(100% - 1.8px)); }
@@ -68,7 +75,7 @@ img { display: block; }
 .dd.w { filter: drop-shadow(0 1px 1.5px rgba(0,0,0,.45)); }
 .scr.photo > .mention { top: 62px; right: 16px; bottom: auto; transform: rotate(4deg); max-width: 70%; }
 .c-tr { position: absolute; z-index: 2; right: 22px; top: 112px; transform: rotate(8deg); }
-.c-tl { position: absolute; z-index: 2; left: 20px; top: 70px; transform: rotate(-10deg); }
+.c-tl { position: absolute; z-index: 2; left: 20px; top: 78px; transform: rotate(-10deg); }
 .c-s1 { position: absolute; z-index: 2; left: 64px; top: 150px; }
 .c-s2 { position: absolute; z-index: 2; right: 74px; top: 168px; }
 
@@ -121,8 +128,8 @@ img { display: block; }
 .date { margin: 26px 0 0; font-size: 18px; font-weight: 900; line-height: 1.4; }
 .lunar { margin: 2px 0 18px; color: var(--muted); font-size: 14px; }
 .cheers { margin-top: 6px; }
-.hang { position: absolute; z-index: 2; top: 18px; left: 22px; }
-.hang-s { position: absolute; z-index: 2; top: 24px; left: 70px; }
+.hang { position: absolute; z-index: 2; top: 62px; left: 22px; }
+.hang-s { position: absolute; z-index: 2; top: 68px; left: 70px; }
 .cd { position: relative; }
 .cd > .dd { inset: auto; top: -22px; right: -6px; width: 14px; height: 14px; }
 .s6-l, .s6-r { position: absolute; z-index: 2; top: 64px; }
@@ -169,7 +176,7 @@ img { display: block; }
 .dump-note { margin-top: 26px; font-size: 15px; }
 
 /* ---------- màn 5: hồi âm ---------- */
-.corner { position: absolute; z-index: 2; top: 30px; left: 22px; transform: rotate(-8deg); }
+.corner { position: absolute; z-index: 2; top: 66px; left: 22px; transform: rotate(-8deg); }
 .rsvp { width: 100%; max-width: 320px; margin-top: 16px; text-align: left; }
 .rsvp fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
 .ask { display: block; width: 100%; padding: 0; margin: 0 0 8px; font-size: 16px; font-weight: 900; text-align: center; }
