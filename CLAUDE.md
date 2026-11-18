@@ -36,7 +36,7 @@ HTML ≤ 30KB gzip · font ≤ 80KB · ảnh màn 1 ≤ 150KB (eager) · ảnh c
 - Hiệu ứng phụ: `animation-timeline: view()`, range `entry 0% entry 100%`, trong `@supports`. Thanh tiến trình story **tĩnh**, không tự chạy.
 - Ảnh: `astro:assets` `<Picture formats={['avif','webp']}>`, có kích thước; màn 1 `fetchpriority="high"`, còn lại `loading="lazy"`.
 - Tốc độ màn 1 (đã đo với ảnh nặng như ảnh film thật: LCP 1,4–1,6s, Lighthouse mobile):
-  - Kích thước ảnh theo khung trong `img.ts` (`COVER`, `DUMP`, `BOOTH`). Ảnh trong khung có tỉ lệ cố định qua `.ph` (`--ar`). Màn dùng `container-type: size`: kích thước ảnh tính theo `cqh` để vừa máy 360×640.
+  - Kích thước ảnh theo khung trong `img.ts` (`COVER`, `FILL`, `DUMP`, `BOOTH`). Ảnh trong khung có tỉ lệ cố định qua `.ph` (`--ar`). Màn 2, 3, 5 dùng `FillPhoto.astro`: ảnh lấp chỗ trống còn lại, ≤ 100px thì tự ẩn (không tải). Màn dùng `container-type: size`: kích thước ảnh tính theo `cqh` để vừa máy 360×640.
   - Mỗi `.scr` có `content-visibility: auto`: màn còn xa chưa vẽ nên ảnh trong đó chưa tải, nhường băng thông cho ảnh bìa.
   - Font viết tay chỉ tải khi `<html>` có class `fr` (JS gắn sau khi ảnh bìa tải xong, tối đa 2.5s).
   - Ảnh bìa có bản mờ 24px base64 làm nền (`Cover.astro`, dùng `sharp` có sẵn của Astro). Ảnh này quá nhỏ nên Chrome không tính là LCP.
@@ -59,7 +59,7 @@ src/
   pages/404.astro
   styles/tokens.css       # @font-face tự viết + biến màu
   styles/story.css        # toàn bộ CSS (global, inline vào HTML lúc build)
-  assets/photos/          # 01-cover, 04-dump-1..3, 04-video, 06-booth-1..3 (.jpg); thay ảnh thật giữ nguyên tên
+  assets/photos/          # 01-cover, 02-countdown, 03-venue, 04-dump-1..3, 04-video, 05-rsvp, 06-booth-1..3 (.jpg); thay ảnh thật giữ nguyên tên
   assets/fonts/           # woff2 đã subset (scripts/subset-fonts.sh), Vite gắn hash
   assets/gift-qr.png      # QR chuyển khoản, chỉ vào build khi có khách showGift
 public/  og.jpg  _headers  robots.txt

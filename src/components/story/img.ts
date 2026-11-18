@@ -5,6 +5,13 @@ export const DUMP = {
   sizes: '(max-width: 480px) 42vw, 160px',
   quality: 60,
 };
+// Ảnh lấp chỗ trống (FillPhoto): cao tối đa ~280px → rộng ≤ ~230px
+export const FILL = {
+  formats: ['avif', 'webp'] as Array<'avif' | 'webp'>,
+  widths: [240, 360, 480],
+  sizes: '(max-width: 480px) 50vw, 230px',
+  quality: 55,
+};
 export const BOOTH = {
   formats: ['avif', 'webp'] as Array<'avif' | 'webp'>,
   widths: [200],

@@ -1,0 +1,17 @@
+---
+// Ảnh polaroid lấp phần trống còn lại của màn (là phần tử flex). Chỗ còn ≤ 100px thì ẩn hẳn
+// (container query): màn không bao giờ tràn, máy nhỏ 360×640 tự bớt ảnh. Ảnh lazy, ẩn thì không tải.
+import { Picture } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import { WEDDING } from '../../config/wedding';
+import { FILL } from './img';
+
+interface Props { src: ImageMetadata; rot?: number; grow?: number }
+const { src, rot = -3, grow = 3 } = Astro.props;
+---
+<div class="fill" style={`flex-grow:${grow}`}>
+  <div class="frame" style={`transform:rotate(${rot}deg)`}>
+    <span class="tape" aria-hidden="true"></span>
+    <div class="ph"><Picture src={src} {...FILL} alt={`Ảnh cưới ${WEDDING.groom} và ${WEDDING.bride}`} loading="lazy" /></div>
+  </div>
+</div>

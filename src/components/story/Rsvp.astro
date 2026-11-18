@@ -2,6 +2,8 @@
 import type { Copy } from '../../lib/copy';
 import type { Guest } from '../../lib/guests';
 import Doodle from './Doodle.astro';
+import FillPhoto from './FillPhoto.astro';
+import photo from '../../assets/photos/05-rsvp.jpg';
 import Screen from './Screen.astro';
 
 interface Props { c: Copy; total: number; guest: Guest }
@@ -43,4 +45,5 @@ const defaultCount = guest.diCung || guest.xungHo === 'anhchi' || guest.ten.incl
     </button>
     <p class="sr" role="status" aria-live="polite"></p>
   </form>
+  <FillPhoto src={photo} rot={-2} />
 </Screen>

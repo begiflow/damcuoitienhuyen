@@ -3,6 +3,8 @@ import { WEDDING } from '../../config/wedding';
 import { googleCalendarUrl } from '../../lib/calendar';
 import type { Copy } from '../../lib/copy';
 import Doodle from './Doodle.astro';
+import FillPhoto from './FillPhoto.astro';
+import photo from '../../assets/photos/02-countdown.jpg';
 import Screen from './Screen.astro';
 
 interface Props { c: Copy; total: number }
@@ -24,7 +26,7 @@ const rings = [
   <svg class="under" width="150" height="12" viewBox="0 0 160 14" fill="none" aria-hidden="true">
     <path class="draw" pathLength="1" filter="url(#ink)" d="M2 8 C 20 2, 30 13, 48 7 S 78 2, 96 8 S 128 13, 158 5" stroke="var(--accent)" stroke-width="2.4" stroke-linecap="round" style="animation-delay:.2s"></path>
   </svg>
-  <div class="grow"></div>
+  <FillPhoto src={photo} rot={-3} />
   <div class="cd" data-t={Date.parse(WEDDING.partyStart)} role="timer" aria-label="Thời gian còn lại tới giờ làm lễ và khai tiệc">
     {units.map(([k, l], n) => (
       <div>
