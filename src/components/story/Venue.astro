@@ -3,6 +3,7 @@ import { Picture } from 'astro:assets';
 import venue from '../../assets/photos/03-venue.jpg';
 import { WEDDING } from '../../config/wedding';
 import Doodle from './Doodle.astro';
+import { DOODLES, type DoodleName } from './doodles';
 import Screen from './Screen.astro';
 import { SMALL } from './img';
 
@@ -10,9 +11,18 @@ interface Props { total: number }
 const { total } = Astro.props;
 // "17:00 đón khách & teabreak" → giờ + việc
 const items = WEDDING.schedule.map((s) => { const [, t, what] = s.match(/^(\S+)\s+(.*)$/) ?? ['', '', s]; return { t, what: what.charAt(0).toUpperCase() + what.slice(1) }; });
-const last = items.length - 1;
-// hình theo việc: đón khách/teabreak → tách trà, tiệc → bánh cưới
-const icon = (w: string) => (/tea|đón/i.test(w) ? 'teacup' : /tiệc/i.test(w) ? 'cake' : 'spark') as 'teacup' | 'cake' | 'spark';
+// Mục nào trùng giờ khai tiệc (partyStart) thì khoanh bút
+const main = WEDDING.partyStart.slice(11, 16);
+// Hình theo việc (thứ tự quan trọng: "Đón khách & teabreak" → tách trà)
+const ICONS: [RegExp, DoodleName][] = [
+  [/tea|trà/i, 'teacup'], [/đón|đồ uống|cocktail/i, 'martini'], [/lễ|nghi thức|thành hôn/i, 'rings'],
+  [/bánh/i, 'cake'], [/nhảy|nhạc|dance/i, 'notes'], [/tiễn|xe hoa|rước/i, 'car'], [/ly|champagne/i, 'cheers'],
+  [/tiệc|lời chúc|dùng bữa/i, 'plate'],
+];
+const icon = (w: string): DoodleName => ICONS.find(([re]) => re.test(w))?.[1] ?? 'spark';
+// cao hình ~34px, rộng theo tỉ lệ viewBox
+const iw = (n: DoodleName) => { const [, , w, h] = DOODLES[n].vb.split(' ').map(Number); return Math.min(50, Math.round((34 * w) / h)); };
+const gap = 0.45 / Math.max(1, items.length - 1);
 ---
 <Screen i={2} total={total} label="Lịch trình và địa điểm">
   <p class="kicker">{WEDDING.dateDow} · {WEDDING.dateDots}</p>
@@ -20,10 +30,10 @@ const icon = (w: string) => (/tea|đón/i.test(w) ? 'teacup' : /tiệc/i.test(w)
   <div class="grow" style="max-height:40px"></div>
   <ol class="tl">
     {items.map(({ t, what }, n) => (
-      <li>
-        <Doodle name={icon(what)} w={icon(what) === 'teacup' ? 46 : 40} delay={0.2 + n * 0.3} />
+      <li class={n % 2 ? 'r' : 'l'}>
+        <Doodle name={icon(what)} w={iw(icon(what))} delay={+(0.15 + n * gap).toFixed(2)} />
         <div>
-          <time>{n === last ? (
+          <time>{t === main ? (
             <span class="circ">{t}
               <svg viewBox="0 0 200 60" preserveAspectRatio="none" aria-hidden="true">
                 <path class="draw" pathLength="1" filter="url(#ink)" d="M160 8 C 110 0, 30 2, 10 22 C -6 40, 40 58, 110 55 C 180 52, 206 34, 186 16 C 176 8, 150 6, 130 8" fill="none" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round" vector-effect="non-scaling-stroke" style="animation-delay:1s"></path>
