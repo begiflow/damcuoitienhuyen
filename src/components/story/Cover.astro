@@ -7,6 +7,7 @@ import { WEDDING } from '../../config/wedding';
 import type { Copy } from '../../lib/copy';
 import Screen from './Screen.astro';
 import Signature from './Signature.astro';
+import Doodle from './Doodle.astro';
 import { COVER } from './img';
 
 interface Props { c: Copy; total: number }
@@ -23,6 +24,10 @@ const lqip = (await sharp(join(process.cwd(), 'src/assets/photos/01-cover.jpg'))
       <Picture src={cover} {...COVER} alt={`Ảnh cưới ${WEDDING.groom} và ${WEDDING.bride}`} class="develop" loading="eager" fetchpriority="high" style={`background:url(data:image/webp;base64,${lqip}) center/cover`} />
     </div>
     {c.mention !== '@ban.be' && <span class="mention">{c.mention}</span>}
+    <Doodle name="martini" w={34} delay={.5} class="d-tr" />
+    <Doodle name="sprig" w={30} delay={.6} class="d-bl" />
+    <Doodle name="spark" w={14} delay={1.2} class="d-tl" />
+    <Doodle name="spark" w={11} delay={1.4} class="d-mr" />
   </div>
   <Signature />
   <h1 class="cover-title">{c.MINH} <em>CƯỚI RỒI!</em></h1>

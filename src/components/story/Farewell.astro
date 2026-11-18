@@ -6,6 +6,7 @@ import b2 from '../../assets/photos/06-booth-2.jpg';
 import b3 from '../../assets/photos/06-booth-3.jpg';
 import { WEDDING } from '../../config/wedding';
 import type { Copy } from '../../lib/copy';
+import Doodle from './Doodle.astro';
 import Screen from './Screen.astro';
 import { BOOTH } from './img';
 
@@ -14,20 +15,23 @@ const { c, i, total, showGift, phone } = Astro.props;
 const h = WEDDING.helper;
 ---
 <Screen i={i} total={total} label="Hẹn gặp" class="f6">
+  <Doodle slot="deco" name="spark" w={14} delay={1.2} class="s6-l" />
+  <Doodle slot="deco" name="spark" w={10} delay={1.4} class="s6-r" />
   <svg width="64" height="40" viewBox="0 0 70 44" fill="none" stroke="var(--soft)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="margin-top:6px">
-    <path class="draw" pathLength="1" d="M26 14 A 13 13 0 1 0 26.01 14" style="animation-delay:.3s"></path>
-    <path class="draw" pathLength="1" d="M44 16 A 13 13 0 1 1 43.99 16" style="animation-delay:.7s"></path>
-    <path class="draw" pathLength="1" d="M20 9 L23 4 L29 4 L32 9 L26 14 Z" style="animation-delay:1.1s"></path>
+    <path class="draw" pathLength="1" filter="url(#ink)" d="M26 14 A 13 13 0 1 0 26.01 14" style="animation-delay:.3s"></path>
+    <path class="draw" pathLength="1" filter="url(#ink)" d="M44 16 A 13 13 0 1 1 43.99 16" style="animation-delay:.7s"></path>
+    <path class="draw" pathLength="1" filter="url(#ink)" d="M20 9 L23 4 L29 4 L32 9 L26 14 Z" style="animation-delay:1.1s"></path>
   </svg>
   <h2 class="bye">{c.bye}</h2>
   <p class="hw ink" style="animation-delay:.6s;margin-top:8px">{c.s6note}</p>
   <div class="booth">
     <div class="booth-in">
       <div class="booth-note">
+        <Doodle name="bouquet" w={42} delay={.6} />
         <p class="hw ink" style="animation-delay:1s">{c.boothNote}</p>
         <svg width="54" height="34" viewBox="0 0 64 40" fill="none" stroke="var(--soft)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path class="draw" pathLength="1" d="M4 6c18 2 38 10 52 26" style="animation-delay:1.3s"></path>
-          <path class="draw" pathLength="1" d="M46 31l11 2-1-11" style="animation-delay:1.8s"></path>
+          <path class="draw" pathLength="1" filter="url(#ink)" d="M4 6c18 2 38 10 52 26" style="animation-delay:1.3s"></path>
+          <path class="draw" pathLength="1" filter="url(#ink)" d="M46 31l11 2-1-11" style="animation-delay:1.8s"></path>
         </svg>
       </div>
       <div class="strip">

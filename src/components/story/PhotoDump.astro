@@ -6,6 +6,7 @@ import p3 from '../../assets/photos/04-dump-3.jpg';
 import vid from '../../assets/photos/04-video.jpg';
 import { WEDDING } from '../../config/wedding';
 import type { Copy } from '../../lib/copy';
+import Doodle from './Doodle.astro';
 import Screen from './Screen.astro';
 import { DUMP } from './img';
 
@@ -17,7 +18,10 @@ const alt = `Ảnh cưới ${WEDDING.groom} và ${WEDDING.bride}`;
 ---
 <Screen i={3} total={total} label="Ảnh cưới" class="soft">
   <p class="kicker">Ảnh cưới</p>
-  <p class="hw ink dump-title" aria-hidden="true">photo dump</p>
+  <div class="dump-head">
+    <Doodle name="camera" w={44} delay={.2} />
+    <p class="hw ink dump-title" aria-hidden="true">photo dump</p>
+  </div>
   <div class="grid">
     <div class="frame"><span class="tape" aria-hidden="true"></span><div class="ph"><Picture src={p1} {...DUMP} alt={alt} loading="lazy" /></div></div>
     <div class="frame"><span class="tape" aria-hidden="true"></span><div class="ph"><Picture src={p2} {...DUMP} alt={alt} loading="lazy" /></div></div>
