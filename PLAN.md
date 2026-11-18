@@ -10,7 +10,7 @@
 
 | Hạng mục | Chốt | Ghi chú |
 |---|---|---|
-| Sự kiện | 1 tiệc chung · **Hidden Haven**, 393/12 Bình Quới, TP.HCM | 17:00 đón khách & teabreak · 18:00 khai tiệc |
+| Sự kiện | 1 tiệc chung · **Hidden Haven**, 393/12 Bình Quới, TP.HCM | Giờ trên thiệp (ghi sớm để trừ hao khách đến trễ): 16:00 tiệc trà & đón khách · 17:00 ổn định chỗ ngồi · 17:30 lễ thành hôn · 18:30 khai tiệc |
 | Đối tượng thiệp online | Chủ yếu bạn bè, đồng nghiệp | Người lớn tuổi nhận thiệp giấy in ngoài |
 | Thiết kế | **Story**: 6 màn dọc, cuộn hoặc chạm cạnh để chuyển · màu **đỏ rượu + kem** | Mockup: canvas "Thiệp cưới online – bản trẻ trung", artboard 1 |
 | Stack | **Astro static + CSS thuần**, 0 framework runtime | Output = HTML tĩnh |
@@ -154,11 +154,11 @@ Mỗi màn: cao `clamp(640px, 100svh, 760px)`, bo góc 14px, cách nhau 8px trê
   |---|---|
   | 1 | Ảnh bìa hiện dần như tráng phim (mờ → rõ) · chữ ký "Tiên & Huyền" tự viết từng nét rồi tô đầy · ngôi sao lấp lánh vẽ tay · dòng chữ viết tay hiện như mực chảy |
   | 2 | Gạch chân nguệch ngoạc dưới tiêu đề · vòng bút khoanh số ngày |
-  | 3 | Vòng bút khoanh "18:00 khai tiệc" · mũi tên tự vẽ tới nút Chỉ đường |
+  | 3 | Vòng bút khoanh giờ làm lễ (17:30) · mũi tên tự vẽ tới nút Chỉ đường |
   | 4 | Chữ "photo dump" tự viết · tim + sao vẽ tay quanh ảnh |
   | 5 | Gạch chân dưới tiêu đề · dấu tick tự vẽ khi bấm Gửi |
   | 6 | Hai chiếc nhẫn vẽ nét · mũi tên tới dải photobooth · chữ viết tay hiện dần |
-- **Hình vẽ tay kiểu "Save the date"** (`doodles.ts`, vẽ dần như trên): bìa: ly martini, cành lá, sao · màn 2: quả cầu disco treo, sao, 2 ly chạm · màn 3: tách trà (17:00) và bánh cưới (18:00) trong lịch trình · màn 4: máy ảnh cạnh "photo dump" · màn 5: phong bì · màn 6: bó hoa, sao. Mép nét run bằng 1 filter SVG dùng chung, không tải thêm file.
+- **Hình vẽ tay kiểu "Save the date"** (`doodles.ts`, vẽ dần như trên): bìa: ly martini, cành lá, sao · màn 2: quả cầu disco treo, sao, 2 ly chạm · màn 3: mỗi mục lịch trình 1 hình (tách trà, đĩa dao nĩa, nhẫn, 2 ly) · màn 4: máy ảnh cạnh "photo dump" · màn 5: phong bì · màn 6: bó hoa, sao. Mép nét run bằng 1 filter SVG dùng chung, không tải thêm file.
 - **Kỹ thuật:** SVG `pathLength="1"` + `stroke-dashoffset` (nét vẽ), `clip-path` (chữ viết tay), `filter` (tráng phim). Chữ ký = outline của Playwrite VN xuất sẵn thành SVG lúc build (~4KB gzip, không cần tải font cho tên). Thẻ `<html>` nhận class `js` bằng script inline trong `<head>` (tránh nháy); IntersectionObserver gắn class `in` cho màn đã thấy (≥45%). Không JS → mọi thứ hiện sẵn, không ẩn gì. `prefers-reduced-motion` → tắt hết, nội dung hiện đầy đủ.
 - **Hiệu ứng phụ:** nhãn bật lên, ảnh thả rơi bằng CSS scroll-driven (`animation-timeline: view()`, range `entry 0% entry 100%`), trong `@supports`.
 

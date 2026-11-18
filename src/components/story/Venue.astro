@@ -6,14 +6,14 @@ import Screen from './Screen.astro';
 
 interface Props { total: number }
 const { total } = Astro.props;
-// "17:00 đón khách & teabreak" → giờ + việc
-const items = WEDDING.schedule.map((s) => { const [, t, what] = s.match(/^(\S+)\s+(.*)$/) ?? ['', '', s]; return { t, what: what.charAt(0).toUpperCase() + what.slice(1) }; });
-// Mục nào trùng giờ khai tiệc (partyStart) thì khoanh bút
+const items = WEDDING.schedule;
+// Mục nào trùng partyStart (giờ làm lễ) thì khoanh bút
 const main = WEDDING.partyStart.slice(11, 16);
 // Hình theo việc (thứ tự quan trọng: "Đón khách & teabreak" → tách trà)
 const ICONS: [RegExp, DoodleName][] = [
   [/tea|trà/i, 'teacup'], [/đón|đồ uống|cocktail/i, 'martini'], [/lễ|nghi thức|thành hôn/i, 'rings'],
-  [/bánh/i, 'cake'], [/nhảy|nhạc|dance/i, 'notes'], [/tiễn|xe hoa|rước/i, 'car'], [/ly|champagne/i, 'cheers'],
+  [/bánh/i, 'cake'], [/nhảy|nhạc|dance/i, 'notes'], [/tiễn|xe hoa|rước/i, 'car'], [/chỗ ngồi|vào bàn/i, 'plate'],
+  [/khai tiệc|ly|champagne/i, 'cheers'],
   [/tiệc|lời chúc|dùng bữa/i, 'plate'],
 ];
 const icon = (w: string): DoodleName => ICONS.find(([re]) => re.test(w))?.[1] ?? 'spark';
@@ -26,7 +26,7 @@ const gap = 0.45 / Math.max(1, items.length - 1);
   <h2 class="title" style="margin-top:10px">Tối hôm ấy</h2>
   <div class="grow"></div>
   <ol class="tl">
-    {items.map(({ t, what }, n) => (
+    {items.map(({ t, what, note }, n) => (
       <li class={n % 2 ? 'r' : 'l'}>
         <Doodle name={icon(what)} w={iw(icon(what))} delay={+(0.15 + n * gap).toFixed(2)} />
         <div>
@@ -37,6 +37,7 @@ const gap = 0.45 / Math.max(1, items.length - 1);
               </svg>
             </span>) : t}</time>
           <span class="what">{what}</span>
+          {note && <span class="sub">{note}</span>}
         </div>
       </li>
     ))}
