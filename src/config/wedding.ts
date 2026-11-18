@@ -22,10 +22,11 @@ export const WEDDING = {
     mapsUrl: 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent('Hidden Haven, 393/12 Bình Quới, TP.HCM'),
   },
   // Giờ hiển thị cho khách. Không đại từ ở đây (câu chữ dùng chung cho mọi xưng hô).
+  // art: tên hình trong components/story/doodles.ts, vẽ thành cụm phía trên mỗi mục
   schedule: [
-    { t: '16:00', what: 'Tiệc trà & chụp hình', note: 'Giao lưu, chụp hình cùng cô dâu chú rể' },
-    { t: '17:00', what: 'Đón khách & vào bàn', note: 'Chuẩn bị bắt đầu chương trình' },
-    { t: '18:00', what: 'Lễ thành hôn & khai tiệc', note: 'Nghi thức, chúc phúc và cùng nâng ly' },
+    { t: '16:00', what: 'Tiệc trà & chụp hình', note: 'Giao lưu, chụp hình cùng cô dâu chú rể', art: ['teapot', 'camera'] },
+    { t: '17:00', what: 'Đón khách & vào bàn', note: 'Chuẩn bị bắt đầu chương trình', art: ['martini', 'chair'] },
+    { t: '18:00', what: 'Lễ thành hôn & khai tiệc', note: 'Nghi thức, chúc phúc và cùng nâng ly', art: ['rings', 'tower'] },
   ],
   rsvpDeadline: '15/01',
   parents: { groom: 'Bà Phạm Thị Hoa', bride: 'Bà Dương Thị Mỹ Dung' },

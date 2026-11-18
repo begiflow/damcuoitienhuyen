@@ -131,12 +131,15 @@ img { display: block; }
 
 /* ---------- màn 3: tối hôm ấy ---------- */
 /* timeline zig-zag: trục giữa, mục lẻ bên trái (hình ở mép ngoài), mục chẵn bên phải, xen kẽ so le */
-.tl { position: relative; width: 100%; max-width: 320px; margin: 18px 0 0; padding: 0; list-style: none; }
+.tl { --ih: 36px; position: relative; width: 100%; max-width: 320px; margin: 18px 0 0; padding: 0; list-style: none; }
+@container (min-height: 700px) { .tl { --ih: 46px; } }
+.tl .art { display: flex; align-items: flex-end; gap: 6px; }
+.tl .art .dd { height: var(--ih); width: auto; }
 .tl::before { content: ''; position: absolute; left: 50%; top: 6px; bottom: 6px; width: 1.5px; margin-left: -.75px; background: var(--ink); opacity: .7; }
 .tl li { position: relative; width: 50%; box-sizing: border-box; display: flex; flex-direction: column; gap: 3px; padding: 2px 0; }
 .tl li + li { margin-top: -34px; }
-/* gạch nối từ trục vào mục, ngang dòng giờ (hình cao ~34px ở trên) */
-.tl li::after { content: ''; position: absolute; top: 47px; width: 9px; height: 1.5px; background: var(--ink); opacity: .7; }
+/* gạch nối từ trục vào mục, ngang dòng giờ (cụm hình cao --ih ở trên) */
+.tl li::after { content: ''; position: absolute; top: calc(var(--ih) + 13px); width: 9px; height: 1.5px; background: var(--ink); opacity: .7; }
 .tl .l { align-items: flex-end; padding-right: 15px; text-align: right; }
 .tl .l::after { right: 0; }
 .tl .r { margin-left: 50%; align-items: flex-start; padding-left: 15px; text-align: left; }
