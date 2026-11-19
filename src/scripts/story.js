@@ -15,6 +15,8 @@
       });
     }, { threshold: 0.45 });
     d.querySelectorAll('.scr').forEach(function (s) { io.observe(s); });
+    var pill = d.querySelector('.rsvp-pill'), ha = d.getElementById('hoi-am');
+    if (pill && ha) new IntersectionObserver(function (es) { pill.classList.toggle('off', es[0].isIntersecting); }, { threshold: 0.5 }).observe(ha);
   }
 
   // 2. Chạm cạnh trái/phải → màn trước/sau

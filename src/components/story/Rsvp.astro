@@ -5,12 +5,12 @@ import Doodle from './Doodle.astro';
 import photo from '../../assets/photos/05-rsvp.jpg';
 import Screen from './Screen.astro';
 
-interface Props { c: Copy; total: number; guest: Guest }
-const { c, total, guest } = Astro.props;
+interface Props { c: Copy; i: number; total: number; guest: Guest }
+const { c, i, total, guest } = Astro.props;
 // Mặc định 2 người nếu có "đi cùng" hoặc dòng ghi 2 người ("Dũng & Ngân", xưng hô anh chị), còn lại 1. 4 = "4+".
 const defaultCount = guest.diCung || guest.xungHo === 'anhchi' || guest.ten.includes('&') ? 2 : 1;
 ---
-<Screen bg={photo} i={4} total={total} label="Xác nhận tham dự" id="hoi-am">
+<Screen bg={photo} i={i} total={total} label="Xác nhận tham dự" id="hoi-am">
   <Doodle slot="deco" name="envelope" w={46} delay={.3} class="w corner" />
   <p class="kicker">Hồi âm</p>
   <h2 class="title" style="margin-top:10px">{c.s5title}</h2>

@@ -19,8 +19,8 @@ const api = import.meta.env.PUBLIC_API_URL || '';
   <Cover c={c} total={total} />
   <Countdown c={c} total={total} />
   <Venue total={total} />
-  <PhotoDump c={c} total={total} />
-  {guest && <Rsvp c={c} total={total} guest={guest} />}
+  {guest && <Rsvp c={c} i={3} total={total} guest={guest} />}
+  <PhotoDump c={c} i={guest ? 4 : 3} total={total} />
   <Farewell c={c} i={total - 1} total={total} showGift={!!guest?.showGift} phone={phone} />
   {guest && <a class="rsvp-pill" href="#hoi-am">HỒI ÂM</a>}
 </main>
