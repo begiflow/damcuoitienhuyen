@@ -14,14 +14,14 @@ const main = WEDDING.partyStart.slice(11, 16);
 const iw = (n: DoodleName) => { const [, , w, h] = DOODLES[n].vb.split(' ').map(Number); return Math.round((36 * w) / h); };
 // mỗi mục bắt đầu vẽ cách nhau 0.15s, hình thứ 2 trong cụm trễ thêm 0.15s: màn vẽ xong ≤ 2.5s
 ---
-<Screen bg={photo} i={2} total={total} label="Lịch trình và địa điểm">
+<Screen bg={photo} i={2} total={total} label="Lịch trình và địa điểm" class="venue">
   <p class="kicker">{WEDDING.dateDow} · {WEDDING.dateDots}</p>
   <h2 class="title" style="margin-top:10px">Tối hôm ấy</h2>
   <div class="grow"></div>
   <ol class="tl">
     {items.map(({ t, what, note, art }, n) => (
       <li class={n % 2 ? 'r' : 'l'}>
-        <span class="art">{(art as readonly DoodleName[]).map((a, k) => <Doodle name={a} w={iw(a)} delay={+(0.1 + n * 0.15 + k * 0.15).toFixed(2)} />)}</span>
+        <span class:list={["art", { scene: art.length === 1 }]}>{(art as readonly DoodleName[]).map((a, k) => <Doodle name={a} w={iw(a)} delay={+(0.1 + n * 0.15 + k * 0.15).toFixed(2)} />)}</span>
         <div>
           <time>{t === main ? (
             <span class="circ">{t}

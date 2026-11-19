@@ -25,8 +25,8 @@ export const WEDDING = {
   // art: tên hình trong components/story/doodles.ts, vẽ thành cụm phía trên mỗi mục
   schedule: [
     { t: '16:00', what: 'Teabreak & chụp hình', note: 'Giao lưu, chụp hình cùng cô dâu chú rể', art: ['tallglass', 'snacks'] },
-    { t: '17:00', what: 'Đón khách & vào bàn', note: 'Chuẩn bị bắt đầu chương trình', art: ['martini', 'chair'] },
-    { t: '18:00', what: 'Lễ thành hôn & khai tiệc', note: 'Nghi thức, chúc phúc và cùng nâng ly', art: ['rings', 'tower'] },
+    { t: '17:00', what: 'Đón khách & vào bàn', note: 'Chuẩn bị bắt đầu chương trình', art: ['greet'] },
+    { t: '18:00', what: 'Lễ thành hôn & khai tiệc', note: 'Nghi thức, chúc phúc và cùng nâng ly', art: ['party'] },
   ],
   rsvpDeadline: '15/01',
   parents: { groom: 'Bà Phạm Thị Hoa', bride: 'Bà Dương Thị Mỹ Dung' },

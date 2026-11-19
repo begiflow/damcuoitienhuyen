@@ -143,9 +143,12 @@ img { display: block; }
 /* timeline zig-zag: trục giữa, mục lẻ bên trái (hình ở mép ngoài), mục chẵn bên phải, xen kẽ so le */
 .tl { --ih: 36px; position: relative; width: 100%; max-width: 320px; margin: 18px 0 0; padding: 0; list-style: none; }
 @container (min-height: 700px) { .tl { --ih: 46px; } }
-@container (max-height: 660px) { .tl { --ih: 28px; margin-top: 10px; } .scr.photo .sheet { padding-top: 20px; } }
+@container (max-height: 660px) { .tl { --ih: 28px; --sc: 1; margin-top: 6px; } .venue .kicker { display: none; } .tl li + li { margin-top: -40px; } .scr.photo .sheet { padding-top: 18px; padding-bottom: 20px; } .sheet .grow { min-height: 0; } .venue-name { margin-top: 8px; } }
 .tl .art { display: flex; align-items: flex-end; gap: 6px; }
 .tl .art .dd { height: var(--ih); width: auto; }
+/* cảnh có người (1 hình/mục) nhiều chi tiết hơn icon nên to hơn */
+.tl .art.scene .dd { height: calc(var(--ih) * var(--sc, 1.4)); }
+.tl li:has(.scene)::after { top: calc(var(--ih) * var(--sc, 1.4) + 13px); }
 .tl::before { content: ''; position: absolute; left: 50%; top: 6px; bottom: 6px; width: 1.5px; margin-left: -.75px; background: var(--ink); opacity: .7; }
 .tl li { position: relative; width: 50%; box-sizing: border-box; display: flex; flex-direction: column; gap: 3px; padding: 2px 0; }
 .tl li + li { margin-top: -34px; }
