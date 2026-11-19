@@ -22,7 +22,6 @@ const api = import.meta.env.PUBLIC_API_URL || '';
   {guest && <Rsvp c={c} i={3} total={total} guest={guest} />}
   <PhotoDump c={c} i={guest ? 4 : 3} total={total} />
   <Farewell c={c} i={total - 1} total={total} showGift={!!guest?.showGift} phone={phone} />
-  {guest && <a class="rsvp-pill" href="#hoi-am">HỒI ÂM</a>}
 </main>
 <!-- nét mực run cho hình vẽ tay (#ink) và tiêu đề kiểu bút dạ (#txt) -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
