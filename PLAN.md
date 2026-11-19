@@ -10,7 +10,7 @@
 
 | Hạng mục | Chốt | Ghi chú |
 |---|---|---|
-| Sự kiện | 1 tiệc chung · **Hidden Haven**, 393/12 Bình Quới, TP.HCM | 16:00 teabreak & giao lưu · 17:00 chụp hình cùng cô dâu chú rể (backdrop), rồi vào bàn · 18:00 lễ thành hôn & khai tiệc |
+| Sự kiện | 1 tiệc chung · **Hidden Haven**, 393/12 Bình Quới, TP.HCM | 16:00 teabreak · 17:00 chụp ảnh lưu niệm cùng cô dâu chú rể · 18:00 lễ thành hôn, khai tiệc |
 | Đối tượng thiệp online | Chủ yếu bạn bè, đồng nghiệp | Người lớn tuổi nhận thiệp giấy in ngoài |
 | Thiết kế | **Story**: 6 màn dọc, cuộn hoặc chạm cạnh để chuyển · màu **đỏ rượu + kem** | Mockup: canvas "Thiệp cưới online – bản trẻ trung", artboard 1 |
 | Stack | **Astro static + CSS thuần**, 0 framework runtime | Output = HTML tĩnh |

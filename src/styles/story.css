@@ -164,7 +164,7 @@ img { display: block; }
 .tl .circ { position: relative; display: inline-block; margin-bottom: 5px; }
 .tl .circ svg { position: absolute; left: -7px; top: -4px; width: calc(100% + 14px); height: calc(100% + 8px); overflow: visible; pointer-events: none; }
 /* màn thấp (360×640): hình nhỏ hơn, 2 cột lồng sát hơn; đặt sau các rule .tl để thắng cùng độ ưu tiên */
-@container (max-height: 660px) { .tl { --ih: 28px; --sc: 1.65; margin-top: 6px; } .venue .kicker { display: none; } .tl li + li { margin-top: -56px; } .scr.photo .sheet { padding-top: 18px; padding-bottom: 20px; } .sheet .grow { min-height: 0; } .venue-name { margin-top: 8px; } }
+@container (max-height: 660px) { .tl { --ih: 28px; --sc: 1.65; margin-top: 6px; } .venue .kicker { display: none; } .tl li + li { margin-top: -38px; } .scr.photo .sheet { padding-top: 18px; padding-bottom: 20px; } .sheet .grow { min-height: 0; } .venue-name { margin-top: 8px; } }
 .venue-name { margin: 14px 0 0; display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 20px; font-weight: 900; letter-spacing: .04em; }
 .addr { margin: 2px 0 14px; color: var(--muted); }
 .go { display: flex; align-items: center; gap: 8px; }
