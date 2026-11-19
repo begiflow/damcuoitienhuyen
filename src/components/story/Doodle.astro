@@ -13,8 +13,10 @@ const step = Math.min(0.15, 0.8 / d.length);
   <g filter="url(#ink)">
     {d.map((p, k) => {
       const t = +(delay + k * step).toFixed(2);
-      // f: mảng tô đặc: vẽ viền rồi đổ mực (2 animation, delay riêng)
-      return <path class:list={['draw', { a: p.startsWith('a:'), f: p.startsWith('f:') }]} pathLength="1" d={p.replace(/^[af]:/, '')} style={`animation-delay:${p.startsWith('f:') ? `${t}s,${+(t + 0.6).toFixed(2)}s` : `${t}s`}`}></path>;
+      // tiền tố a: màu nhấn, f: mảng tô đặc (vẽ viền rồi đổ mực: 2 animation, delay riêng), af: cả hai
+      const pre = /^([af]+):/.exec(p)?.[1] ?? '';
+      const f = pre.includes('f');
+      return <path class:list={['draw', { a: pre.includes('a'), f }]} pathLength="1" d={pre ? p.slice(pre.length + 1) : p} style={`animation-delay:${f ? `${t}s,${+(t + 0.6).toFixed(2)}s` : `${t}s`}`}></path>;
     })}
   </g>
 </svg>

@@ -92,9 +92,10 @@ img { display: block; }
 
 /* hình vẽ tay (Doodle.astro): mực đen, chi tiết nhỏ màu nhấn; chỉ để trang trí, không nhận chạm */
 .dd { display: block; flex: none; overflow: visible; pointer-events: none; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; color: var(--ink); }
-.dd .a { stroke: var(--accent); }
+.dd .a { stroke: var(--accent); color: var(--accent); }
+.dd .f { fill: currentColor; }
 .f6 .dd { color: var(--soft); }
-.f6 .dd .a { stroke: #fff; }
+.f6 .dd .a { stroke: #fff; color: #fff; }
 /* tiêu đề kiểu bút dạ: mép chữ hơi run */
 .cover-title, .title, .bye { filter: url(#txt); }
 /* không để 1 chữ rớt dòng một mình ("RỒI!", "ạ") */
@@ -143,7 +144,6 @@ img { display: block; }
 /* timeline zig-zag: trục giữa, mục lẻ bên trái (hình ở mép ngoài), mục chẵn bên phải, xen kẽ so le */
 .tl { --ih: 36px; position: relative; width: 100%; max-width: 320px; margin: 18px 0 0; padding: 0; list-style: none; }
 @container (min-height: 700px) { .tl { --ih: 46px; } }
-@container (max-height: 660px) { .tl { --ih: 28px; --sc: 1; margin-top: 6px; } .venue .kicker { display: none; } .tl li + li { margin-top: -40px; } .scr.photo .sheet { padding-top: 18px; padding-bottom: 20px; } .sheet .grow { min-height: 0; } .venue-name { margin-top: 8px; } }
 .tl .art { display: flex; align-items: flex-end; gap: 6px; }
 .tl .art .dd { height: var(--ih); width: auto; }
 /* cảnh có người (1 hình/mục) nhiều chi tiết hơn icon nên to hơn */
@@ -163,6 +163,8 @@ img { display: block; }
 .tl .sub { display: block; margin-top: 2px; font-size: 13px; line-height: 1.35; color: var(--muted); text-wrap: balance; }
 .tl .circ { position: relative; display: inline-block; margin-bottom: 5px; }
 .tl .circ svg { position: absolute; left: -7px; top: -4px; width: calc(100% + 14px); height: calc(100% + 8px); overflow: visible; pointer-events: none; }
+/* màn thấp (360×640): hình nhỏ hơn, 2 cột lồng sát hơn; đặt sau các rule .tl để thắng cùng độ ưu tiên */
+@container (max-height: 660px) { .tl { --ih: 28px; --sc: 1.65; margin-top: 6px; } .venue .kicker { display: none; } .tl li + li { margin-top: -56px; } .scr.photo .sheet { padding-top: 18px; padding-bottom: 20px; } .sheet .grow { min-height: 0; } .venue-name { margin-top: 8px; } }
 .venue-name { margin: 14px 0 0; display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 20px; font-weight: 900; letter-spacing: .04em; }
 .addr { margin: 2px 0 14px; color: var(--muted); }
 .go { display: flex; align-items: center; gap: 8px; }
@@ -234,7 +236,8 @@ input:checked + .num { border-color: var(--accent); background: var(--accent); c
 /* ---------- hiệu ứng ----------
    Trạng thái "ẩn chờ vẽ" chỉ khi có .js (IntersectionObserver chạy được) và người dùng không giảm chuyển động.
    Không JS / reduced-motion → mọi thứ hiện sẵn. Ngày, giờ, địa điểm, nút không bao giờ bị ẩn. */
-.draw { stroke-dasharray: 1; stroke-dashoffset: 0; }
+/* khoảng hở dài hơn nét 1 chút: lúc chưa vẽ không còn chấm tròn (đầu nét round dài 0) ở điểm đầu mỗi nét */
+.draw { stroke-dasharray: 1 1.1; stroke-dashoffset: 0; }
 @media (prefers-reduced-motion: no-preference) {
   @supports (animation-timeline: view()) {
     .pop { animation: pop linear both; animation-timeline: view(); animation-range: entry 0% entry 100%; }
@@ -242,8 +245,10 @@ input:checked + .num { border-color: var(--accent); background: var(--accent); c
   }
   .js .scr:not(.in) .sig path { fill: transparent; stroke-dashoffset: 1; }
   .js .scr.in .sig path { animation: draw .9s cubic-bezier(.5,0,.3,1) both, fillin .5s ease both; }
-  .js .scr:not(.in) .draw { stroke-dashoffset: 1; }
+  .js .scr:not(.in) .draw { stroke-dashoffset: 1.05; }
   .js .scr.in .draw { animation: draw 1.1s cubic-bezier(.5,0,.3,1) both; }
+  .js .scr:not(.in) .dd .f { fill: transparent; }
+  .js .scr.in .dd .f { animation: draw 1.1s cubic-bezier(.5,0,.3,1) both, fillin .5s ease both; }
   .js .scr:not(.in) .ink { clip-path: inset(-20% 100% -20% 0); }
   .js .scr.in .ink { animation: ink 1.3s cubic-bezier(.4,0,.2,1) both; }
   .js .scr:not(.in) .develop { filter: blur(8px) brightness(1.3) saturate(.5); }
@@ -253,7 +258,7 @@ input:checked + .num { border-color: var(--accent); background: var(--accent); c
   .opt, .num { transition: background-color .2s, color .2s, border-color .2s; }
   html { scroll-behavior: smooth; }
 }
-@keyframes draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes draw { from { stroke-dashoffset: 1.05; } to { stroke-dashoffset: 0; } }
 @keyframes fillin { from { fill: transparent; } to { fill: currentColor; } }
 @keyframes ink { from { clip-path: inset(-20% 100% -20% 0); } to { clip-path: inset(-20% 0 -20% 0); } }
 @keyframes develop { from { filter: blur(8px) brightness(1.3) saturate(.5); } to { filter: none; } }
