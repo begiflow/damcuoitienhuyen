@@ -24,7 +24,7 @@ export const WEDDING = {
   // Giờ hiển thị cho khách. Không đại từ ở đây (câu chữ dùng chung cho mọi xưng hô).
   // art: tên hình trong components/story/doodles.ts, vẽ thành cụm phía trên mỗi mục
   schedule: [
-    { t: '16:00', what: 'Teabreak & chụp hình', note: 'Giao lưu, chụp hình cùng cô dâu chú rể', art: ['tallglass', 'snacks'] },
+    { t: '16:00', what: 'Teabreak & chụp hình', note: 'Giao lưu, chụp hình cùng cô dâu chú rể', art: ['drinks'] },
     { t: '17:00', what: 'Đón khách & vào bàn', note: 'Chuẩn bị bắt đầu chương trình', art: ['greet'] },
     { t: '18:00', what: 'Lễ thành hôn & khai tiệc', note: 'Nghi thức, chúc phúc và cùng nâng ly', art: ['party'] },
   ],
