@@ -1,8 +1,8 @@
 ---
 // Khung 1 màn story. Có `bg`: ảnh tràn màn làm nền, nội dung nằm trên tờ giấy xé mép dán băng keo.
 // Không `bg`: cả màn là nền giấy (màn chữ, như màn "Create" của story).
-import { Image, Picture } from 'astro:assets';
-import avatar from '../../assets/photos/avatar.jpg';
+// Thanh tiến trình + dòng tài khoản không nằm ở đây: là lớp phủ đứng yên trong Story.astro.
+import { Picture } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import { WEDDING } from '../../config/wedding';
 import { BG } from './img';
@@ -17,7 +17,6 @@ interface Props {
   id?: string;
 }
 const { i, total, label, class: cls = '', id, bg, eager = false, lqip } = Astro.props;
-const bars = Array.from({ length: total }, (_, k) => (k < i ? '100%' : k === i ? '50%' : '0%'));
 ---
 <section class:list={['scr', cls, { photo: bg }]} aria-label={label} id={id}>
   {bg && (
@@ -26,12 +25,6 @@ const bars = Array.from({ length: total }, (_, k) => (k < i ? '100%' : k === i ?
   )}
   {i > 0 && <button type="button" class="tap prev" aria-label="Màn trước" data-go="-1"></button>}
   {i < total - 1 && <button type="button" class="tap next" aria-label="Màn tiếp theo" data-go="1"></button>}
-  <div class="bars" aria-hidden="true">{bars.map((w) => <i style={`--w:${w}`}></i>)}</div>
-  <!-- dòng tài khoản kiểu story: avatar + handle + ngày -->
-  <div class="acct" aria-hidden="true">
-    <Image src={avatar} alt="" width={30} height={30} densities={[2]} format="webp" loading={i === 0 ? 'eager' : 'lazy'} />
-    <span>{WEDDING.handle}</span><small>{WEDDING.dateShort}</small>
-  </div>
   <slot name="deco" />
   {bg ? (
     <div class="body"><div class="sheet-wrap"><span class="tape" aria-hidden="true"></span><div class="sheet"><slot /></div></div></div>

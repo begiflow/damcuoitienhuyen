@@ -1,25 +1,23 @@
-/* Vuốt = sang hẳn 1 màn như chạm cạnh: luôn hít về đầu màn, vuốt mạnh cũng không nhảy quá 1 màn */
-/* scroll-padding-top = padding trên của .story: vị trí hít màn 1 trùng scrollY 0, mở trang không bị tự cuộn.
-   Tự cuộn lúc tải bị Chrome coi là người dùng cuộn → ngừng đo LCP (PageSpeed báo NO_LCP). */
-html { scroll-snap-type: y mandatory; scroll-padding-top: 8px; -webkit-text-size-adjust: 100%; }
-/* Màn hình thấp hơn 1 màn story (640px): cuộn tự do, không thì có thể không với tới phần dưới (nút Gửi) */
-@media (max-height: 639px) { html { scroll-snap-type: y proximity; } }
-/* Đang gõ lời nhắn: tắt hít màn để bàn phím không kéo trang đi chỗ khác */
-html:has(input:focus) { scroll-snap-type: none; }
+html { -webkit-text-size-adjust: 100%; }
 body { margin: 0; background: var(--bg); }
 button, input { font: inherit; color: inherit; }
 input::placeholder { color: #7a728a; }
 img { display: block; }
 
+/* ---------- khung story: các màn xếp ngang, vuốt = sang đúng 1 màn (hít đầu màn, vuốt mạnh không nhảy quá 1 màn) ---------- */
+.deck { position: relative; max-width: 480px; margin: 8px auto; }
 .story {
-  max-width: 480px; margin: 0 auto; padding: 8px 0; box-sizing: border-box;
-  display: flex; flex-direction: column; gap: 8px;
+  display: flex; overflow-x: auto; overflow-y: hidden; border-radius: 14px;
+  scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: none;
   color: var(--ink); font: 600 15px/1.55 'Be Vietnam Pro', system-ui, sans-serif;
 }
+.story::-webkit-scrollbar { display: none; }
+/* máy thấp: bỏ lề + bo góc để 1 màn 640px vừa khít, trang không phải cuộn dọc */
+@media (max-height: 671px) { .deck { margin: 0 auto; } .story { border-radius: 0; } }
 
 /* ---------- khung màn: nền giấy, căn giữa, 1 điểm nhấn ---------- */
 .scr {
-  position: relative; height: clamp(640px, 100svh, 760px); border-radius: 14px; overflow: hidden;
+  flex: 0 0 100%; position: relative; height: clamp(640px, 100svh, 760px); overflow: hidden;
   scroll-snap-align: start; scroll-snap-stop: always; display: flex; flex-direction: column; background: var(--paper);
   /* Màn còn xa thì trình duyệt chưa vẽ → ảnh trong đó chưa tải, nhường băng thông cho ảnh bìa (LCP) */
   content-visibility: auto; contain-intrinsic-size: auto 760px;
@@ -36,12 +34,17 @@ img { display: block; }
 .tap.prev { left: 0; }
 .tap.next { right: 0; }
 
-/* thanh tiến trình mảnh, màu mực nhạt (vẫn là story nhưng không giành chú ý) */
-.bars { position: absolute; left: 14px; right: 14px; top: 12px; z-index: 3; display: flex; gap: 4px; }
-.bars i { flex: 1; height: 2px; border-radius: 2px; background: rgba(42,36,33,.12); overflow: hidden; }
-.bars i::after { content: ''; display: block; height: 100%; width: var(--w, 0%); background: rgba(42,36,33,.55); }
-.f6 .bars i { background: rgba(255,255,255,.25); }
-.f6 .bars i::after { background: rgba(255,255,255,.85); }
+/* lớp phủ đứng yên: thanh tiến trình mảnh (tĩnh: màn đã qua đầy, màn đang xem nửa) + dòng tài khoản.
+   Trắng trên ảnh và nền tím, mực trên màn giấy (.ink) */
+.hud { position: absolute; z-index: 4; left: 0; right: 0; top: 0; color: #fff; pointer-events: none; }
+.hud.ink { color: var(--ink); }
+.bars { position: absolute; left: 14px; right: 14px; top: 12px; display: flex; gap: 4px; }
+.bars i { flex: 1; height: 2px; border-radius: 2px; overflow: hidden; position: relative; }
+.bars i::before, .bars i::after { content: ''; position: absolute; inset: 0; background: currentColor; }
+.bars i::before { opacity: .3; }
+.bars i::after { right: auto; width: clamp(0%, (var(--i) - var(--n)) * 100% + 50%, 100%); opacity: .95; transition: width .3s; }
+.hud.ink .bars i::before { opacity: .12; }
+.hud.ink .bars i::after { opacity: .55; }
 
 .body {
   position: relative; z-index: 2; flex: 1; display: flex; flex-direction: column; align-items: center; text-align: center;
@@ -50,19 +53,15 @@ img { display: block; }
 .body a, .body button, .body input, .body label, .body summary { pointer-events: auto; }
 .grow { flex: 1; min-height: 8px; }
 
-/* dòng tài khoản kiểu story ở đầu màn: mực trên nền giấy, trắng trên ảnh và nền tím */
-.acct { position: absolute; left: 12px; top: 20px; z-index: 3; display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; line-height: 1.2; color: var(--ink); pointer-events: none; }
+.acct { position: absolute; left: 12px; top: 20px; display: flex; align-items: center; gap: 8px; font: 600 14px/1.2 'Be Vietnam Pro', system-ui, sans-serif; text-shadow: 0 1px 3px rgba(0,0,0,.5); }
+.hud.ink .acct { text-shadow: none; }
 .acct img { width: 30px; height: 30px; border-radius: 50%; box-shadow: 0 0 0 1.5px currentColor; }
 .acct small { font-size: 13px; font-weight: 600; opacity: .8; }
-.scr.photo .acct, .f6 .acct { color: #fff; }
-.scr.photo .acct { text-shadow: 0 1px 3px rgba(0,0,0,.5); }
 
 /* ---------- màn ảnh: ảnh tràn màn + tờ giấy xé mép đè lên (story + giấy) ---------- */
 .scr.photo { background: var(--bg); }
 .scr.photo::before { display: none; }
 .bgp { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.scr.photo .bars i { background: rgba(255,255,255,.35); }
-.scr.photo .bars i::after { background: rgba(255,255,255,.95); }
 /* tờ giấy nằm sát đáy, cao theo nội dung → phần ảnh lộ ra phía trên; bóng đổ theo mép xé */
 .scr.photo .body { padding: 62px 12px 14px; justify-content: flex-end; filter: drop-shadow(0 8px 16px rgba(20,12,30,.35)); }
 .sheet-wrap { position: relative; width: 100%; min-height: 0; display: flex; flex-direction: column; }
@@ -120,7 +119,7 @@ img { display: block; }
 .sig path { fill: currentColor; stroke: currentColor; stroke-width: 22; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 0; }
 .cover-title { margin: 2px 0 0; font-size: 30px; font-weight: 900; line-height: 1.25; letter-spacing: .01em; }
 .cover-title em { font-style: normal; }
-.hint { display: flex; flex-direction: column; align-items: center; color: var(--muted); font-size: 12px; letter-spacing: .08em; }
+.hint { display: flex; align-items: center; gap: 2px; color: var(--muted); font-size: 12px; letter-spacing: .08em; }
 
 /* ---------- màn 2: đếm ngược ---------- */
 .cd { margin-top: 18px; display: grid; grid-template-columns: repeat(4, 68px); gap: 8px; justify-content: center; }
@@ -240,8 +239,8 @@ input:checked + .num { border-color: var(--accent); background: var(--accent); c
 .draw { stroke-dasharray: 1 1.1; stroke-dashoffset: 0; }
 @media (prefers-reduced-motion: no-preference) {
   @supports (animation-timeline: view()) {
-    .pop { animation: pop linear both; animation-timeline: view(); animation-range: entry 0% entry 100%; }
-    .drop { animation: drop linear both; animation-timeline: view(); animation-range: entry 0% entry 100%; }
+    .pop { animation: pop linear both; animation-timeline: view(inline); animation-range: entry 0% entry 100%; }
+    .drop { animation: drop linear both; animation-timeline: view(inline); animation-range: entry 0% entry 100%; }
   }
   .js .scr:not(.in) .sig path { fill: transparent; stroke-dashoffset: 1; }
   .js .scr.in .sig path { animation: draw .9s cubic-bezier(.5,0,.3,1) both, fillin .5s ease both; }
@@ -264,4 +263,4 @@ input:checked + .num { border-color: var(--accent); background: var(--accent); c
 @keyframes develop { from { filter: blur(8px) brightness(1.3) saturate(.5); } to { filter: none; } }
 @keyframes pop { from { opacity: 0; transform: scale(.85); } to { opacity: 1; transform: scale(1); } }
 @keyframes drop { from { opacity: 0; transform: translateY(-40px); } to { opacity: 1; transform: none; } }
-@keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+@keyframes bob { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(5px); } }

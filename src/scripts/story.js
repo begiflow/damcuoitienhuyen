@@ -3,8 +3,22 @@
   var d = document, main = d.querySelector('main'), ds = main.dataset;
   var api = ds.api, gid = ds.g;
 
-  // 0. Font viết tay: bật sau khi ảnh bìa tải xong (hoặc tối đa 2.5s)
-  var cover = d.querySelector('.bgp'), fr = function () { d.documentElement.classList.add('fr'); };
+  // Màn đang xem: đổi đoạn tiến trình (--i), màu (.ink), tải trước ảnh màn kế
+  var hud = d.querySelector('.hud'), scr = d.querySelectorAll('.scr'), cur = -1;
+  var pre = function (s) { if (s) s.querySelectorAll('img[loading=lazy]').forEach(function (m) { m.loading = 'eager'; }); };
+  var at = function () {
+    var i = Math.round(main.scrollLeft / main.clientWidth), s = scr[i];
+    if (i === cur || !s) return;
+    cur = i;
+    hud.style.setProperty('--i', i);
+    hud.classList.toggle('ink', !s.matches('.photo,.f6'));
+    if (i) pre(scr[i + 1]); // màn 1: đợi ảnh bìa (fr)
+  };
+  main.addEventListener('scroll', at, { passive: true });
+  at();
+
+  // 0. Font viết tay + ảnh màn 2: sau ảnh bìa (tối đa 2.5s)
+  var cover = d.querySelector('.bgp'), fr = function () { d.documentElement.classList.add('fr'); pre(scr[1]); };
   if (cover && !cover.complete) { cover.addEventListener('load', fr); cover.addEventListener('error', fr); setTimeout(fr, 2500); } else fr();
 
   // 1. Hiệu ứng nét vẽ: màn nào lộ ≥ 45% thì gắn .in (một lần)
@@ -22,7 +36,7 @@
     var b = e.target.closest('[data-go]');
     if (!b) return;
     var s = b.closest('section'), t = b.dataset.go > 0 ? s.nextElementSibling : s.previousElementSibling;
-    if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (t) t.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
   });
 
   // 3. Đếm ngược

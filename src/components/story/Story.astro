@@ -2,6 +2,9 @@
 // Ghép các màn. guest = null → bản chung ở "/": không RSVP, không quà, không beacon.
 import type { Guest } from '../../lib/guests';
 import type { Copy } from '../../lib/copy';
+import { Image } from 'astro:assets';
+import avatar from '../../assets/photos/avatar.jpg';
+import { WEDDING } from '../../config/wedding';
 import storyJs from '../../scripts/story.js?raw';
 import Countdown from './Countdown.astro';
 import Cover from './Cover.astro';
@@ -15,6 +18,16 @@ const { c, guest, phone } = Astro.props;
 const total = guest ? 6 : 5;
 const api = import.meta.env.PUBLIC_API_URL || '';
 ---
+<div class="deck">
+<!-- như story: thanh tiến trình + dòng tài khoản đứng yên, chỉ các màn trượt ngang bên dưới.
+     JS đổi --i (đoạn đang xem) và .ink (chữ mực trên màn giấy); không JS thì đứng ở màn 1 -->
+<div class="hud" aria-hidden="true" style="--i:0">
+  <div class="bars">{Array.from({ length: total }, (_, k) => <i style={`--n:${k}`}></i>)}</div>
+  <div class="acct">
+    <Image src={avatar} alt="" width={30} height={30} densities={[2]} format="webp" />
+    <span>{WEDDING.handle}</span><small>{WEDDING.dateShort}</small>
+  </div>
+</div>
 <main class="story" data-g={guest?.guestID} data-api={guest ? api : undefined}>
   <Cover c={c} total={total} />
   <Countdown c={c} total={total} />
@@ -23,6 +36,7 @@ const api = import.meta.env.PUBLIC_API_URL || '';
   <PhotoDump c={c} i={guest ? 4 : 3} total={total} />
   <Farewell c={c} i={total - 1} total={total} showGift={!!guest?.showGift} phone={phone} />
 </main>
+</div>
 <!-- nét mực run cho hình vẽ tay (#ink) và tiêu đề kiểu bút dạ (#txt) -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <filter id="ink" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="4"></feTurbulence><feDisplacementMap in="SourceGraphic" scale="1.8"></feDisplacementMap></filter>

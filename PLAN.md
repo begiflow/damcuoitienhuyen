@@ -12,7 +12,7 @@
 |---|---|---|
 | Sự kiện | 1 tiệc chung · **Hidden Haven**, 393/12 Bình Quới, TP.HCM | 16:00 teabreak · 17:00 chụp ảnh lưu niệm cùng cô dâu chú rể · 18:00 lễ thành hôn, khai tiệc |
 | Đối tượng thiệp online | Chủ yếu bạn bè, đồng nghiệp | Người lớn tuổi nhận thiệp giấy in ngoài |
-| Thiết kế | **Story**: 6 màn dọc, cuộn hoặc chạm cạnh để chuyển · màu **đỏ rượu + kem** | Mockup: canvas "Thiệp cưới online – bản trẻ trung", artboard 1 |
+| Thiết kế | **Story**: 6 màn trượt ngang, vuốt hoặc chạm cạnh để chuyển · màu **đỏ rượu + kem** | Mockup: canvas "Thiệp cưới online – bản trẻ trung", artboard 1 |
 | Stack | **Astro static + CSS thuần**, 0 framework runtime | Output = HTML tĩnh |
 | Host | Cloudflare **Workers (static assets)** + **domain tên 2 bạn** (.com) | Cloudflare khuyên dự án mới dùng Workers thay Pages; Workers Builds có deploy hook. Cấu hình: `wrangler.jsonc` |
 | Nguồn dữ liệu | **Google Sheet duy nhất**, đọc **lúc build** | Lúc khách mở thiệp **không** gọi Sheet |
@@ -117,7 +117,7 @@ Rate limit: CacheService ≤ 10 request/giờ/guestID/action.
 
 ## 4. Trang khách — 6 màn Story
 
-Mỗi màn: cao `clamp(640px, 100svh, 760px)`, bo góc 14px, cách nhau 8px trên nền tối. Đầu màn có thanh tiến trình 6 đoạn (tĩnh: màn đã qua đầy, màn hiện tại nửa) và tên `tienvahuyen · 23.01.27`. Chạm 28% cạnh phải/trái = sang màn sau/trước (cuộn mượt). Vuốt dọc cũng sang đúng 1 màn (`scroll-snap-type: y mandatory` + `scroll-snap-stop: always`); màn hình thấp hơn 640px hoặc đang gõ lời nhắn thì cuộn tự do.
+Mỗi màn: cao `clamp(640px, 100svh, 760px)`, rộng bằng khung (≤ 480px); các màn xếp ngang trong 1 khung bo góc 14px trên nền tối (máy thấp hơn 672px: bỏ lề + bo góc để vừa khít). Như story: thanh tiến trình 6 đoạn (tĩnh: màn đã qua đầy, màn đang xem nửa, không tự chạy) và tên `tienvahuyen · 23.01.27` **đứng yên** ở trên cùng, chỉ các màn trượt bên dưới; chữ trắng trên ảnh/nền tím, mực trên màn giấy. Chạm 28% cạnh phải/trái = sang màn sau/trước (trượt mượt). Vuốt ngang sang đúng 1 màn (`scroll-snap-type: x mandatory` + `scroll-snap-stop: always`). Màn bìa có gợi ý "VUỐT SANG ›".
 
 | # | Màn | Nội dung | Chức năng |
 |---|---|---|---|
