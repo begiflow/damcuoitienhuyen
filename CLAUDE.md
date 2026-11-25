@@ -26,9 +26,9 @@ HTML ≤ 30KB gzip · font ≤ 80KB · ảnh màn 1 ≤ 150KB (eager) · ảnh c
 - Mỗi màn `height: clamp(640px, 100svh, 760px)`; nội dung dùng flex (đỉnh/đáy), **không** định vị tuyệt đối theo px cố định cho nội dung chính. Phải đúng ở 360×640 và 390×844.
 - **Như story:** các màn xếp ngang trong `main.story` (`overflow-x: auto`), vuốt ngang sang đúng 1 màn: `scroll-snap-type: x mandatory` + `scroll-snap-stop: always`. Thanh tiến trình + dòng tài khoản là **1 lớp phủ đứng yên** (`.hud` trong `Story.astro`), không nằm trong từng màn; JS chỉ đổi `--i` (đoạn đang xem) và `.ink` (chữ mực trên màn giấy). Trang không được cuộn dọc ở 360×640 và 390×844. **Mở trang không được tự cuộn** (Chrome coi là người dùng cuộn → NO_LCP). Đặt tên class mới phải tránh trùng (`.frame` là khung polaroid).
 - Chạm 28% cạnh phải/trái = `scrollIntoView({ inline: 'start', block: 'nearest' })` màn sau/trước. Vùng chạm nằm **dưới** nội dung; nội dung `pointer-events: none`, phần tử bấm được `pointer-events: auto`.
-- Font: Be Vietnam Pro **600/900**; Playwrite VN 400 cho câu viết tay, subset đúng ký tự hoặc SVG. Fontsource Playwrite VN thiếu `unicode-range` tiếng Việt → tự viết `@font-face`.
-- **Bố cục giấy** (theo góp ý của cô dâu, tham khảo các mẫu thiệp online đang được chuộng): nền giấy `--paper`/`--soft` xen kẽ, màn 6 nền `--accent`; căn giữa, nhiều khoảng trống, **mỗi màn 1 điểm nhấn**. **Giấy trên ảnh** (giữ chất story): màn 1, 2, 3, 4 có ảnh tràn màn làm nền (`Screen` prop `bg`), nội dung nằm trên tờ giấy xé mép dán băng keo (`.sheet`), không đặt chữ trực tiếp lên ảnh (trừ nhãn mention); màn 5, 6 là màn giấy/màu. Ảnh còn lại đóng khung polaroid + băng keo. Không chữ trong hộp màu; tiêu đề đậm 900 cỡ vừa, chữ phụ nhỏ, kicker viết hoa giãn chữ. Nút viền mực bo tròn. **Đậm 900 chỉ cho tiêu đề + 1 thông tin chính mỗi màn** (số đếm, ngày, giờ, Hidden Haven, nút Gửi); còn lại 600. **Màu tím nhấn chỉ 3 vai:** chữ ký tên, con số/giờ, nút hành động. Trên cùng có dòng tài khoản kiểu story (avatar + `tienvahuyen` + `23.01.27`, `.acct`) và thanh tiến trình mảnh, cả hai đứng yên (`.hud`). Không thêm sticker hay thẻ nghiêng (ngoài nhãn mention trên ảnh bìa). Hình vẽ nằm trên ảnh dùng nét trắng (class `w`).
-- **Hình vẽ tay** (cô dâu thích, theo mẫu "Save the date"): chỉ qua `Doodle.astro` + `doodles.ts`. Nét mực `--ink` mảnh, chi tiết nhỏ màu nhấn (`a:`), mép run bằng filter `#ink` (định nghĩa 1 lần trong `Story.astro`, gắn trên `<g>` trong SVG). 1–4 hình nhỏ mỗi màn, đặt ở lề hoặc cạnh tiêu đề, **không đè chữ hay ảnh** (kiểm ở 360/390/430), `pointer-events: none`. Người chỉ vẽ kiểu hình người tối giản không mặt, nét mực như các hình khác (`photo` trong timeline); không vẽ chân dung hay nét mặt. Tiêu đề lớn (`.cover-title`, `.title`, `.bye`) có filter `#txt` cho mép chữ kiểu bút dạ.
+- **Font (theo thiệp mẫu cô dâu chọn):** Cormorant Garamond **500–700** (1 file variable, `font-variant-numeric: lining-nums` cho số thẳng hàng; đừng gộp vào `font:` vì bộ nén CSS đảo thứ tự làm mất) cho mọi chữ; Great Vibes 400 chỉ cho câu viết tay (`.hw`) và chữ ký (SVG outline, `scripts/signature.py`). Dòng tài khoản `.acct` + nhãn mention dùng chữ hệ thống (giao diện story, không tải font). Tự viết `@font-face`, subset bằng `scripts/subset-fonts.sh`.
+- **Bố cục giấy** (theo góp ý của cô dâu, tham khảo các mẫu thiệp online đang được chuộng): nền giấy `--paper`/`--soft` xen kẽ, màn 6 nền `--accent`; căn giữa, nhiều khoảng trống, **mỗi màn 1 điểm nhấn**. **Giấy trên ảnh** (giữ chất story): màn 1, 2, 3, 4 có ảnh tràn màn làm nền (`Screen` prop `bg`), nội dung nằm trên tờ giấy xé mép dán băng keo (`.sheet`), không đặt chữ trực tiếp lên ảnh (trừ nhãn mention); màn 5, 6 là màn giấy/màu. Ảnh còn lại đóng khung polaroid + băng keo. Không chữ trong hộp màu; tiêu đề serif đậm 700 cỡ vừa, chữ phụ nhỏ, kicker viết hoa giãn chữ. Nút viền mực bo tròn. **Đậm 700 chỉ cho tiêu đề + 1 thông tin chính mỗi màn** (ngày, giờ, Hidden Haven, nút Gửi); nút/nhãn/số đếm 600; chữ thường 500. **Màu tím nhấn chỉ 3 vai:** chữ ký tên, con số/giờ, nút hành động. Trên cùng có dòng tài khoản kiểu story (avatar + `tienvahuyen` + `23.01.27`, `.acct`) và thanh tiến trình mảnh, cả hai đứng yên (`.hud`). Không thêm sticker hay thẻ nghiêng (ngoài nhãn mention trên ảnh bìa). Hình vẽ nằm trên ảnh dùng nét trắng (class `w`).
+- **Hình vẽ tay** (cô dâu thích, theo mẫu "Save the date"): chỉ qua `Doodle.astro` + `doodles.ts`. Nét mực `--ink` mảnh, chi tiết nhỏ màu nhấn (`a:`), mép run bằng filter `#ink` (định nghĩa 1 lần trong `Story.astro`, gắn trên `<g>` trong SVG). 1–4 hình nhỏ mỗi màn, đặt ở lề hoặc cạnh tiêu đề, **không đè chữ hay ảnh** (kiểm ở 360/390/430), `pointer-events: none`. Người chỉ vẽ kiểu hình người tối giản không mặt, nét mực như các hình khác (`photo` trong timeline); không vẽ chân dung hay nét mặt. Tiêu đề serif giữ mép sắc, không filter.
 - Chữ in hoa tiếng Việt `line-height ≥ 1.2`.
 - Nút/vùng chạm ≥ 44px. Tương phản ≥ 4.5:1 (chữ ≥ 24px đậm: ≥ 3:1).
 - Hiệu ứng nét vẽ tay theo PLAN §5: SVG `pathLength="1"` + `stroke-dashoffset`, `clip-path` cho chữ viết tay, `filter` cho ảnh bìa. Trạng thái "ẩn trước khi vẽ" **chỉ** áp dụng dưới `.js .scr:not(.in)` và trong `prefers-reduced-motion: no-preference` — không JS hoặc giảm chuyển động thì mọi thứ hiện sẵn. Class `js` gắn bằng script inline trong `<head>`; class `in` gắn bằng IntersectionObserver (threshold 0.45), mỗi màn chạy một lần.
@@ -50,7 +50,7 @@ src/
   lib/guests.ts           # fetch Apps Script lúc build → validate → NFC → handle; không env → fixtures
   lib/copy.ts             # MỌI câu chữ phụ thuộc xưng hô (mention, tiêu đề, câu hỏi, lời cảm ơn, og:title…)
   lib/calendar.ts         # Google Calendar URL
-  layouts/Base.astro      # head, OG, noindex, preload 2 font Be Vietnam Pro, script gắn class js
+  layouts/Base.astro      # head, OG, noindex, preload 1 font Cormorant Garamond, script gắn class js
   components/story/       # Story.astro (ghép màn + inline JS), Screen.astro (khung màn + vùng chạm; .hud nằm ở Story.astro),
                           # Cover, Countdown, Venue, PhotoDump, Rsvp, Farewell, Signature (SVG chữ ký), img.ts (widths/sizes)
   scripts/story.js        # JS duy nhất, inline qua ?raw: IntersectionObserver, chạm cạnh, đếm ngược, RSVP, beacon
@@ -65,12 +65,12 @@ src/
 public/  og.jpg  _headers  robots.txt
 fixtures/guests.sample.json   # 6 khách: anh / ban (showGift) / co / anhchi / chu / thay
 scripts/check-budget.mjs      # --strict: ô TODO trong wedding.ts thành lỗi
-scripts/subset-fonts.sh  scripts/playwrite-chars.txt
+scripts/subset-fonts.sh  scripts/hw-chars.txt  scripts/signature.py
 apps-script/api/              # web app Anyone: GET guests (token), POST rsvp/view
 apps-script/admin/            # bound vào Sheet: menu Cập nhật khách từ tab "Khách …", Sinh guestID, Build lại thiệp
 ```
 - Quà mừng dùng `<details>` (không JS); mở ra thì `:has()` ẩn dải photobooth. RSVP dùng radio + label, nút Gửi bật bằng JS.
-- Câu viết tay (class `hw`) chỉ dùng ký tự trong `scripts/playwrite-chars.txt`; budget fail nếu lệch.
+- Câu viết tay (class `hw`) chỉ dùng ký tự trong `scripts/hw-chars.txt`; budget fail nếu lệch.
 
 ## Data contract
 ```ts

@@ -145,10 +145,10 @@ Mỗi màn: cao `clamp(640px, 100svh, 760px)`, rộng bằng khung (≤ 480px); 
 | `--muted` | `#645C73` | Chữ phụ (≥ 5:1 trên paper và soft) |
 | `--bg` | `#1B1822` | Nền giữa các màn |
 
-- **Font:** Be Vietnam Pro **600 + 900** (chỉ 2 độ đậm). Playwrite VN 400 cho câu viết tay, **subset đúng các ký tự đang dùng** hoặc xuất SVG.
+- **Font** (đổi 25/11 theo thiệp mẫu cô dâu chọn): **Cormorant Garamond 500–700** (serif thanh đậm, 1 file variable ~30KB, số thẳng hàng) cho mọi chữ; **Great Vibes** (thư pháp) cho câu viết tay, **subset đúng các ký tự đang dùng** (~16KB), chữ ký xuất SVG. Dòng tài khoản + nhãn mention dùng chữ hệ thống.
 - **Chữ in hoa tiếng Việt:** `line-height ≥ 1.2` (dưới mức này dấu nặng dòng trên đè dấu sắc dòng dưới).
 - **Chữ trên ảnh:** luôn có lớp phủ tối (trên 130px, dưới 30–58%) + `text-shadow` cho chữ viết tay.
-- **Nhãn kiểu story:** chữ 900 trên nền trắng/đỏ, `box-decoration-break: clone`.
+- **Nhãn kiểu story:** chữ hệ thống đậm trên nền tím, `box-decoration-break: clone`.
 - **Hiệu ứng nét vẽ tay ("art")** — chạy khi màn vào khung nhìn, mỗi màn một lần:
   | Màn | Hiệu ứng |
   |---|---|
@@ -159,7 +159,7 @@ Mỗi màn: cao `clamp(640px, 100svh, 760px)`, rộng bằng khung (≤ 480px); 
   | 5 | Gạch chân dưới tiêu đề · dấu tick tự vẽ khi bấm Gửi |
   | 6 | Hai chiếc nhẫn vẽ nét · mũi tên tới dải photobooth · chữ viết tay hiện dần |
 - **Hình vẽ tay kiểu "Save the date"** (`doodles.ts`, vẽ dần như trên): bìa: ly martini, cành lá, sao · màn 2: quả cầu disco treo, sao, 2 ly chạm · màn 3: mỗi mục lịch trình 1 hình (ly cao + bánh; chú rể bắt tay khách; mọi người cụng ly + nốt nhạc) · màn 4: máy ảnh cạnh "photo dump" · màn 5: phong bì · màn 6: bó hoa, sao. Mép nét run bằng 1 filter SVG dùng chung, không tải thêm file.
-- **Kỹ thuật:** SVG `pathLength="1"` + `stroke-dashoffset` (nét vẽ), `clip-path` (chữ viết tay), `filter` (tráng phim). Chữ ký = outline của Playwrite VN xuất sẵn thành SVG lúc build (~4KB gzip, không cần tải font cho tên). Thẻ `<html>` nhận class `js` bằng script inline trong `<head>` (tránh nháy); IntersectionObserver gắn class `in` cho màn đã thấy (≥45%). Không JS → mọi thứ hiện sẵn, không ẩn gì. `prefers-reduced-motion` → tắt hết, nội dung hiện đầy đủ.
+- **Kỹ thuật:** SVG `pathLength="1"` + `stroke-dashoffset` (nét vẽ), `clip-path` (chữ viết tay), `filter` (tráng phim). Chữ ký = outline của Great Vibes xuất sẵn thành SVG (`scripts/signature.py`) (~4KB gzip, không cần tải font cho tên). Thẻ `<html>` nhận class `js` bằng script inline trong `<head>` (tránh nháy); IntersectionObserver gắn class `in` cho màn đã thấy (≥45%). Không JS → mọi thứ hiện sẵn, không ẩn gì. `prefers-reduced-motion` → tắt hết, nội dung hiện đầy đủ.
 - **Hiệu ứng phụ:** nhãn bật lên, ảnh thả rơi bằng CSS scroll-driven (`animation-timeline: view()`, range `entry 0% entry 100%`), trong `@supports`.
 
 ---
@@ -169,7 +169,7 @@ Mỗi màn: cao `clamp(640px, 100svh, 760px)`, rộng bằng khung (≤ 480px); 
 | Tài nguyên | Ngân sách |
 |---|---|
 | HTML trang khách (CSS + JS inline) | ≤ 30KB gzip |
-| Font tải lần đầu | ≤ 80KB (Be Vietnam Pro 600+900 ≈ 66KB + Playwrite đã subset) |
+| Font tải lần đầu | ≤ 80KB (Cormorant Garamond 500–700 ≈ 30KB; Great Vibes 16KB tải sau ảnh bìa) |
 | Ảnh màn 1 (eager, `fetchpriority=high`) | ≤ 150KB AVIF |
 | Ảnh màn 2–6 + photo dump (lazy) | ≤ 800KB tổng |
 | JS | ≤ 5KB, vanilla (đếm ngược, chạm cạnh, RSVP, quà, beacon, IntersectionObserver cho hiệu ứng) |

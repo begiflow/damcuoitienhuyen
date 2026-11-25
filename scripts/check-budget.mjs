@@ -17,7 +17,7 @@ const walk = (d) => readdirSync(d).flatMap((f) => (statSync(join(d, f)).isDirect
 const files = walk(DIST);
 const size = (url) => statSync(join(DIST, url.split('?')[0])).size;
 const decode = (s) => s.replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>');
-const hwChars = new Set([...readFileSync('scripts/playwrite-chars.txt', 'utf8').replace(/\n/g, '')]);
+const hwChars = new Set([...readFileSync('scripts/hw-chars.txt', 'utf8').replace(/\n/g, '')]);
 
 // Ảnh: với mỗi <picture> lấy ứng viên AVIF lớn nhất (trường hợp xấu nhất: màn hình DPR 3)
 function images(html) {
@@ -65,7 +65,7 @@ for (const file of pages) {
   // Chữ viết tay phải nằm trong bộ ký tự đã subset của Playwrite VN
   for (const m of html.matchAll(/<(\w+)[^>]*class="[^"]*\bhw\b[^"]*"[^>]*>(.*?)<\/\1>/gs)) {
     const miss = [...new Set([...decode(m[2])].filter((ch) => !hwChars.has(ch)))];
-    if (miss.length) errors.push(`${name}: chữ viết tay "${decode(m[2])}" dùng ký tự chưa subset: ${miss.join(' ')} → thêm vào scripts/playwrite-chars.txt rồi chạy scripts/subset-fonts.sh`);
+    if (miss.length) errors.push(`${name}: chữ viết tay "${decode(m[2])}" dùng ký tự chưa subset: ${miss.join(' ')} → thêm vào scripts/hw-chars.txt rồi chạy scripts/subset-fonts.sh`);
   }
 
   const imgs = images(html);

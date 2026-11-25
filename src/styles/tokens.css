@@ -1,21 +1,17 @@
-/* Tự viết @font-face: Fontsource Playwrite VN thiếu unicode-range tiếng Việt. File đã subset (scripts/subset-fonts.sh). */
+/* Tự viết @font-face, file đã subset (scripts/subset-fonts.sh). Theo thiệp mẫu cô dâu chọn: serif thanh đậm + chữ thư pháp. */
+/* Cormorant Garamond: 1 file variable 500–700 (chữ thường 500, nút 600, tiêu đề 700) */
 @font-face {
-  font-family: 'Be Vietnam Pro';
-  font-weight: 600;
+  font-family: 'Cormorant Garamond';
+  font-weight: 500 700;
   font-display: swap;
-  src: url('../assets/fonts/bvp-600.woff2') format('woff2');
+  src: url('../assets/fonts/cormorant-500-700.woff2') format('woff2');
 }
+/* Great Vibes: chỉ cho câu viết tay (.hw), chỉ tải khi <html> có class fr */
 @font-face {
-  font-family: 'Be Vietnam Pro';
-  font-weight: 900;
-  font-display: swap;
-  src: url('../assets/fonts/bvp-900.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Playwrite VN';
+  font-family: 'Great Vibes';
   font-weight: 400;
   font-display: swap;
-  src: url('../assets/fonts/playwrite-400.woff2') format('woff2');
+  src: url('../assets/fonts/greatvibes-400.woff2') format('woff2');
 }
 
 :root {
