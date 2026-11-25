@@ -129,8 +129,14 @@ img { display: block; }
 .cd span { position: relative; font-size: 14px; font-weight: 600; color: var(--muted); letter-spacing: .04em; }
 .date { margin: 26px 0 0; font-size: 22px; font-weight: 700; line-height: 1.4; }
 .when { margin: 2px 0 0; font-size: 18px; font-weight: 600; line-height: 1.4; color: var(--accent); }
-.lunar { margin: 2px 0 18px; color: var(--muted); font-size: 16px; }
+.lunar { margin: 2px 0 14px; color: var(--muted); font-size: 16px; }
+/* dress code: chấm màu thật + tên màu (không dựa vào màu để hiểu) */
+.dress { display: flex; justify-content: center; gap: 18px; margin: 6px 0 16px; padding: 0; list-style: none; }
+.dress li { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 15px; font-weight: 600; line-height: 1.2; color: var(--muted); }
+.dress i { width: 24px; height: 24px; border-radius: 50%; background: var(--c); border: 1px solid rgba(36,31,46,.18); }
 .cheers { margin-top: 6px; }
+/* máy thấp: bỏ hình 2 ly để tờ giấy không che mất ảnh nền màn 2 (chỗ cho dress code) */
+@container (max-height: 660px) { .cheers { display: none; } }
 .hang { position: absolute; z-index: 2; top: 62px; left: 22px; }
 .hang-s { position: absolute; z-index: 2; top: 68px; left: 70px; }
 .cd { position: relative; }

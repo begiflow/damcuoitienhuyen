@@ -11,6 +11,13 @@ export const WEDDING = {
   dateLong: 'Thứ Bảy, 23.01.2027',
   dateOg: 'Thứ Bảy 23/01/2027',
   lunar: 'nhằm 16 tháng Chạp năm Bính Ngọ', // soát lại lịch vạn niên ở M4
+  // Dress code (màn 2): tên màu hiện dưới chấm màu
+  dressCode: [
+    { ten: 'Tím', mau: '#5b3f8c' },
+    { ten: 'Đỏ', mau: '#a3242b' },
+    { ten: 'Đen', mau: '#1d1b20' },
+    { ten: 'Xanh lá', mau: '#2f5d3a' },
+  ],
   // Đếm ngược tới giờ làm lễ & khai tiệc 18:00 (UTC+7); mục timeline trùng giờ này được khoanh bút
   partyStart: '2027-01-23T18:00:00+07:00',
   // Sự kiện lịch: 16:00–21:00 giờ VN
