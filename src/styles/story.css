@@ -130,12 +130,13 @@ img { display: block; }
 /* không để 1 chữ rớt dòng một mình ("RỒI!", "ạ") */
 .cover-title, .title, .hw, .s6note { text-wrap: balance; }
 
-/* nút viền mực, bo tròn (thay khối màu) */
+/* nút hành động: nền tím chữ trắng, có bóng (QC 26/11: nút viền mực trông như chữ thường, khách không biết bấm được) */
 .btn {
-  min-height: 46px; padding: 0 20px; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-  border-radius: 999px; border: 1.5px solid var(--ink); background: transparent; color: var(--ink);
+  min-height: 48px; padding: 0 22px; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  border-radius: 999px; border: 0; background: var(--accent); color: #fff; box-shadow: 0 4px 14px rgba(78,58,122,.35);
   text-decoration: none; font-weight: 600; font-size: 15px; letter-spacing: .06em; cursor: pointer;
 }
+.btn:active { transform: translateY(1px); box-shadow: 0 2px 6px rgba(78,58,122,.35); }
 
 /* khung ảnh polaroid + băng keo */
 .frame { position: relative; display: block; background: #fff; padding: 8px 8px 30px; box-shadow: 0 6px 18px rgba(60,40,30,.16); }
@@ -153,20 +154,21 @@ img { display: block; }
 .nudge { position: absolute; z-index: 3; right: 8px; top: 50%; margin-top: -14px; color: #fff; filter: drop-shadow(0 1px 3px rgba(0,0,0,.55)); pointer-events: none; }
 
 /* ---------- màn 2: đếm ngược ---------- */
-.cd { margin-top: 14px; display: grid; grid-template-columns: repeat(4, 52px); gap: 10px; justify-content: center; }
-.cd > div { position: relative; height: 52px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-.cd svg { position: absolute; inset: -3px; width: calc(100% + 6px); height: calc(100% + 6px); overflow: visible; }
-.cd b { position: relative; font-size: 24px; font-weight: 600; line-height: 1; color: var(--ink); font-variant-numeric: lining-nums tabular-nums; }
+/* đếm ngược là phụ: nằm dưới ngày giờ, vòng nhỏ + nhạt */
+.cd { margin-top: 16px; display: grid; grid-template-columns: repeat(4, 46px); gap: 10px; justify-content: center; }
+.cd > div { position: relative; height: 46px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.cd svg { position: absolute; inset: -3px; width: calc(100% + 6px); height: calc(100% + 6px); overflow: visible; opacity: .55; }
+.cd b { position: relative; font-size: 21px; font-weight: 600; line-height: 1; color: var(--ink); font-variant-numeric: lining-nums tabular-nums; }
 .cd span { position: relative; margin-top: 1px; font-size: 10px; font-weight: 600; line-height: 1.2; color: var(--muted); letter-spacing: .06em; }
 /* điểm nhấn của màn: ngày to tím, giờ tím + tên nhà hàng thư pháp */
-.date { margin: 16px 0 0; font-size: 17px; font-weight: 500; line-height: 1.2; }
-.date b { display: block; font-size: 40px; font-weight: 700; line-height: 1.1; letter-spacing: .03em; color: var(--accent); }
+.date { margin: 14px 0 0; font-size: 17px; font-weight: 500; line-height: 1.2; }
+.date b { display: block; font-size: 44px; font-weight: 700; line-height: 1.1; letter-spacing: .03em; color: var(--accent); }
 .when { margin: 4px 0 0; font-size: 18px; line-height: 1.2; color: var(--muted); }
 .when b { font-size: 28px; font-weight: 700; color: var(--accent); }
 .when .hw { display: inline; font-size: 32px; line-height: 1.2; }
 .lunar { margin: 2px 0 0; color: var(--muted); font-size: 15px; }
 /* dress code gọn 1 dòng: chấm màu thật + tên màu (không dựa vào màu để hiểu) */
-.dress { margin: 12px 0 14px; }
+.dress { margin: 14px 0 16px; }
 .dress .kicker { font-size: 12px; }
 .dress ul { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 14px; margin: 5px 0 0; padding: 0; list-style: none; }
 .dress li { display: flex; align-items: center; gap: 5px; font-size: 15px; font-weight: 500; line-height: 1.2; }
@@ -225,22 +227,33 @@ img { display: block; }
 .corner { position: absolute; z-index: 2; top: 66px; left: 22px; transform: rotate(-8deg); }
 .rsvp { width: 100%; max-width: 320px; margin-top: 16px; text-align: left; }
 .rsvp fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
-.ask { display: block; width: 100%; padding: 0; margin: 0 0 8px; font-size: 20px; font-weight: 600; text-align: center; }
+.ask { display: block; width: 100%; padding: 0; margin: 0 0 10px; font-size: 20px; font-weight: 600; text-align: center; }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-.opts { display: flex; flex-direction: column; gap: 8px; }
-.opt { display: flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 14px; border: 1.5px solid var(--line); border-radius: 999px; font-size: 18px; font-weight: 600; cursor: pointer; }
-input:checked + .opt { border-color: var(--accent); background: var(--accent); color: #fff; }
+.opts { display: flex; flex-direction: column; gap: 10px; }
+/* lựa chọn trông như nút bấm được: nền trắng, viền tím, bóng nhẹ, vòng tròn chọn kiểu radio */
+.opt {
+  display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 48px; padding: 0 16px;
+  border: 1.5px solid var(--accent); border-radius: 999px; background: #fff; box-shadow: 0 2px 8px rgba(36,31,46,.1);
+  font-size: 18px; font-weight: 600; cursor: pointer;
+}
+.opt::before { content: ''; flex: none; width: 18px; height: 18px; box-sizing: border-box; border: 1.5px solid var(--accent); border-radius: 50%; }
+input:checked + .opt { background: var(--accent); color: #fff; }
+input:checked + .opt::before { border-color: #fff; background: radial-gradient(circle, #fff 4px, transparent 4.5px); }
 input:focus-visible + .opt, input:focus-visible + .num { outline: 2px solid var(--ink); outline-offset: 2px; }
-.lbl { display: block; margin: 18px 0 6px; padding: 0; font-size: 14px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.lbl { display: block; margin: 0 0 8px; padding: 0; font-size: 14px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
 .nums { display: flex; gap: 10px; }
-.num { width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid var(--line); display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 600; cursor: pointer; }
+.num { width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid var(--accent); background: #fff; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 600; cursor: pointer; }
 input:checked + .num { border-color: var(--accent); background: var(--accent); color: #fff; }
-.rsvp:has(#a-no:checked) .count { display: none; }
+/* giãn nhóm; số người chỉ hiện khi đã chọn "tới" (bớt rối lúc đầu) */
+.rsvp .count, .rsvp .note { margin-top: 22px; }
+.rsvp:not(:has(#a-yes:checked)) .count { display: none; }
+/* máy thấp: bỏ kicker "HỒI ÂM" (tiêu đề đã nói) để nút Gửi không sát mép giấy khi hiện thêm số người */
+@container (max-height: 660px) { #hoi-am .kicker { display: none; } }
 .note input { display: block; width: 100%; box-sizing: border-box; height: 44px; padding: 0 2px; border: 0; border-bottom: 1.5px dashed var(--line); border-radius: 0; background: transparent; font-size: 18px; color: var(--ink); outline: none; }
 .note input:focus { border-bottom-color: var(--accent); }
-.send { width: 100%; margin-top: 18px; font-weight: 700; background: var(--accent); border-color: var(--accent); color: #fff; }
-.send:disabled { background: var(--soft); color: var(--muted); border-color: transparent; cursor: default; }
-.send.sent { background: var(--accent); border-color: var(--accent); color: #fff; }
+.send { width: 100%; margin-top: 20px; font-weight: 700; }
+.send:disabled { background: var(--soft); color: var(--muted); box-shadow: none; cursor: default; }
+.send.sent:disabled { background: var(--accent); color: #fff; }
 .send svg { display: none; }
 .send.sent svg { display: block; }
 
@@ -262,7 +275,7 @@ input:checked + .num { border-color: var(--accent); background: var(--accent); c
 .strip img { width: 100%; height: 100%; object-fit: cover; }
 @container (max-height: 150px) { .booth-in { display: none; } }
 .gift { margin-top: 14px; max-width: 100%; }
-.gift summary { list-style: none; border-color: var(--soft); color: var(--soft); }
+.gift summary { list-style: none; background: var(--soft); color: var(--accent); box-shadow: 0 4px 14px rgba(0,0,0,.25); }
 .gift summary::-webkit-details-marker { display: none; }
 .gift-card { margin-top: 12px; background: #fff; color: var(--ink); border-radius: 14px; padding: 14px; display: flex; gap: 14px; align-items: center; font-size: 16px; line-height: 1.45; text-align: left; }
 .gift-card img { width: 110px; height: 110px; flex: 0 0 auto; }

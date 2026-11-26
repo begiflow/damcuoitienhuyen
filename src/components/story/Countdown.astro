@@ -21,6 +21,11 @@ const rings = [
   <Doodle slot="deco" name="disco" w={42} delay={.3} class="w hang" />
   <Doodle slot="deco" name="spark" w={12} delay={.9} class="w hang-s" />
   <p class="kicker">Tiệc cưới {WEDDING.groom} &amp; {WEDDING.bride}</p>
+  <!-- điểm nhấn của màn: ngày + giờ + nơi (đếm ngược chỉ là phụ) -->
+  <p class="date">{WEDDING.dateDow} <b>{WEDDING.dateDots}</b></p>
+  <p class="when"><b>{WEDDING.partyStart.slice(11, 16)}</b> · <span class="hw">{WEDDING.venue.name}</span></p>
+  <p class="lunar">{WEDDING.lunar}</p>
+  <!-- đếm ngược: phụ, nằm dưới điểm nhấn ngày giờ (QC 26/11) -->
   <div class="cd" data-t={Date.parse(WEDDING.partyStart)} role="timer" aria-label="Thời gian còn lại tới giờ làm lễ và khai tiệc">
     {units.map(([k, l], n) => (
       <div>
@@ -32,10 +37,6 @@ const rings = [
     ))}
     <Doodle name="spark" w={14} delay={1} />
   </div>
-  <!-- điểm nhấn của màn: ngày + giờ + nơi (đếm ngược chỉ là phụ) -->
-  <p class="date">{WEDDING.dateDow} <b>{WEDDING.dateDots}</b></p>
-  <p class="when"><b>{WEDDING.partyStart.slice(11, 16)}</b> · <span class="hw">{WEDDING.venue.name}</span></p>
-  <p class="lunar">{WEDDING.lunar}</p>
   <div class="dress">
     <p class="kicker">Dress code</p>
     <ul>{WEDDING.dressCode.map((d) => <li><i style={`--c:${d.mau}`}></i>{d.ten}</li>)}</ul>
