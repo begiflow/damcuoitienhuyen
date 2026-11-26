@@ -58,8 +58,9 @@ const h = WEDDING.helper;
     </details>
   )}
   <div class="fam" style="margin-top:14px">
-    <p>NHÀ TRAI · {WEDDING.parents.groom}</p>
-    <p>NHÀ GÁI · {WEDDING.parents.bride}</p>
+    <!-- như thiệp mẫu: "Nhà trai/Nhà gái" thư pháp, tên song thân serif -->
+    <p><span class="hw">Nhà trai</span> {WEDDING.parents.groom}</p>
+    <p><span class="hw">Nhà gái</span> {WEDDING.parents.bride}</p>
     {phone && (
       <p style="margin-top:6px" data-helper>Lạc đường? Gọi {h.name} ({h.role}):
         <a href={`tel:${phone}`}>{phone.replace(/(\d{4})(\d{3})(\d{3})/, '$1 $2 $3')}</a>

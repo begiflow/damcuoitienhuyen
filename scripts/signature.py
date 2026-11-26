@@ -1,6 +1,6 @@
-"""Xuất chữ ký "Tiên & Huyền" (Great Vibes) thành SVG outline cho Signature.astro: bìa không phải tải font viết tay.
-Cần: pip install fonttools uharfbuzz · Chạy: python3 scripts/signature.py .fonts-src/GreatVibes-Regular.ttf > src/components/story/Signature.astro
-Mỗi glyph 1 path (vẽ nét rồi tô đầy, lệch nhau STEP giây)."""
+"""Xuất dấu "&" thư pháp (Great Vibes) giữa TIÊN & HUYỀN thành SVG outline cho Amp.astro: bìa không phải tải font viết tay.
+Như thiệp mẫu: tên cô dâu chú rể in hoa serif, chỉ chữ nối là thư pháp.
+Cần: pip install fonttools uharfbuzz · Chạy: python3 scripts/signature.py .fonts-src/GreatVibes-Regular.ttf > src/components/story/Amp.astro"""
 import sys
 import uharfbuzz as hb
 from fontTools.ttLib import TTFont
@@ -8,7 +8,7 @@ from fontTools.pens.svgPathPen import SVGPathPen
 from fontTools.pens.transformPen import TransformPen
 from fontTools.pens.boundsPen import BoundsPen
 
-TEXT, STEP = 'Tiên & Huyền', 0.16
+TEXT, STEP = '&', 0.16
 path = sys.argv[1]
 font = TTFont(path)
 gs = font.getGlyphSet()
@@ -39,7 +39,7 @@ for info, pos in zip(buf.glyph_infos, buf.glyph_positions):
 
 pad = 30
 vb = f'{round(box[0] - pad)} {round(box[1] - pad)} {round(box[2] - box[0] + 2 * pad)} {round(box[3] - box[1] + 2 * pad)}'
-print('---\n// Chữ ký "Tiên & Huyền": outline Great Vibes xuất sẵn bằng scripts/signature.py (không cần tải font cho tên).')
-print(f'// Mỗi glyph vẽ nét rồi tô đầy, lệch nhau {STEP}s.\n---')
+print('---\n// Dấu "&" thư pháp giữa tên cô dâu chú rể: outline Great Vibes xuất sẵn bằng scripts/signature.py.')
+print('// Vẽ nét rồi tô đầy.\n---')
 body = ''.join(f'<path pathLength="1" d="{d}" style="animation-delay:{round(i * STEP, 2)}s, {round(i * STEP + 0.62, 2)}s"></path>' for i, d in enumerate(paths))
-print(f'<svg class="sig" viewBox="{vb}" role="img" aria-label="Tiên và Huyền">{body}</svg>')
+print(f'<svg class="amp" viewBox="{vb}" role="img" aria-label="và">{body}</svg>')

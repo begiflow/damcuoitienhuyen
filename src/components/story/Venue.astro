@@ -35,10 +35,8 @@ const iw = (n: DoodleName) => { const [, , w, h] = DOODLES[n].vb.split(' ').map(
       </li>
     ))}
   </ol>
-  <p class="venue-name">
-    <svg width="14" height="18" viewBox="0 0 24 30" aria-hidden="true"><path d="M12 29s-10-9.5-10-17a10 10 0 0 1 20 0c0 7.5-10 17-10 17z" fill="var(--accent)"></path><circle cx="12" cy="12" r="3.6" fill="var(--paper)"></circle></svg>
-    {WEDDING.venue.name.toUpperCase()}
-  </p>
+  <!-- như thiệp mẫu: tên nhà hàng viết thư pháp -->
+  <p class="venue-name hw">{WEDDING.venue.name}</p>
   <p class="addr">{WEDDING.venue.address}</p>
   <div class="go">
     <a class="btn" href={WEDDING.venue.mapsUrl} target="_blank" rel="noopener">

@@ -121,7 +121,7 @@ Mỗi màn: cao `clamp(640px, 100svh, 760px)`, rộng bằng khung (≤ 480px); 
 
 | # | Màn | Nội dung | Chức năng |
 |---|---|---|---|
-| 1 | Bìa | Kicker "THIỆP MỜI CƯỚI · 23.01.2027" · ảnh bìa trong khung polaroid + nhãn "@{handle} & {diCung}" · chữ ký "Tiên & Huyền" · "{TỤI EM} CƯỚI RỒI!" · dòng viết tay · "VUỐT LÊN" | Ảnh duy nhất tải ngay |
+| 1 | Bìa | Kicker "THIỆP MỜI CƯỚI · 23.01.2027" · ảnh bìa trong khung polaroid + nhãn "@{handle} & {diCung}" · tên "TIÊN & HUYỀN" in hoa serif (dấu & thư pháp) · "{TỤI EM} CƯỚI RỒI!" · dòng viết tay · "VUỐT SANG ›" | Ảnh duy nhất tải ngay |
 | 2 | Đếm ngược | 4 số ngày/giờ/phút/giây trong vòng vẽ tay · "Thứ Bảy, 23.01.2027 · 18:00 · Hidden Haven / nhằm 16 tháng Chạp năm Bính Ngọ" · **Dress code**: 4 chấm màu kèm tên (Tím · Đỏ · Đen · Xanh lá, trong `wedding.ts`) · hình 2 ly chạm nhau (ẩn ở máy thấp) | Nút viền **NHẮC MÌNH (LƯU VÀO LỊCH)** = Google Calendar link |
 | 3 | Tối hôm ấy | Dòng thời gian zig-zag quanh trục giữa, mỗi mục 1 hình vẽ tay theo việc (khoanh giờ khai tiệc) · "HIDDEN HAVEN" · địa chỉ (không ảnh địa điểm: timeline nhiều mục không vừa máy 360×640) | Nút viền **CHỈ ĐƯỜNG** (Google Maps) + "bấm vô đây" |
 | 4 | Hồi âm (đặt trước ảnh cưới để khách tới sớm hơn) | Câu hỏi theo xưng hô · hạn 15/01 · 2 lựa chọn dạng nút bo tròn · "Số người tham dự" 1/2/3/4+ (mặc định 2 nếu có `diCung` hoặc dòng 2 người, 1 nếu không) · ô nhắn gạch chân, gợi ý "Lời chúc, dẫn bé theo…" | **Mặc định chưa chọn**; nút Gửi khoá tới khi chọn; gửi xong đổi "Đã gửi, cảm ơn {goi}!". Tiệc mặn, menu cố định: **không** gợi ý chọn món/ăn chay. (không có nút ghim tắt: hồi âm đã ở màn 4) |
@@ -145,21 +145,21 @@ Mỗi màn: cao `clamp(640px, 100svh, 760px)`, rộng bằng khung (≤ 480px); 
 | `--muted` | `#645C73` | Chữ phụ (≥ 5:1 trên paper và soft) |
 | `--bg` | `#1B1822` | Nền giữa các màn |
 
-- **Font** (đổi 25/11 theo thiệp mẫu cô dâu chọn): **Cormorant Garamond 500–700** (serif thanh đậm, 1 file variable ~30KB, số thẳng hàng) cho mọi chữ; **Great Vibes** (thư pháp) cho câu viết tay, **subset đúng các ký tự đang dùng** (~16KB), chữ ký xuất SVG. Dòng tài khoản + nhãn mention dùng chữ hệ thống.
+- **Font** (đổi 25/11 theo thiệp mẫu cô dâu chọn): **Cormorant Garamond 500–700** (serif thanh đậm, 1 file variable ~30KB, số thẳng hàng) cho mọi chữ, kể cả tên cô dâu chú rể in hoa; **Great Vibes** (thư pháp) cho câu viết tay, tên nhà hàng, chữ "Nhà trai/Nhà gái", **subset đúng các ký tự đang dùng** (~17KB), dấu & trên bìa xuất SVG. Dòng tài khoản + nhãn mention dùng chữ hệ thống.
 - **Chữ in hoa tiếng Việt:** `line-height ≥ 1.2` (dưới mức này dấu nặng dòng trên đè dấu sắc dòng dưới).
 - **Chữ trên ảnh:** luôn có lớp phủ tối (trên 130px, dưới 30–58%) + `text-shadow` cho chữ viết tay.
 - **Nhãn kiểu story:** chữ hệ thống đậm trên nền tím, `box-decoration-break: clone`.
 - **Hiệu ứng nét vẽ tay ("art")** — chạy khi màn vào khung nhìn, mỗi màn một lần:
   | Màn | Hiệu ứng |
   |---|---|
-  | 1 | Ảnh bìa hiện dần như tráng phim (mờ → rõ) · chữ ký "Tiên & Huyền" tự viết từng nét rồi tô đầy · ngôi sao lấp lánh vẽ tay · dòng chữ viết tay hiện như mực chảy |
+  | 1 | Ảnh bìa hiện dần như tráng phim (mờ → rõ) · tên "TIÊN & HUYỀN" in hoa, dấu & thư pháp tự viết nét rồi tô đầy · ngôi sao lấp lánh vẽ tay · dòng chữ viết tay hiện như mực chảy |
   | 2 | Gạch chân nguệch ngoạc dưới tiêu đề · vòng bút khoanh số ngày |
   | 3 | Vòng bút khoanh giờ làm lễ & khai tiệc (18:00) · mũi tên tự vẽ tới nút Chỉ đường |
   | 4 | Chữ "photo dump" tự viết · tim + sao vẽ tay quanh ảnh |
   | 5 | Gạch chân dưới tiêu đề · dấu tick tự vẽ khi bấm Gửi |
   | 6 | Hai chiếc nhẫn vẽ nét · mũi tên tới dải photobooth · chữ viết tay hiện dần |
 - **Hình vẽ tay kiểu "Save the date"** (`doodles.ts`, vẽ dần như trên): bìa: ly martini, cành lá, sao · màn 2: quả cầu disco treo, sao, 2 ly chạm · màn 3: mỗi mục lịch trình 1 hình (ly cao + bánh; chú rể bắt tay khách; mọi người cụng ly + nốt nhạc) · màn 4: máy ảnh cạnh "photo dump" · màn 5: phong bì · màn 6: bó hoa, sao. Mép nét run bằng 1 filter SVG dùng chung, không tải thêm file.
-- **Kỹ thuật:** SVG `pathLength="1"` + `stroke-dashoffset` (nét vẽ), `clip-path` (chữ viết tay), `filter` (tráng phim). Chữ ký = outline của Great Vibes xuất sẵn thành SVG (`scripts/signature.py`) (~4KB gzip, không cần tải font cho tên). Thẻ `<html>` nhận class `js` bằng script inline trong `<head>` (tránh nháy); IntersectionObserver gắn class `in` cho màn đã thấy (≥45%). Không JS → mọi thứ hiện sẵn, không ẩn gì. `prefers-reduced-motion` → tắt hết, nội dung hiện đầy đủ.
+- **Kỹ thuật:** SVG `pathLength="1"` + `stroke-dashoffset` (nét vẽ), `clip-path` (chữ viết tay), `filter` (tráng phim). Tên trên bìa = chữ in hoa Cormorant ("TIÊN & HUYỀN"), dấu & = outline Great Vibes xuất sẵn thành SVG (`scripts/signature.py`) (~4KB gzip, không cần tải font cho tên). Thẻ `<html>` nhận class `js` bằng script inline trong `<head>` (tránh nháy); IntersectionObserver gắn class `in` cho màn đã thấy (≥45%). Không JS → mọi thứ hiện sẵn, không ẩn gì. `prefers-reduced-motion` → tắt hết, nội dung hiện đầy đủ.
 - **Hiệu ứng phụ:** nhãn bật lên, ảnh thả rơi bằng CSS scroll-driven (`animation-timeline: view()`, range `entry 0% entry 100%`), trong `@supports`.
 
 ---

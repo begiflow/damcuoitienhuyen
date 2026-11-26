@@ -115,9 +115,11 @@ img { display: block; }
 
 /* ---------- màn 1: bìa ---------- */
 .mention { position: absolute; z-index: 3; right: -14px; bottom: 6px; transform: rotate(4deg); max-width: 92%; padding: 5px 10px; border-radius: 6px; background: var(--accent); color: #fff; font: 800 13px/1.35 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; overflow-wrap: anywhere; text-align: left; }
-.sig { display: block; width: min(86%, 300px); height: auto; margin: 8px 0 0; overflow: visible; color: var(--accent); }
-.sig path { fill: currentColor; stroke: currentColor; stroke-width: 10; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 0; }
-.cover-title { margin: 2px 0 0; font-size: 34px; font-weight: 700; line-height: 1.2; letter-spacing: .02em; }
+/* tên cô dâu chú rể: serif in hoa giãn chữ như thiệp mẫu; dấu & là nét thư pháp (SVG) */
+.names { margin: 10px 0 0; display: flex; align-items: center; justify-content: center; gap: .14em; font-size: 40px; font-weight: 500; line-height: 1.2; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); }
+.amp { height: 1.15em; width: auto; overflow: visible; }
+.amp path { fill: currentColor; stroke: currentColor; stroke-width: 10; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 0; }
+.cover-title { margin: 6px 0 0; font-size: 24px; font-weight: 700; line-height: 1.2; letter-spacing: .06em; }
 .cover-title em { font-style: normal; }
 .hint { display: flex; align-items: center; gap: 2px; color: var(--muted); font-size: 13px; font-weight: 600; letter-spacing: .12em; }
 
@@ -170,7 +172,7 @@ img { display: block; }
 .tl .circ svg { position: absolute; left: -7px; top: -4px; width: calc(100% + 14px); height: calc(100% + 8px); overflow: visible; pointer-events: none; }
 /* màn thấp (360×640): hình nhỏ hơn, 2 cột lồng sát hơn; đặt sau các rule .tl để thắng cùng độ ưu tiên */
 @container (max-height: 660px) { .tl { --ih: 28px; --sc: 1.65; margin-top: 6px; } .venue .kicker { display: none; } .tl li + li { margin-top: -38px; } .scr.photo .sheet { padding-top: 18px; padding-bottom: 20px; } .sheet .grow { min-height: 0; } .venue-name { margin-top: 8px; } }
-.venue-name { margin: 14px 0 0; display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 24px; font-weight: 700; letter-spacing: .04em; }
+.venue-name { margin: 12px 0 0; font-size: 42px; line-height: 1.15; }
 .addr { margin: 2px 0 14px; color: var(--muted); }
 .go { display: flex; align-items: center; gap: 8px; }
 
@@ -235,6 +237,7 @@ input:checked + .num { border-color: var(--accent); background: var(--accent); c
 .gift-card p { margin: 0; }
 .fam { font-size: 15px; line-height: 1.5; color: var(--soft); }
 .fam p { margin: 0; }
+.fam .hw { display: inline-block; margin-right: 6px; font-size: 22px; line-height: 1.2; color: #fff; }
 .fam a { color: #fff; font-weight: 600; text-decoration: underline; white-space: nowrap; }
 
 
@@ -248,8 +251,8 @@ input:checked + .num { border-color: var(--accent); background: var(--accent); c
     .pop { animation: pop linear both; animation-timeline: view(inline); animation-range: entry 0% entry 100%; }
     .drop { animation: drop linear both; animation-timeline: view(inline); animation-range: entry 0% entry 100%; }
   }
-  .js .scr:not(.in) .sig path { fill: transparent; stroke-dashoffset: 1; }
-  .js .scr.in .sig path { animation: draw .9s cubic-bezier(.5,0,.3,1) both, fillin .5s ease both; }
+  .js .scr:not(.in) .amp path { fill: transparent; stroke-dashoffset: 1; }
+  .js .scr.in .amp path { animation: draw .9s cubic-bezier(.5,0,.3,1) .3s both, fillin .5s ease .9s both; }
   .js .scr:not(.in) .draw { stroke-dashoffset: 1.05; }
   .js .scr.in .draw { animation: draw 1.1s cubic-bezier(.5,0,.3,1) both; }
   .js .scr:not(.in) .dd .f { fill: transparent; }
@@ -270,3 +273,6 @@ input:checked + .num { border-color: var(--accent); background: var(--accent); c
 @keyframes pop { from { opacity: 0; transform: scale(.85); } to { opacity: 1; transform: scale(1); } }
 @keyframes drop { from { opacity: 0; transform: translateY(-40px); } to { opacity: 1; transform: none; } }
 @keyframes bob { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(5px); } }
+/* trang 404: 1 cột, không dùng khung story cuộn ngang */
+.lost { max-width: 480px; min-height: 100svh; margin: 0 auto; padding: 24px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center;
+  color: #fff; font-family: 'Cormorant Garamond', 'Times New Roman', serif; font-weight: 500; font-size: 17px; line-height: 1.5; }
