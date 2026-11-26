@@ -2,7 +2,8 @@
 import '../styles/tokens.css';
 import '../styles/story.css';
 import serif from '../assets/fonts/cormorant-500-700.woff2?url';
-// ảnh xem trước khi gửi link: URL có hash (/_astro/og.<hash>.jpg) → đổi ảnh là Zalo tải ảnh mới, không dính cache
+// ảnh xem trước khi gửi link: URL có hash (/_astro/og.<hash>.jpg) → đổi ảnh là Zalo tải ảnh mới, không dính cache.
+// Giữ thêm public/og.jpg (cùng ảnh): link đã gửi trước đó được Zalo/Messenger lưu og:image = /og.jpg
 import ogJpg from '../assets/og.jpg?url';
 
 interface Props { title: string; description: string }

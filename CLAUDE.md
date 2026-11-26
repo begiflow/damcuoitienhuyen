@@ -64,7 +64,7 @@ src/
   assets/fonts/           # woff2 đã subset (scripts/subset-fonts.sh), Vite gắn hash
   assets/gift-qr.png      # QR chuyển khoản, chỉ vào build khi có khách showGift
   assets/music/           # song.webm (Opus 32k) + song.m4a (AAC 64k dự phòng), import ?url
-public/  _headers  robots.txt
+public/  _headers  robots.txt  og.jpg (bản sao ảnh xem trước: link đã gửi trước 26/11 Zalo/Messenger còn lưu og:image = /og.jpg, xoá là mất ảnh)
 src/assets/og.jpg       # ảnh xem trước 1200×630 JPEG, import ?url → /_astro/og.<hash>.jpg
 fixtures/guests.sample.json   # 6 khách: anh / ban (showGift) / co / anhchi / chu / thay
 scripts/check-budget.mjs      # --strict: ô TODO trong wedding.ts thành lỗi
