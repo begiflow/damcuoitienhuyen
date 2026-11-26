@@ -50,7 +50,7 @@ src/
   config/xungho.ts        # 8 preset: ban, anh, chi, anhchi, em, co, chu, thay → { goi, minh, le }
   lib/guests.ts           # fetch Apps Script lúc build → validate → NFC → handle; không env → fixtures
   lib/copy.ts             # MỌI câu chữ phụ thuộc xưng hô (mention, tiêu đề, câu hỏi, lời cảm ơn, og:title…)
-  lib/calendar.ts         # Google Calendar URL
+  lib/calendar.ts         # nội dung file .ics "Nhắc mình" (không dùng link Google Calendar: bắt đăng nhập trong Zalo/Messenger)
   layouts/Base.astro      # head, OG, noindex, preload 1 font Cormorant Garamond, script gắn class js
   components/story/       # Story.astro (ghép màn + inline JS), Screen.astro (khung màn + vùng chạm; .hud nằm ở Story.astro),
                           # Cover, Countdown, Venue, PhotoDump, Rsvp, Farewell, img.ts (widths/sizes)
@@ -58,6 +58,7 @@ src/
   pages/index.astro       # bản chung (preset ban, 5 màn: không RSVP, không quà, không beacon)
   pages/k/[id].astro
   pages/404.astro
+  pages/tiec-cuoi.ics.ts  # /tiec-cuoi.ics, 1 file chung (không dữ liệu khách); _headers đặt text/calendar
   styles/tokens.css       # @font-face tự viết + biến màu
   styles/story.css        # toàn bộ CSS (global, inline vào HTML lúc build)
   assets/photos/          # 01-cover, 02-countdown, 03-venue, 04-dump-1..3, 04-video, 05-rsvp, 06-booth-1..3 (.jpg); thay ảnh thật giữ nguyên tên
