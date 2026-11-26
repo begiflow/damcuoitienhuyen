@@ -72,15 +72,14 @@ img { display: block; }
 .hud.on .mu rect:nth-of-type(2) { animation-delay: -.5s; }
 .hud.on .mu rect:nth-of-type(3) { animation-delay: -.25s; }
 .hud.ld [data-mu] svg { animation: ld .8s ease-in-out infinite alternate; }
-/* nút loa sát góc dưới phải: vòng tròn mờ 28px, vùng chạm 44px. Loa có sóng = đang phát, gạch chéo = đang tắt */
+/* nút nhạc sát góc dưới phải: vòng tròn mờ 28px, vùng chạm 44px. Nốt nhạc = đang phát, có gạch chéo = đang tắt */
 .mute {
   position: absolute; right: 0; bottom: 0; width: 44px; height: 44px; display: grid; place-items: center; padding: 0; border: 0;
   border-radius: 50%; color: #fff; background: radial-gradient(circle, rgba(27,24,34,.55) 13.5px, transparent 14.5px);
   pointer-events: auto; cursor: pointer; -webkit-tap-highlight-color: transparent;
 }
 .mute svg { width: 16px; height: 16px; }
-.mute .wv, .hud.on .mute .x { display: none; }
-.hud.on .mute .wv { display: inline; }
+.hud.on .mute .x { display: none; }
 @keyframes eq { from { transform: scaleY(.3); } }
 @keyframes ld { from { opacity: .25; } }
 @media (prefers-reduced-motion: reduce) { .mu rect, [data-mu] svg { animation: none !important; } }

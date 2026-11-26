@@ -60,7 +60,7 @@
   }
 
   // 6. Nhạc nền: 2s sau khi mở thì tải + thử phát. Đa số trình duyệt chặn tự phát
-  // → nhạc bật ở lần chạm đầu tiên (mục 2). Nút [data-mu] (dòng nhạc trên cùng, nút loa góc dưới)
+  // → nhạc bật ở lần chạm đầu tiên (mục 2). Nút [data-mu] (dòng nhạc trên cùng, nút nốt nhạc góc dưới)
   // bật/tắt. Rời trang thì dừng, quay lại thì phát tiếp (nếu chưa tắt).
   // Tải cả file thành blob rồi phát bằng <audio>: host tĩnh không trả 206 cho Range nên iPhone không phát
   // thẳng từ URL (blob thì không cần Range); <audio> giải mã dần, không khựng máy như decodeAudioData.

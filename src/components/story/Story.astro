@@ -39,8 +39,8 @@ const js = storyJs
       <button class="mu" type="button" data-mu aria-pressed="false" data-s={`${songWebm} ${songM4a}`}><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 1.5v9l8-4.5z"></path><rect x="1" y="2" width="2" height="9"></rect><rect x="5" y="2" width="2" height="9"></rect><rect x="9" y="2" width="2" height="9"></rect></svg>{WEDDING.music.title} · {WEDDING.music.artist}</button>
     </div>
   </div>
-  <!-- nút loa góc dưới phải: tắt/bật nhạc -->
-  <button class="mute" type="button" data-mu aria-pressed="false" aria-label="Nhạc nền"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9h3l5-4v14l-5-4H4z" fill="currentColor"></path><path class="wv" d="M16 9a4 4 0 0 1 0 6M19 6a8 8 0 0 1 0 12"></path><path class="x" d="M16 9l5 6M21 9l-5 6"></path></svg></button>
+  <!-- nút nhạc góc dưới phải: nốt nhạc = đang phát, có gạch chéo = đang tắt -->
+  <button class="mute" type="button" data-mu aria-pressed="false" aria-label="Nhạc nền"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3" fill="currentColor"></circle><circle cx="18" cy="16" r="3" fill="currentColor"></circle><path class="x" d="M2.5 2.5l19 19"></path></svg></button>
 </div>
 <main class="story" data-g={guest?.guestID} data-api={guest ? api : undefined}>
   <Cover c={c} total={total} />

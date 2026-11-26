@@ -6,7 +6,7 @@ export const WEDDING = {
   bride: 'Huyền',
   handle: 'tienvahuyen',
   dateShort: '23.01.27',
-  // nhạc nền: thử tự phát sau 2s, dòng ▶ dưới tên tài khoản + nút loa góc dưới (file trong src/assets/music)
+  // nhạc nền: thử tự phát sau 2s, dòng ▶ dưới tên tài khoản + nút nốt nhạc góc dưới (file trong src/assets/music)
   music: { title: 'Romantic Sunday', artist: 'Car, the Garden' },
   dateDots: '23.01.2027',
   dateDow: 'Thứ Bảy',
