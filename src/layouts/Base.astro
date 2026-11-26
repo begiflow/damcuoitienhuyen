@@ -6,7 +6,8 @@ import serif from '../assets/fonts/cormorant-500-700.woff2?url';
 interface Props { title: string; description: string }
 const { title, description } = Astro.props;
 const og = new URL('/og.jpg', Astro.site).href;
-const url = new URL(Astro.url.pathname, Astro.site).href;
+// build.format 'file' cho pathname kiểu /k/<id>.html; og:url phải đúng link gửi khách (/k/<id>, / )
+const url = new URL(Astro.url.pathname.replace(/(index)?\.html$/, ''), Astro.site).href;
 ---
 <!doctype html>
 <html lang="vi">

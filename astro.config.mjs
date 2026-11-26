@@ -2,8 +2,9 @@
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
-  // og:image cần URL tuyệt đối. Đổi qua env SITE_URL khi chạy thử trên *.pages.dev.
-  site: process.env.SITE_URL || 'https://tienvahuyen.com',
+  // og:image (ảnh xem trước khi gửi link Zalo) cần URL tuyệt đối, đúng host đang chạy.
+  // Chưa mua tên miền → mặc định workers.dev; mua rồi thì đặt env SITE_URL (hoặc đổi dòng này).
+  site: process.env.SITE_URL || 'https://damcuoitienhuyen.chutien-it.workers.dev',
   output: 'static',
   trailingSlash: 'never',
   build: {

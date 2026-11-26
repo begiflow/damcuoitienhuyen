@@ -15,7 +15,7 @@ npm run build && npm run budget  # build + kiểm ngân sách, luật cứng
 3. **API** (project Apps Script riêng): dán `apps-script/api/`. Script Properties: `SHEET_ID` (ID **file thiệp**), `TOKEN` (chuỗi ngẫu nhiên dài). Deploy → Web app, Execute as **Me**, Access **Anyone**. Lần sau đổi code: Manage deployments → Edit → New version (giữ URL).
 4. **Cloudflare Workers**: Workers & Pages → Create application → Import a repository → repo này. Worker `damcuoitienhuyen` (trùng `name` trong `wrangler.jsonc`), build `npm run build`, deploy `npx wrangler deploy`. **Build variables**: `SHEET_API_URL`, `SHEET_TOKEN`, `PUBLIC_API_URL`, `SITE_URL` (bắt buộc khi chưa có domain, để og:image có ảnh; gắn domain xong thì xoá). Gắn domain ở Settings → Domains & Routes.
 5. Worker → Settings → Builds → **Deploy Hooks** → dán URL vào Script Properties `DEPLOY_HOOK` của admin. Từ đó sửa Sheet xong bấm **Build lại thiệp**.
-6. Kiểm: `curl -sI https://tienvahuyen.com/k/<guestID>` phải `200`, không có `Location`.
+6. Kiểm: `curl -sI https://<host>/k/<guestID>` (host: workers.dev hoặc tên miền đã mua) phải `200`, không có `Location`.
 
 ## Thay nội dung thật (M4, trước 20/12)
 
