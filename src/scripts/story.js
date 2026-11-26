@@ -56,6 +56,35 @@
     setInterval(tick, 1000);
   }
 
+  // 6. Nhạc: chạm dòng ♫ mới tải + phát, chạm lần nữa thì dừng, rời trang thì dừng.
+  // Dùng Web Audio (tải cả file) vì host tĩnh không trả 206 cho Range → iPhone không phát <audio>.
+  // Opus trước, giải mã lỗi (iOS cũ) thì lấy bản AAC.
+  var mu = d.querySelector('.mu'), ac, on, bs;
+  if (mu) {
+    var go = function (v) {
+      on = v;
+      if (ac) v ? ac.resume() : ac.suspend();
+      mu.className = 'mu' + (v ? (bs ? ' on' : ' ld') : '');
+      mu.setAttribute('aria-pressed', v);
+    };
+    var get = function (u) {
+      return fetch(u).then(function (r) { return r.arrayBuffer(); }).then(function (x) { return ac.decodeAudioData(x); });
+    };
+    mu.addEventListener('click', function () {
+      if (!ac) {
+        ac = new AudioContext();
+        // iPhone đang gạt im lặng vẫn nghe được (máy nào hỗ trợ Audio Session API)
+        try { navigator.audioSession.type = 'playback'; } catch (_) {}
+        var s = mu.dataset.s.split(' ');
+        get(s[0]).catch(function () { return get(s[1]); }).then(function (x) {
+          bs = ac.createBufferSource(); bs.buffer = x; bs.loop = true; bs.connect(ac.destination); bs.start(); go(on);
+        }, function () { ac = 0; go(false); });
+      }
+      go(!on);
+    });
+    d.addEventListener('visibilitychange', function () { if (d.hidden) go(false); });
+  }
+
   var post = function (body) {
     return fetch(api, { method: 'POST', body: JSON.stringify(body) }) // text/plain → không preflight
       .then(function (r) { return r.json(); })

@@ -59,6 +59,22 @@ img { display: block; }
 .hud.ink .acct { text-shadow: none; }
 .acct img { width: 30px; height: 30px; border-radius: 50%; box-shadow: 0 0 0 1.5px currentColor; }
 .acct small { font-size: 13px; font-weight: 600; opacity: .8; }
+.acct p { margin: 0; display: flex; align-items: center; gap: 8px; }
+/* dòng nhạc như story: vùng chạm 44px nhờ padding + margin âm, chữ chỉ cao 1 dòng */
+.mu {
+  display: flex; align-items: center; gap: 5px; margin: -15px -10px; padding: 17px 10px 15px;
+  font: inherit; font-size: 12px; font-weight: 500; white-space: nowrap; color: inherit; background: none; border: 0;
+  pointer-events: auto; cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.mu svg { flex: none; fill: currentColor; }
+.mu rect, .mu.on path { display: none; }
+.mu.on rect { display: inline; transform-box: fill-box; transform-origin: bottom; animation: eq .8s ease-in-out infinite alternate; }
+.mu.on rect:nth-of-type(2) { animation-delay: -.5s; }
+.mu.on rect:nth-of-type(3) { animation-delay: -.25s; }
+.mu.ld svg { animation: ld .8s ease-in-out infinite alternate; }
+@keyframes eq { from { transform: scaleY(.3); } }
+@keyframes ld { from { opacity: .25; } }
+@media (prefers-reduced-motion: reduce) { .mu rect, .mu svg { animation: none !important; } }
 
 /* ---------- màn ảnh: ảnh tràn màn + tờ giấy xé mép đè lên (story + giấy) ---------- */
 .scr.photo { background: var(--bg); }
@@ -123,25 +139,28 @@ img { display: block; }
 .nudge { position: absolute; z-index: 3; right: 8px; top: 50%; margin-top: -14px; color: #fff; filter: drop-shadow(0 1px 3px rgba(0,0,0,.55)); pointer-events: none; }
 
 /* ---------- màn 2: đếm ngược ---------- */
-.cd { margin-top: 18px; display: grid; grid-template-columns: repeat(4, 68px); gap: 8px; justify-content: center; }
-.cd > div { position: relative; height: 68px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-.cd svg { position: absolute; inset: -4px; width: calc(100% + 8px); height: calc(100% + 8px); overflow: visible; }
-.cd b { position: relative; font-size: 34px; font-weight: 600; line-height: 1; color: var(--accent); font-variant-numeric: lining-nums tabular-nums; }
-.cd span { position: relative; font-size: 14px; font-weight: 600; color: var(--muted); letter-spacing: .04em; }
-.date { margin: 26px 0 0; font-size: 22px; font-weight: 700; line-height: 1.4; }
-.when { margin: 2px 0 0; font-size: 18px; font-weight: 600; line-height: 1.4; color: var(--accent); }
-.lunar { margin: 2px 0 14px; color: var(--muted); font-size: 16px; }
-/* dress code: chấm màu thật + tên màu (không dựa vào màu để hiểu) */
-.dress { display: flex; justify-content: center; gap: 18px; margin: 6px 0 16px; padding: 0; list-style: none; }
-.dress li { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 15px; font-weight: 600; line-height: 1.2; color: var(--muted); }
-.dress i { width: 24px; height: 24px; border-radius: 50%; background: var(--c); border: 1px solid rgba(36,31,46,.18); }
-.cheers { margin-top: 6px; }
-/* máy thấp: bỏ hình 2 ly để tờ giấy không che mất ảnh nền màn 2 (chỗ cho dress code) */
-@container (max-height: 660px) { .cheers { display: none; } }
+.cd { margin-top: 14px; display: grid; grid-template-columns: repeat(4, 52px); gap: 10px; justify-content: center; }
+.cd > div { position: relative; height: 52px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.cd svg { position: absolute; inset: -3px; width: calc(100% + 6px); height: calc(100% + 6px); overflow: visible; }
+.cd b { position: relative; font-size: 24px; font-weight: 600; line-height: 1; color: var(--ink); font-variant-numeric: lining-nums tabular-nums; }
+.cd span { position: relative; margin-top: 1px; font-size: 10px; font-weight: 600; line-height: 1.2; color: var(--muted); letter-spacing: .06em; }
+/* điểm nhấn của màn: ngày to tím, giờ tím + tên nhà hàng thư pháp */
+.date { margin: 16px 0 0; font-size: 17px; font-weight: 500; line-height: 1.2; }
+.date b { display: block; font-size: 40px; font-weight: 700; line-height: 1.1; letter-spacing: .03em; color: var(--accent); }
+.when { margin: 4px 0 0; font-size: 18px; line-height: 1.2; color: var(--muted); }
+.when b { font-size: 28px; font-weight: 700; color: var(--accent); }
+.when .hw { display: inline; font-size: 32px; line-height: 1.2; }
+.lunar { margin: 2px 0 0; color: var(--muted); font-size: 15px; }
+/* dress code gọn 1 dòng: chấm màu thật + tên màu (không dựa vào màu để hiểu) */
+.dress { margin: 12px 0 14px; }
+.dress .kicker { font-size: 12px; }
+.dress ul { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 14px; margin: 5px 0 0; padding: 0; list-style: none; }
+.dress li { display: flex; align-items: center; gap: 5px; font-size: 15px; font-weight: 500; line-height: 1.2; }
+.dress i { width: 13px; height: 13px; border-radius: 50%; background: var(--c); box-shadow: inset 0 0 0 1px rgba(36,31,46,.18); }
 .hang { position: absolute; z-index: 2; top: 62px; left: 22px; }
 .hang-s { position: absolute; z-index: 2; top: 68px; left: 70px; }
 .cd { position: relative; }
-.cd > .dd { inset: auto; top: -22px; right: -6px; width: 14px; height: 14px; }
+.cd > .dd { inset: auto; top: -6px; right: -24px; width: 14px; height: 14px; }
 .s6-l, .s6-r { position: absolute; z-index: 2; top: 64px; }
 .s6-l { left: calc(50% - 62px); }
 .s6-r { left: calc(50% + 50px); top: 86px; }

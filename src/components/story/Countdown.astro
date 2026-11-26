@@ -32,15 +32,16 @@ const rings = [
     ))}
     <Doodle name="spark" w={14} delay={1} />
   </div>
-  <p class="date">{WEDDING.dateLong}</p>
-  <p class="when">{WEDDING.partyStart.slice(11, 16)} · {WEDDING.venue.name}</p>
+  <!-- điểm nhấn của màn: ngày + giờ + nơi (đếm ngược chỉ là phụ) -->
+  <p class="date">{WEDDING.dateDow} <b>{WEDDING.dateDots}</b></p>
+  <p class="when"><b>{WEDDING.partyStart.slice(11, 16)}</b> · <span class="hw">{WEDDING.venue.name}</span></p>
   <p class="lunar">{WEDDING.lunar}</p>
-  <p class="kicker">Dress code</p>
-  <ul class="dress">{WEDDING.dressCode.map((d) => <li><i style={`--c:${d.mau}`}></i>{d.ten}</li>)}</ul>
+  <div class="dress">
+    <p class="kicker">Dress code</p>
+    <ul>{WEDDING.dressCode.map((d) => <li><i style={`--c:${d.mau}`}></i>{d.ten}</li>)}</ul>
+  </div>
   <a class="btn" href={googleCalendarUrl()} target="_blank" rel="noopener">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path></svg>
     NHẮC MÌNH (LƯU VÀO LỊCH)
   </a>
-  <div class="grow"></div>
-  <Doodle name="cheers" w={110} delay={.6} class="cheers" />
 </Screen>

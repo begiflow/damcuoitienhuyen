@@ -20,9 +20,9 @@
 | Xưng hô | Cột `xungHo` (danh sách chọn sẵn, 8 giá trị) | Quyết định toàn bộ đại từ trên thiệp và tin nhắn Zalo, xem §2.1 |
 | OG preview | 1 ảnh chung + og:title cá nhân hoá | "Gửi anh Tuấn · Tiên & Huyền cưới rồi!" |
 | Mừng cưới | QR ẩn sau nút, chỉ khi `showGift = TRUE` | Khách khác: QR không có trong HTML |
-| Tính năng | Đếm ngược · photo dump + video (thumbnail mở YouTube) · theo dõi đã mở · chạm cạnh để chuyển màn | |
+| Tính năng | Đếm ngược · photo dump + video (thumbnail mở YouTube) · theo dõi đã mở · chạm cạnh để chuyển màn · nhạc nền chạm mới phát | |
 
-**Không làm:** nhạc nền, sổ lời chúc, ảnh OG riêng từng khách, bản in, song ngữ, Zalo Mini App, lightbox, CMS, analytics, thư viện âm lịch, story tự chạy.
+**Không làm:** nhạc tự phát, sổ lời chúc, ảnh OG riêng từng khách, bản in, song ngữ, Zalo Mini App, lightbox, CMS, analytics, thư viện âm lịch, story tự chạy.
 
 ---
 
@@ -117,13 +117,13 @@ Rate limit: CacheService ≤ 10 request/giờ/guestID/action.
 
 ## 4. Trang khách — 6 màn Story
 
-Mỗi màn: cao `clamp(640px, 100svh, 760px)`, rộng bằng khung (≤ 480px); các màn xếp ngang trong 1 khung bo góc 14px trên nền tối (máy thấp hơn 672px: bỏ lề + bo góc để vừa khít). Như story: thanh tiến trình 6 đoạn (tĩnh: màn đã qua đầy, màn đang xem nửa, không tự chạy) và tên `tienvahuyen · 23.01.27` **đứng yên** ở trên cùng, chỉ các màn trượt bên dưới; chữ trắng trên ảnh/nền tím, mực trên màn giấy. Chạm 28% cạnh phải/trái = sang màn sau/trước (trượt mượt). Vuốt ngang sang đúng 1 màn (`scroll-snap-type: x mandatory` + `scroll-snap-stop: always`). Màn bìa có mũi tên › trắng nhún nhẹ ở mép phải (gợi ý vuốt/chạm sang màn sau), không có chữ.
+Mỗi màn: cao `clamp(640px, 100svh, 760px)`, rộng bằng khung (≤ 480px); các màn xếp ngang trong 1 khung bo góc 14px trên nền tối (máy thấp hơn 672px: bỏ lề + bo góc để vừa khít). Như story: thanh tiến trình 6 đoạn (tĩnh: màn đã qua đầy, màn đang xem nửa, không tự chạy) và tên `tienvahuyen · 23.01.27` **đứng yên** ở trên cùng (dưới tên là dòng nhạc như story: "▶ Romantic Sunday · Car, the Garden", xem §5 Nhạc nền), chỉ các màn trượt bên dưới; chữ trắng trên ảnh/nền tím, mực trên màn giấy. Chạm 28% cạnh phải/trái = sang màn sau/trước (trượt mượt). Vuốt ngang sang đúng 1 màn (`scroll-snap-type: x mandatory` + `scroll-snap-stop: always`). Màn bìa có mũi tên › trắng nhún nhẹ ở mép phải (gợi ý vuốt/chạm sang màn sau), không có chữ.
 
 | # | Màn | Nội dung | Chức năng |
 |---|---|---|---|
 | 1 | Bìa | Kicker "THIỆP MỜI CƯỚI · 23.01.2027" · ảnh bìa trong khung polaroid + nhãn "@{handle} & {diCung}" · tên "TIÊN & HUYỀN" in hoa serif (dấu & cùng font) · "{TỤI EM} CƯỚI RỒI!" · dòng viết tay · mũi tên › trắng nhún nhẹ ở mép phải | Ảnh duy nhất tải ngay |
-| 2 | Đếm ngược | 4 số ngày/giờ/phút/giây trong vòng vẽ tay · "Thứ Bảy, 23.01.2027 · 18:00 · Hidden Haven / nhằm 16 tháng Chạp năm Bính Ngọ" · **Dress code**: 4 chấm màu kèm tên (Tím · Đỏ · Đen · Xanh lá, trong `wedding.ts`) · hình 2 ly chạm nhau (ẩn ở máy thấp) | Nút viền **NHẮC MÌNH (LƯU VÀO LỊCH)** = Google Calendar link |
-| 3 | Tối hôm ấy | Dòng thời gian zig-zag quanh trục giữa, mỗi mục 1 hình vẽ tay theo việc (khoanh giờ khai tiệc) · "HIDDEN HAVEN" · địa chỉ (không ảnh địa điểm: timeline nhiều mục không vừa máy 360×640) | Nút viền **CHỈ ĐƯỜNG** (Google Maps) + "bấm vô đây" |
+| 2 | Đếm ngược | Kicker "TIỆC CƯỚI TIÊN & HUYỀN" · 4 số ngày/giờ/phút/giây gọn trong vòng vẽ tay nhỏ (số màu mực, chỉ là phụ) · **điểm nhấn**: "Thứ Bảy" + **23.01.2027** to tím · **18:00** tím · *Hidden Haven* thư pháp · "nhằm 16 tháng Chạp năm Bính Ngọ" · **Dress code** gọn 1 dòng: chấm màu nhỏ kèm tên (Tím · Đỏ · Đen · Xanh lá, trong `wedding.ts`) · tờ giấy thấp để lộ mặt cô dâu chú rể trên ảnh nền | Nút viền **NHẮC MÌNH (LƯU VÀO LỊCH)** = Google Calendar link |
+| 3 | Lịch trình & địa điểm | Kicker "THỨ BẢY · 23.01.2027" (không tiêu đề) · dòng thời gian zig-zag quanh trục giữa, mỗi mục 1 hình vẽ tay theo việc (khoanh giờ khai tiệc) · *Hidden Haven* thư pháp · địa chỉ (không ảnh địa điểm: timeline nhiều mục không vừa máy 360×640) | Nút viền **CHỈ ĐƯỜNG** (Google Maps) + "bấm vô đây" |
 | 4 | Hồi âm (đặt trước ảnh cưới để khách tới sớm hơn) | Câu hỏi theo xưng hô · hạn 15/01 · 2 lựa chọn dạng nút bo tròn · "Số người tham dự" 1/2/3/4+ (mặc định 2 nếu có `diCung` hoặc dòng 2 người, 1 nếu không) · ô nhắn gạch chân, gợi ý "Lời chúc, dẫn bé theo…" | **Mặc định chưa chọn**; nút Gửi khoá tới khi chọn; gửi xong đổi "Đã gửi, cảm ơn {goi}!". Tiệc mặn, menu cố định: **không** gợi ý chọn món/ăn chay. (không có nút ghim tắt: hồi âm đã ở màn 4) |
 | 5 | Ảnh cưới | Tiêu đề "Ảnh cưới" + hình máy ảnh (không dùng chữ "photo dump") · lưới 2×2 ảnh polaroid nghiêng nhẹ + băng keo; 1 ô "phim cưới" có nút ▶ | Ảnh video mở `youtu.be/<id>` (không iframe) |
 | 6 | Kết | Nền đỏ rượu · "HẸN GẶP {GOI} TỐI 23.01!" · dải ảnh photobooth 3 khung nghiêng · nút viền quà mừng (chỉ `showGift`) + "hẹn chụp chung một tấm nha!" · song thân hai bên (nhà trai: Bà Phạm Thị Hoa · nhà gái: Bà Dương Thị Mỹ Dung) · "Lạc đường? Gọi Mai (bạn cô dâu): {sdtHoTro}" (số lấy từ tab Config) | QR chỉ tải khi mở (lúc đó ẩn dải ảnh). Dải ảnh tự co theo chỗ trống, tự ẩn khi còn < 150px (container query) |
@@ -158,9 +158,10 @@ Mỗi màn: cao `clamp(640px, 100svh, 760px)`, rộng bằng khung (≤ 480px); 
   | 4 | Chữ "photo dump" tự viết · tim + sao vẽ tay quanh ảnh |
   | 5 | Gạch chân dưới tiêu đề · dấu tick tự vẽ khi bấm Gửi |
   | 6 | Hai chiếc nhẫn vẽ nét · mũi tên tới dải photobooth · chữ viết tay hiện dần |
-- **Hình vẽ tay kiểu "Save the date"** (`doodles.ts`, vẽ dần như trên): bìa: ly martini, cành lá, sao · màn 2: quả cầu disco treo, sao, 2 ly chạm · màn 3: mỗi mục lịch trình 1 hình (ly cao + bánh; chú rể bắt tay khách; mọi người cụng ly + nốt nhạc) · màn 4: máy ảnh cạnh "photo dump" · màn 5: phong bì · màn 6: bó hoa, sao. Mép nét run bằng 1 filter SVG dùng chung, không tải thêm file.
+- **Hình vẽ tay kiểu "Save the date"** (`doodles.ts`, vẽ dần như trên): bìa: ly martini, cành lá, sao · màn 2: quả cầu disco treo, sao · màn 3: mỗi mục lịch trình 1 hình (2 ly cocktail + kệ bánh; cổng hoa, cô dâu chú rể, khách, máy ảnh; bàn tiệc tròn + nốt nhạc) · màn 4: máy ảnh cạnh "photo dump" · màn 5: phong bì · màn 6: bó hoa, sao. Mép nét run bằng 1 filter SVG dùng chung, không tải thêm file.
 - **Kỹ thuật:** SVG `pathLength="1"` + `stroke-dashoffset` (nét vẽ), `clip-path` (chữ viết tay), `filter` (tráng phim). Tên trên bìa = chữ in hoa Cormorant ("TIÊN & HUYỀN"), không cần font thư pháp (~4KB gzip, không cần tải font cho tên). Thẻ `<html>` nhận class `js` bằng script inline trong `<head>` (tránh nháy); IntersectionObserver gắn class `in` cho màn đã thấy (≥45%). Không JS → mọi thứ hiện sẵn, không ẩn gì. `prefers-reduced-motion` → tắt hết, nội dung hiện đầy đủ.
 - **Hiệu ứng phụ:** nhãn bật lên, ảnh thả rơi bằng CSS scroll-driven (`animation-timeline: view()`, range `entry 0% entry 100%`), trong `@supports`.
+- **Nhạc nền** (thêm 26/11): đoạn đầu "Romantic Sunday" (Car, the Garden), 73s, lặp liền. **Không tự phát**: khách chạm dòng "▶ Romantic Sunday · Car, the Garden" dưới tên tài khoản (`.mu` trong `.hud`, vùng chạm 44px) mới tải + phát; chạm lần nữa dừng; rời trang/sang app khác tự dừng. Đang tải: biểu tượng nhấp nháy; đang phát: 3 vạch sóng nhạc. Phát bằng Web Audio (tải cả file rồi phát) vì host tĩnh Cloudflare không trả 206 cho Range nên iPhone không phát `<audio>` được. File: Opus 32kbps `.webm` (~310KB, mọi máy giải mã được) + AAC 64kbps `.m4a` dự phòng (~600KB, chỉ tải khi Opus lỗi), đã chuẩn hoá −14 LUFS, lên/xuống âm lượng dần ở hai đầu. Bài hát có bản quyền: repo nên để private.
 
 ---
 
@@ -172,7 +173,8 @@ Mỗi màn: cao `clamp(640px, 100svh, 760px)`, rộng bằng khung (≤ 480px); 
 | Font tải lần đầu | ≤ 80KB (Cormorant Garamond 500–700 ≈ 30KB; Great Vibes 16KB tải sau ảnh bìa) |
 | Ảnh màn 1 (eager, `fetchpriority=high`) | ≤ 150KB AVIF |
 | Ảnh màn 2–6 + photo dump (lazy) | ≤ 800KB tổng |
-| JS | ≤ 5KB, vanilla (đếm ngược, chạm cạnh, RSVP, quà, beacon, IntersectionObserver cho hiệu ứng) |
+| JS | ≤ 5KB, vanilla (đếm ngược, chạm cạnh, RSVP, quà, beacon, nhạc, IntersectionObserver cho hiệu ứng) |
+| Nhạc (chỉ tải khi khách chạm ▶) | Opus ≤ 400KB; bản AAC dự phòng ≤ 700KB chỉ máy không giải mã được Opus mới tải |
 | Request bên thứ 3 trước khi trang hiển thị | **0** |
 | Lighthouse mobile | Perf ≥ 95 · LCP ≤ 2.0s · CLS < 0.05 |
 

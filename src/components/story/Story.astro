@@ -6,6 +6,8 @@ import { Image } from 'astro:assets';
 import avatar from '../../assets/photos/avatar.jpg';
 import { WEDDING } from '../../config/wedding';
 import storyJs from '../../scripts/story.js?raw';
+import songWebm from '../../assets/music/song.webm?url';
+import songM4a from '../../assets/music/song.m4a?url';
 import Countdown from './Countdown.astro';
 import Cover from './Cover.astro';
 import Farewell from './Farewell.astro';
@@ -17,15 +19,21 @@ interface Props { c: Copy; guest: Guest | null; phone: string }
 const { c, guest, phone } = Astro.props;
 const total = guest ? 6 : 5;
 const api = import.meta.env.PUBLIC_API_URL || '';
+// gửi đi bản bỏ thụt lề + dòng chú thích (giữ nguyên ngân sách 5KB, nguồn vẫn dễ đọc)
+const js = storyJs.replace(/^[ \t]*\/\/.*\n/gm, '').replace(/^[ \t]+/gm, '');
 ---
 <div class="deck">
 <!-- như story: thanh tiến trình + dòng tài khoản đứng yên, chỉ các màn trượt ngang bên dưới.
      JS đổi --i (đoạn đang xem) và .ink (chữ mực trên màn giấy); không JS thì đứng ở màn 1 -->
-<div class="hud" aria-hidden="true" style="--i:0">
-  <div class="bars">{Array.from({ length: total }, (_, k) => <i style={`--n:${k}`}></i>)}</div>
+<div class="hud" style="--i:0">
+  <div class="bars" aria-hidden="true">{Array.from({ length: total }, (_, k) => <i style={`--n:${k}`}></i>)}</div>
   <div class="acct">
     <Image src={avatar} alt="" width={30} height={30} densities={[2]} format="webp" />
-    <span>{WEDDING.handle}</span><small>{WEDDING.dateShort}</small>
+    <div>
+      <p aria-hidden="true"><span>{WEDDING.handle}</span><small>{WEDDING.dateShort}</small></p>
+      <!-- nhạc như story: chạm mới tải + phát (không autoplay); ▶ khi dừng, sóng nhạc khi đang phát -->
+      <button class="mu" type="button" aria-pressed="false" data-s={`${songWebm} ${songM4a}`}><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 1.5v9l8-4.5z"></path><rect x="1" y="2" width="2" height="9"></rect><rect x="5" y="2" width="2" height="9"></rect><rect x="9" y="2" width="2" height="9"></rect></svg>{WEDDING.music.title} · {WEDDING.music.artist}</button>
+    </div>
   </div>
 </div>
 <main class="story" data-g={guest?.guestID} data-api={guest ? api : undefined}>
@@ -41,4 +49,4 @@ const api = import.meta.env.PUBLIC_API_URL || '';
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <filter id="ink" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="4"></feTurbulence><feDisplacementMap in="SourceGraphic" scale="1.8"></feDisplacementMap></filter>
 </svg>
-<script is:inline set:html={storyJs}></script>
+<script is:inline set:html={js}></script>

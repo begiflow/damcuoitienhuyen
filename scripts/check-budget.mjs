@@ -58,6 +58,7 @@ for (const file of pages) {
     if (refs.some((r) => /(^|,\s*)(https?:)?\/\//.test(r))) errors.push(`${name}: tài nguyên ngoài origin: ${tag.slice(0, 120)}`);
   }
   if (/<iframe\b/.test(html)) errors.push(`${name}: có iframe`);
+  if (/<(?:audio|video)\b[^>]*\bautoplay\b/.test(html)) errors.push(`${name}: có autoplay`);
   if (!/<meta name="robots" content="noindex/.test(html)) errors.push(`${name}: thiếu meta noindex`);
 
   // Quà mừng: trang không bật showGift không được chứa QR/STK
@@ -87,6 +88,12 @@ for (const file of pages) {
 
 const fonts = files.filter((f) => f.endsWith('.woff2')).reduce((n, f) => n + statSync(f).size, 0);
 if (fonts > LIMIT.fonts) errors.push(`Font ${kb(fonts)} > ${kb(LIMIT.fonts)}`);
+
+// Nhạc: chỉ tải khi khách chạm ▶. Opus ≤ 400KB, AAC dự phòng ≤ 700KB
+for (const f of files.filter((f) => /\.(webm|m4a)$/.test(f))) {
+  const n = statSync(f).size, lim = (f.endsWith('.webm') ? 400 : 700) * KB;
+  if (n > lim) errors.push(`Nhạc ${relative(DIST, f)} ${kb(n)} > ${kb(lim)}`);
+}
 
 // Nội dung còn để trống
 const sample = readFileSync(join(DIST, 'index.html'), 'utf8');

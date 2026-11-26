@@ -40,6 +40,7 @@ HTML ≤ 30KB gzip · font ≤ 80KB · ảnh màn 1 ≤ 150KB (eager) · ảnh c
   - Mỗi `.scr` có `content-visibility: auto`: màn còn xa chưa vẽ nên ảnh trong đó chưa tải, nhường băng thông cho ảnh bìa. JS tải trước ảnh của màn kế tiếp (màn 2: sau khi ảnh bìa tải xong) để vuốt ngang không thấy ảnh hiện chậm.
   - Font viết tay chỉ tải khi `<html>` có class `fr` (JS gắn sau khi ảnh bìa tải xong, tối đa 2.5s).
   - Ảnh bìa có bản mờ 24px base64 làm nền (`Cover.astro`, dùng `sharp` có sẵn của Astro). Ảnh này quá nhỏ nên Chrome không tính là LCP.
+- **Nhạc nền** (PLAN §5): dòng `.mu` dưới tên tài khoản trong `.hud`, chạm mới tải + phát (luật 3: không autoplay), rời trang thì dừng. Phát bằng **Web Audio** (fetch cả file → `decodeAudioData` → loop), **không** dùng `<audio src>`: Cloudflare static assets không trả 206 cho Range nên iPhone không phát. Opus `.webm` trước, lỗi giải mã thì lấy `.m4a`. Không tải gì trước khi khách chạm.
 - Tokens trong `src/styles/tokens.css` (PLAN §5). Câu chữ cố định trong `src/config/wedding.ts`; không tự viết lại.
 
 ## Cấu trúc
@@ -53,7 +54,7 @@ src/
   layouts/Base.astro      # head, OG, noindex, preload 1 font Cormorant Garamond, script gắn class js
   components/story/       # Story.astro (ghép màn + inline JS), Screen.astro (khung màn + vùng chạm; .hud nằm ở Story.astro),
                           # Cover, Countdown, Venue, PhotoDump, Rsvp, Farewell, img.ts (widths/sizes)
-  scripts/story.js        # JS duy nhất, inline qua ?raw: IntersectionObserver, chạm cạnh, đếm ngược, RSVP, beacon
+  scripts/story.js        # JS duy nhất, inline qua ?raw (Story.astro bỏ thụt lề + dòng chú thích khi inline): IntersectionObserver, chạm cạnh, đếm ngược, nhạc, RSVP, beacon
   pages/index.astro       # bản chung (preset ban, 5 màn: không RSVP, không quà, không beacon)
   pages/k/[id].astro
   pages/404.astro
@@ -62,6 +63,7 @@ src/
   assets/photos/          # 01-cover, 02-countdown, 03-venue, 04-dump-1..3, 04-video, 05-rsvp, 06-booth-1..3 (.jpg); thay ảnh thật giữ nguyên tên
   assets/fonts/           # woff2 đã subset (scripts/subset-fonts.sh), Vite gắn hash
   assets/gift-qr.png      # QR chuyển khoản, chỉ vào build khi có khách showGift
+  assets/music/           # song.webm (Opus 32k) + song.m4a (AAC 64k dự phòng), import ?url
 public/  og.jpg  _headers  robots.txt
 fixtures/guests.sample.json   # 6 khách: anh / ban (showGift) / co / anhchi / chu / thay
 scripts/check-budget.mjs      # --strict: ô TODO trong wedding.ts thành lỗi
