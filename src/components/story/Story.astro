@@ -19,8 +19,12 @@ interface Props { c: Copy; guest: Guest | null; phone: string }
 const { c, guest, phone } = Astro.props;
 const total = guest ? 6 : 5;
 const api = import.meta.env.PUBLIC_API_URL || '';
-// gửi đi bản bỏ thụt lề + dòng chú thích (giữ nguyên ngân sách 5KB, nguồn vẫn dễ đọc)
-const js = storyJs.replace(/^[ \t]*\/\/.*\n/gm, '').replace(/^[ \t]+/gm, '');
+// gửi đi bản bỏ thụt lề + chú thích `// …` (giữ ngân sách 5KB, nguồn vẫn dễ đọc). Không viết `// ` hay `function (` trong chuỗi/regex
+const js = storyJs
+  .replace(/^[ \t]*\/\/.*\n/gm, '')
+  .replace(/[ \t]+\/\/ [^\n]*$/gm, '')
+  .replace(/^[ \t]+/gm, '')
+  .replaceAll('function (', 'function(');
 ---
 <div class="deck">
 <!-- như story: thanh tiến trình + dòng tài khoản đứng yên, chỉ các màn trượt ngang bên dưới.
@@ -31,10 +35,12 @@ const js = storyJs.replace(/^[ \t]*\/\/.*\n/gm, '').replace(/^[ \t]+/gm, '');
     <Image src={avatar} alt="" width={30} height={30} densities={[2]} format="webp" />
     <div>
       <p aria-hidden="true"><span>{WEDDING.handle}</span><small>{WEDDING.dateShort}</small></p>
-      <!-- nhạc như story: chạm mới tải + phát (không autoplay); ▶ khi dừng, sóng nhạc khi đang phát -->
-      <button class="mu" type="button" aria-pressed="false" data-s={`${songWebm} ${songM4a}`}><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 1.5v9l8-4.5z"></path><rect x="1" y="2" width="2" height="9"></rect><rect x="5" y="2" width="2" height="9"></rect><rect x="9" y="2" width="2" height="9"></rect></svg>{WEDDING.music.title} · {WEDDING.music.artist}</button>
+      <!-- nhạc như story: 2s sau khi mở thì thử phát (trình duyệt chặn thì phát ở lần chạm đầu); ▶ khi dừng, sóng nhạc khi đang phát -->
+      <button class="mu" type="button" data-mu aria-pressed="false" data-s={`${songWebm} ${songM4a}`}><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 1.5v9l8-4.5z"></path><rect x="1" y="2" width="2" height="9"></rect><rect x="5" y="2" width="2" height="9"></rect><rect x="9" y="2" width="2" height="9"></rect></svg>{WEDDING.music.title} · {WEDDING.music.artist}</button>
     </div>
   </div>
+  <!-- nút loa góc dưới phải: tắt/bật nhạc -->
+  <button class="mute" type="button" data-mu aria-pressed="false" aria-label="Nhạc nền"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9h3l5-4v14l-5-4H4z" fill="currentColor"></path><path class="wv" d="M16 9a4 4 0 0 1 0 6M19 6a8 8 0 0 1 0 12"></path><path class="x" d="M16 9l5 6M21 9l-5 6"></path></svg></button>
 </div>
 <main class="story" data-g={guest?.guestID} data-api={guest ? api : undefined}>
   <Cover c={c} total={total} />

@@ -20,9 +20,9 @@
 | Xưng hô | Cột `xungHo` (danh sách chọn sẵn, 8 giá trị) | Quyết định toàn bộ đại từ trên thiệp và tin nhắn Zalo, xem §2.1 |
 | OG preview | 1 ảnh chung + og:title cá nhân hoá | "Gửi anh Tuấn · Tiên & Huyền cưới rồi!" |
 | Mừng cưới | QR ẩn sau nút, chỉ khi `showGift = TRUE` | Khách khác: QR không có trong HTML |
-| Tính năng | Đếm ngược · photo dump + video (thumbnail mở YouTube) · theo dõi đã mở · chạm cạnh để chuyển màn · nhạc nền chạm mới phát | |
+| Tính năng | Đếm ngược · photo dump + video (thumbnail mở YouTube) · theo dõi đã mở · chạm cạnh để chuyển màn · nhạc nền (thử tự phát sau 2s, nút loa tắt) | |
 
-**Không làm:** nhạc tự phát, sổ lời chúc, ảnh OG riêng từng khách, bản in, song ngữ, Zalo Mini App, lightbox, CMS, analytics, thư viện âm lịch, story tự chạy.
+**Không làm:** sổ lời chúc, ảnh OG riêng từng khách, bản in, song ngữ, Zalo Mini App, lightbox, CMS, analytics, thư viện âm lịch, story tự chạy.
 
 ---
 
@@ -117,7 +117,7 @@ Rate limit: CacheService ≤ 10 request/giờ/guestID/action.
 
 ## 4. Trang khách — 6 màn Story
 
-Mỗi màn: cao `clamp(640px, 100svh, 760px)`, rộng bằng khung (≤ 480px); các màn xếp ngang trong 1 khung bo góc 14px trên nền tối (máy thấp hơn 672px: bỏ lề + bo góc để vừa khít). Như story: thanh tiến trình 6 đoạn (tĩnh: màn đã qua đầy, màn đang xem nửa, không tự chạy) và tên `tienvahuyen · 23.01.27` **đứng yên** ở trên cùng (dưới tên là dòng nhạc như story: "▶ Romantic Sunday · Car, the Garden", xem §5 Nhạc nền), chỉ các màn trượt bên dưới; chữ trắng trên ảnh/nền tím, mực trên màn giấy. Chạm 28% cạnh phải/trái = sang màn sau/trước (trượt mượt). Vuốt ngang sang đúng 1 màn (`scroll-snap-type: x mandatory` + `scroll-snap-stop: always`). Màn bìa có mũi tên › trắng nhún nhẹ ở mép phải (gợi ý vuốt/chạm sang màn sau), không có chữ.
+Mỗi màn: cao `clamp(640px, 100svh, 760px)`, rộng bằng khung (≤ 480px); các màn xếp ngang trong 1 khung bo góc 14px trên nền tối (máy thấp hơn 672px: bỏ lề + bo góc để vừa khít). Như story: thanh tiến trình 6 đoạn (tĩnh: màn đã qua đầy, màn đang xem nửa, không tự chạy) và tên `tienvahuyen · 23.01.27` **đứng yên** ở trên cùng (dưới tên là dòng nhạc như story: "▶ Romantic Sunday · Car, the Garden"; nút loa tắt/bật nhạc sát góc dưới phải; xem §5 Nhạc nền), chỉ các màn trượt bên dưới; chữ trắng trên ảnh/nền tím, mực trên màn giấy. Chạm 28% cạnh phải/trái = sang màn sau/trước (trượt mượt). Vuốt ngang sang đúng 1 màn (`scroll-snap-type: x mandatory` + `scroll-snap-stop: always`). Màn bìa có mũi tên › trắng nhún nhẹ ở mép phải (gợi ý vuốt/chạm sang màn sau), không có chữ.
 
 | # | Màn | Nội dung | Chức năng |
 |---|---|---|---|
@@ -161,7 +161,7 @@ Mỗi màn: cao `clamp(640px, 100svh, 760px)`, rộng bằng khung (≤ 480px); 
 - **Hình vẽ tay kiểu "Save the date"** (`doodles.ts`, vẽ dần như trên): bìa: ly martini, cành lá, sao · màn 2: quả cầu disco treo, sao · màn 3: mỗi mục lịch trình 1 hình (2 ly cocktail + kệ bánh; cổng hoa, cô dâu chú rể, khách, máy ảnh; bàn tiệc tròn + nốt nhạc) · màn 4: máy ảnh cạnh "photo dump" · màn 5: phong bì · màn 6: bó hoa, sao. Mép nét run bằng 1 filter SVG dùng chung, không tải thêm file.
 - **Kỹ thuật:** SVG `pathLength="1"` + `stroke-dashoffset` (nét vẽ), `clip-path` (chữ viết tay), `filter` (tráng phim). Tên trên bìa = chữ in hoa Cormorant ("TIÊN & HUYỀN"), không cần font thư pháp (~4KB gzip, không cần tải font cho tên). Thẻ `<html>` nhận class `js` bằng script inline trong `<head>` (tránh nháy); IntersectionObserver gắn class `in` cho màn đã thấy (≥45%). Không JS → mọi thứ hiện sẵn, không ẩn gì. `prefers-reduced-motion` → tắt hết, nội dung hiện đầy đủ.
 - **Hiệu ứng phụ:** nhãn bật lên, ảnh thả rơi bằng CSS scroll-driven (`animation-timeline: view()`, range `entry 0% entry 100%`), trong `@supports`.
-- **Nhạc nền** (thêm 26/11): đoạn đầu "Romantic Sunday" (Car, the Garden), 73s, lặp liền. **Không tự phát**: khách chạm dòng "▶ Romantic Sunday · Car, the Garden" dưới tên tài khoản (`.mu` trong `.hud`, vùng chạm 44px) mới tải + phát; chạm lần nữa dừng; rời trang/sang app khác tự dừng. Đang tải: biểu tượng nhấp nháy; đang phát: 3 vạch sóng nhạc. Phát bằng Web Audio (tải cả file rồi phát) vì host tĩnh Cloudflare không trả 206 cho Range nên iPhone không phát `<audio>` được. File: Opus 32kbps `.webm` (~310KB, mọi máy giải mã được) + AAC 64kbps `.m4a` dự phòng (~600KB, chỉ tải khi Opus lỗi), đã chuẩn hoá −14 LUFS, lên/xuống âm lượng dần ở hai đầu. Bài hát có bản quyền: repo nên để private.
+- **Nhạc nền** (thêm 26/11, đổi sang tự phát theo yêu cầu): đoạn đầu "Romantic Sunday" (Car, the Garden), 73s, lặp liền. **2s sau khi mở** thiệp tải nhạc và thử phát; trình duyệt chặn tự phát (Chrome, Safari, đa số webview) thì nhạc bật ở **lần chạm đầu tiên** bất kỳ đâu (chạm cạnh sang màn, chạm nút…). Tắt/bật: nút loa sát góc dưới phải (loa có sóng = đang phát, gạch chéo = tắt) hoặc chạm dòng "▶ Romantic Sunday · Car, the Garden" dưới tên tài khoản (đang phát: 3 vạch sóng). Đang tải: biểu tượng nhấp nháy. Rời trang/sang app khác tự dừng, quay lại phát tiếp nếu khách chưa tắt. Tải cả file thành blob rồi phát bằng `<audio>` (host tĩnh Cloudflare không trả 206 cho Range nên iPhone không phát thẳng từ URL; Web Audio thì phải giải mã cả bài, làm khựng máy và tụt Lighthouse). File: Opus 32kbps `.webm` (~312KB) + AAC 64kbps `.m4a` cho máy không phát được Opus (~590KB, iPhone đời cũ), đã chuẩn hoá −14 LUFS, lên/xuống âm lượng dần ở hai đầu. Mọi khách tốn thêm ~312KB dữ liệu (tải sau khi trang đã hiện, không ảnh hưởng LCP).
 
 ---
 
@@ -174,7 +174,7 @@ Mỗi màn: cao `clamp(640px, 100svh, 760px)`, rộng bằng khung (≤ 480px); 
 | Ảnh màn 1 (eager, `fetchpriority=high`) | ≤ 150KB AVIF |
 | Ảnh màn 2–6 + photo dump (lazy) | ≤ 800KB tổng |
 | JS | ≤ 5KB, vanilla (đếm ngược, chạm cạnh, RSVP, quà, beacon, nhạc, IntersectionObserver cho hiệu ứng) |
-| Nhạc (chỉ tải khi khách chạm ▶) | Opus ≤ 400KB; bản AAC dự phòng ≤ 700KB chỉ máy không giải mã được Opus mới tải |
+| Nhạc (tải sau 2s, sau khi trang đã hiện) | Opus ≤ 400KB; bản AAC dự phòng ≤ 700KB chỉ máy không giải mã được Opus mới tải |
 | Request bên thứ 3 trước khi trang hiển thị | **0** |
 | Lighthouse mobile | Perf ≥ 95 · LCP ≤ 2.0s · CLS < 0.05 |
 

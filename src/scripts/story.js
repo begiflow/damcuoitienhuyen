@@ -8,7 +8,7 @@
   var pre = function (s) { if (s) s.querySelectorAll('img[loading=lazy]').forEach(function (m) { m.loading = 'eager'; }); };
   var at = function () {
     var i = Math.round(main.scrollLeft / main.clientWidth), s = scr[i];
-    if (i === cur || !s) return;
+    if (i == cur || !s) return;
     cur = i;
     hud.style.setProperty('--i', i);
     hud.classList.toggle('ink', !s.matches('.photo,.f6'));
@@ -28,11 +28,14 @@
         if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
       });
     }, { threshold: 0.45 });
-    d.querySelectorAll('.scr').forEach(function (s) { io.observe(s); });
+    scr.forEach(function (s) { io.observe(s); });
   }
 
-  // 2. Chạm cạnh trái/phải → màn trước/sau
+  // 2. Chạm cạnh trái/phải → màn trước/sau. Chạm nút nhạc → bật/tắt; chạm chỗ khác (vd. chạm cạnh)
+  //    → mở khoá âm thanh nếu trình duyệt đã chặn tự phát (biến + hàm nhạc ở mục 6)
   d.addEventListener('click', function (e) {
+    if (e.target.closest('[data-mu]')) return pl ? go(0) : play();
+    if (on) go(1);
     var b = e.target.closest('[data-go]');
     if (!b) return;
     var s = b.closest('section'), t = b.dataset.go > 0 ? s.nextElementSibling : s.previousElementSibling;
@@ -44,7 +47,7 @@
   if (cd) {
     var end = +cd.dataset.t, u = {};
     cd.querySelectorAll('[data-u]').forEach(function (el) { u[el.dataset.u] = el; });
-    var two = function (n) { return (n < 10 ? '0' : '') + n; };
+    var two = function (n) { return ('0' + n).slice(-2); };
     var tick = function () {
       var x = Math.max(0, end - Date.now());
       u.d.textContent = Math.floor(x / 864e5);
@@ -56,33 +59,34 @@
     setInterval(tick, 1000);
   }
 
-  // 6. Nhạc: chạm dòng ♫ mới tải + phát, chạm lần nữa thì dừng, rời trang thì dừng.
-  // Dùng Web Audio (tải cả file) vì host tĩnh không trả 206 cho Range → iPhone không phát <audio>.
-  // Opus trước, giải mã lỗi (iOS cũ) thì lấy bản AAC.
-  var mu = d.querySelector('.mu'), ac, on, bs;
-  if (mu) {
-    var go = function (v) {
-      on = v;
-      if (ac) v ? ac.resume() : ac.suspend();
-      mu.className = 'mu' + (v ? (bs ? ' on' : ' ld') : '');
-      mu.setAttribute('aria-pressed', v);
-    };
-    var get = function (u) {
-      return fetch(u).then(function (r) { return r.arrayBuffer(); }).then(function (x) { return ac.decodeAudioData(x); });
-    };
-    mu.addEventListener('click', function () {
-      if (!ac) {
-        ac = new AudioContext();
-        // iPhone đang gạt im lặng vẫn nghe được (máy nào hỗ trợ Audio Session API)
-        try { navigator.audioSession.type = 'playback'; } catch (_) {}
-        var s = mu.dataset.s.split(' ');
-        get(s[0]).catch(function () { return get(s[1]); }).then(function (x) {
-          bs = ac.createBufferSource(); bs.buffer = x; bs.loop = true; bs.connect(ac.destination); bs.start(); go(on);
-        }, function () { ac = 0; go(false); });
-      }
-      go(!on);
-    });
-    d.addEventListener('visibilitychange', function () { if (d.hidden) go(false); });
+  // 6. Nhạc nền: 2s sau khi mở thì tải + thử phát. Đa số trình duyệt chặn tự phát
+  // → nhạc bật ở lần chạm đầu tiên (mục 2). Nút [data-mu] (dòng nhạc trên cùng, nút loa góc dưới)
+  // bật/tắt. Rời trang thì dừng, quay lại thì phát tiếp (nếu chưa tắt).
+  // Tải cả file thành blob rồi phát bằng <audio>: host tĩnh không trả 206 cho Range nên iPhone không phát
+  // thẳng từ URL (blob thì không cần Range); <audio> giải mã dần, không khựng máy như decodeAudioData.
+  // Máy không phát được Opus (iOS cũ) lấy bản AAC.
+  var mus = d.querySelectorAll('[data-mu]'), au = new Audio(), on, pl, got; // got: đã bắt đầu tải (đừng đặt tên f: trùng form RSVP)
+  au.loop = true;
+  var ui = function () {
+    pl = !au.paused;
+    hud.classList.toggle('on', pl);
+    hud.classList.toggle('ld', on && !au.src);
+    mus.forEach(function (b) { b.ariaPressed = pl; });
+  };
+  au.onplay = au.onpause = ui;
+  var go = function (v) { on = v; if (au.src) v ? au.play().catch(ui) : au.pause(); ui(); };
+  var play = function () {
+    if (!got) {
+      got = 1;
+      var s = mus[0].dataset.s.split(' ');
+      fetch(au.canPlayType('audio/webm; codecs=opus') ? s[0] : s[1]).then(function (r) { return r.blob(); })
+        .then(function (b) { au.src = URL.createObjectURL(b); go(on); }, function () { got = 0; go(0); });
+    }
+    go(1);
+  };
+  if (mus.length) {
+    setTimeout(function () { got || play(); }, 2000); // khách đã tự bật/tắt trong 2s đầu thì thôi
+    d.addEventListener('visibilitychange', function () { d.hidden ? au.pause() : on && go(1); });
   }
 
   var post = function (body) {
@@ -99,10 +103,10 @@
     var picked = function () { return f.querySelector('[name=a]:checked'); };
     var ui = function (state) {
       var a = picked();
-      btn.classList.toggle('sent', state === 'sent');
-      btn.disabled = !a || state === 'sent' || state === 'busy';
-      lb.textContent = state === 'sent' ? fd.ok : state === 'busy' ? 'Đang gửi…' : state === 'err' ? fd.err : a ? 'Gửi' : fd.pick;
-      if (state === 'sent' || state === 'err') st.textContent = lb.textContent;
+      btn.classList.toggle('sent', state == 'sent');
+      btn.disabled = !a || state == 'sent' || state == 'busy';
+      lb.textContent = state == 'sent' ? fd.ok : state == 'busy' ? 'Đang gửi…' : state == 'err' ? fd.err : a ? 'Gửi' : fd.pick;
+      if (state == 'sent' || state == 'err') st.textContent = lb.textContent;
     };
     try {
       var saved = JSON.parse(localStorage.getItem(key));
@@ -118,10 +122,10 @@
       e.preventDefault();
       var a = picked();
       if (!a) return;
-      var n = a.value === 'yes' ? +f.querySelector('[name=n]:checked').value : 0;
+      var n = a.value == 'yes' ? +f.querySelector('[name=n]:checked').value : 0;
       var m = f.m.value.trim().slice(0, 300);
       ui('busy');
-      post({ action: 'rsvp', guestID: gid, attending: a.value === 'yes', soNguoi: n, ghiChu: m })
+      post({ action: 'rsvp', guestID: gid, attending: a.value == 'yes', soNguoi: n, ghiChu: m })
         .then(function () {
           ui('sent');
           try { localStorage.setItem(key, JSON.stringify({ a: a.value, n: n, m: m })); } catch (_) {}

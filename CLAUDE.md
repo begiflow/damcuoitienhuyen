@@ -9,7 +9,7 @@ Thiết kế: **6 màn kiểu story** (xem PLAN §4, mockup: `design/story-mocku
 ## Luật cứng (không vi phạm)
 1. Không framework runtime, không hydration. JS chỉ là `<script>` vanilla inline, tổng ≤ 5KB.
 2. **0 request bên thứ 3 trước khi trang hiển thị.** Sheet/Apps Script **chỉ** được đọc lúc build; lúc chạy chỉ gọi khi bấm Gửi RSVP và beacon lượt xem (sau 2s).
-3. Không autoplay âm thanh/video, không iframe, không đăng nhập, không tải file (trừ `.ics`), không xin quyền.
+3. Không autoplay video, không iframe, không đăng nhập, không tải file (trừ `.ics`), không xin quyền. Âm thanh tự phát **chỉ** có nhạc nền (chủ thiệp yêu cầu 26/11): thử phát sau 2s, luôn có nút loa tắt ở góc dưới phải.
 4. URL khách trả **200 trực tiếp**: `build.format: 'file'`, `trailingSlash: 'never'`. Không đưa tên hay xưng hô lên query param.
 5. Build output không chứa `sdt`, `nhom` hay cột nội bộ. QR/STK chỉ render khi `showGift === true`.
 6. **guestID bất biến.** Không viết code đổi/sinh lại guestID đã có.
@@ -40,7 +40,7 @@ HTML ≤ 30KB gzip · font ≤ 80KB · ảnh màn 1 ≤ 150KB (eager) · ảnh c
   - Mỗi `.scr` có `content-visibility: auto`: màn còn xa chưa vẽ nên ảnh trong đó chưa tải, nhường băng thông cho ảnh bìa. JS tải trước ảnh của màn kế tiếp (màn 2: sau khi ảnh bìa tải xong) để vuốt ngang không thấy ảnh hiện chậm.
   - Font viết tay chỉ tải khi `<html>` có class `fr` (JS gắn sau khi ảnh bìa tải xong, tối đa 2.5s).
   - Ảnh bìa có bản mờ 24px base64 làm nền (`Cover.astro`, dùng `sharp` có sẵn của Astro). Ảnh này quá nhỏ nên Chrome không tính là LCP.
-- **Nhạc nền** (PLAN §5): dòng `.mu` dưới tên tài khoản trong `.hud`, chạm mới tải + phát (luật 3: không autoplay), rời trang thì dừng. Phát bằng **Web Audio** (fetch cả file → `decodeAudioData` → loop), **không** dùng `<audio src>`: Cloudflare static assets không trả 206 cho Range nên iPhone không phát. Opus `.webm` trước, lỗi giải mã thì lấy `.m4a`. Không tải gì trước khi khách chạm.
+- **Nhạc nền** (PLAN §5): 2s sau khi mở thì tải + thử phát; đa số trình duyệt chặn tự phát nên nhạc bật ở **lần chạm đầu tiên** bất kỳ đâu (vd. chạm cạnh sang màn; vuốt không tính là chạm). Nút `[data-mu]`: dòng `.mu` dưới tên tài khoản + nút loa `.mute` sát góc dưới phải (vòng mờ 28px, vùng chạm 44px), cả hai nằm trong `.hud`; trạng thái là class `.on`/`.ld` trên `.hud`. Rời trang thì dừng, quay lại phát tiếp nếu khách chưa tắt. Phát bằng `<audio>` với **blob** (fetch cả file → `URL.createObjectURL`), **không** trỏ `src` thẳng tới URL file: Cloudflare static assets không trả 206 cho Range nên iPhone không phát. **Không** dùng Web Audio `decodeAudioData`: giải mã cả bài làm khựng ~300ms, Lighthouse tụt dưới 95. Chọn `.webm` (Opus) nếu `canPlayType` hỗ trợ, không thì `.m4a`. Không tải nhạc trước 2s.
 - Tokens trong `src/styles/tokens.css` (PLAN §5). Câu chữ cố định trong `src/config/wedding.ts`; không tự viết lại.
 
 ## Cấu trúc
