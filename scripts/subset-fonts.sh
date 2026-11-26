@@ -15,6 +15,6 @@ pyftsubset "$SRC/CormorantGaramond-500-700.ttf" --unicodes="$U" --flavor=woff2 -
 # Chữ viết tay (Great Vibes) chỉ dùng chữ thường → subset theo scripts/hw-chars.txt.
 # npm run budget sẽ báo nếu câu viết tay dùng ký tự ngoài file này.
 pyftsubset "$SRC/GreatVibes-Regular.ttf" --text-file=scripts/hw-chars.txt --flavor=woff2 --layout-features='*' --no-hinting --desubroutinize --output-file="$OUT/greatvibes-400.woff2"
-# Dấu & thư pháp giữa tên trên bìa: outline SVG, không tải font
+# Chữ "and" thư pháp giữa tên trên bìa: outline SVG, không tải font
 python3 scripts/signature.py "$SRC/GreatVibes-Regular.ttf" > src/components/story/Amp.astro
 ls -l "$OUT"

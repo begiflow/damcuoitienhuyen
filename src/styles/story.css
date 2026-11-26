@@ -115,10 +115,10 @@ img { display: block; }
 
 /* ---------- màn 1: bìa ---------- */
 .mention { position: absolute; z-index: 3; right: -14px; bottom: 6px; transform: rotate(4deg); max-width: 92%; padding: 5px 10px; border-radius: 6px; background: var(--accent); color: #fff; font: 800 13px/1.35 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; overflow-wrap: anywhere; text-align: left; }
-/* tên cô dâu chú rể: serif in hoa giãn chữ như thiệp mẫu; dấu & là nét thư pháp (SVG) */
-.names { margin: 10px 0 0; display: flex; align-items: center; justify-content: center; gap: .14em; font-size: 40px; font-weight: 500; line-height: 1.2; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); }
-.amp { height: 1.15em; width: auto; overflow: visible; }
-.amp path { fill: currentColor; stroke: currentColor; stroke-width: 10; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 0; }
+/* tên cô dâu chú rể: serif in hoa giãn chữ, chữ "and" thư pháp ở giữa (SVG) — như thiệp mẫu */
+.names { margin: 10px 0 0; display: flex; align-items: baseline; justify-content: center; gap: .28em; font-size: 40px; font-weight: 500; line-height: 1.2; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); }
+.amp { height: .7em; width: auto; overflow: visible; }
+.amp path { fill: currentColor; stroke: currentColor; stroke-width: 4; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 0; }
 .cover-title { margin: 6px 0 0; font-size: 24px; font-weight: 700; line-height: 1.2; letter-spacing: .06em; }
 .cover-title em { font-style: normal; }
 .hint { display: flex; align-items: center; gap: 2px; color: var(--muted); font-size: 13px; font-weight: 600; letter-spacing: .12em; }
