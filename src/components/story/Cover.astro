@@ -5,7 +5,6 @@ import cover from '../../assets/photos/01-cover.jpg';
 import { WEDDING } from '../../config/wedding';
 import type { Copy } from '../../lib/copy';
 import Screen from './Screen.astro';
-import Amp from './Amp.astro';
 import Doodle from './Doodle.astro';
 
 interface Props { c: Copy; total: number }
@@ -21,8 +20,8 @@ const lqip = (await sharp(join(process.cwd(), 'src/assets/photos/01-cover.jpg'))
   <Doodle slot="deco" name="spark" w={16} delay={1.2} class="w c-s1" />
   <Doodle slot="deco" name="spark" w={12} delay={1.4} class="w c-s2" />
   <p class="kicker">Thiệp mời cưới · {WEDDING.dateDots}</p>
-  <!-- như thiệp mẫu "MAI PHƯƠNG and MINH TUẤN": tên in hoa serif, chữ "and" thư pháp -->
-  <h1 class="names">{WEDDING.groom} <Amp /> {WEDDING.bride}</h1>
+  <!-- như thiệp mẫu: tên in hoa serif giãn chữ, dấu & cùng font -->
+  <h1 class="names">{WEDDING.groom} <span class="amp">&amp;</span> {WEDDING.bride}</h1>
   <p class="cover-title">{c.MINH} <em>CƯỚI&nbsp;RỒI!</em></p>
   <p class="hw ink" style="animation-delay:2.1s;margin-top:6px">{c.s1note}</p>
   <div class="grow"></div>
