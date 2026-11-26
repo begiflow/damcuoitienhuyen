@@ -2,10 +2,12 @@
 import '../styles/tokens.css';
 import '../styles/story.css';
 import serif from '../assets/fonts/cormorant-500-700.woff2?url';
+// ảnh xem trước khi gửi link: URL có hash (/_astro/og.<hash>.jpg) → đổi ảnh là Zalo tải ảnh mới, không dính cache
+import ogJpg from '../assets/og.jpg?url';
 
 interface Props { title: string; description: string }
 const { title, description } = Astro.props;
-const og = new URL('/og.jpg', Astro.site).href;
+const og = new URL(ogJpg, Astro.site).href;
 // build.format 'file' cho pathname kiểu /k/<id>.html; og:url phải đúng link gửi khách (/k/<id>, / )
 const url = new URL(Astro.url.pathname.replace(/(index)?\.html$/, ''), Astro.site).href;
 ---
