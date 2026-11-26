@@ -23,7 +23,9 @@ const hwChars = new Set([...readFileSync('scripts/hw-chars.txt', 'utf8').replace
 function images(html) {
   const out = [];
   for (const m of html.matchAll(/<picture>(.*?)<\/picture>/gs)) {
-    const avif = m[1].match(/<source[^>]*type="image\/avif"[^>]*srcset="([^"]+)"/)?.[1];
+    // thứ tự thuộc tính không cố định (Astro xuất srcset trước type) → tìm thẻ <source> AVIF rồi mới lấy srcset
+    const avifTag = m[1].match(/<source\b[^>]*type="image\/avif"[^>]*>/)?.[0];
+    const avif = avifTag?.match(/srcset="([^"]+)"/)?.[1];
     const img = m[1].match(/<img[^>]*>/)[0];
     const urls = (avif ?? img.match(/src="([^"]+)"/)[1]).split(',').map((s) => s.trim().split(/\s+/)[0]);
     out.push({ url: urls.at(-1), bytes: Math.max(...urls.map(size)), eager: /fetchpriority="high"/.test(img) });
