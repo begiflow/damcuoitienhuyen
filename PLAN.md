@@ -22,7 +22,7 @@
 | Mừng cưới | QR ẩn sau nút, chỉ khi `showGift = TRUE` | Khách khác: QR không có trong HTML |
 | Tính năng | Đếm ngược · photo dump + video (thumbnail mở YouTube) · theo dõi đã mở · chạm cạnh để chuyển màn · nhạc nền (thử tự phát sau 2s, nút nốt nhạc để tắt) | |
 
-**Không làm:** sổ lời chúc, ảnh OG riêng từng khách, bản in, song ngữ, Zalo Mini App, lightbox, CMS, analytics, thư viện âm lịch, story tự chạy.
+**Không làm:** sổ lời chúc, ảnh OG riêng từng khách, bản in, song ngữ, Zalo Mini App, lightbox, CMS, analytics, thư viện âm lịch.
 
 ---
 
@@ -117,7 +117,7 @@ Rate limit: CacheService ≤ 10 request/giờ/guestID/action.
 
 ## 4. Trang khách — 6 màn Story
 
-Mỗi màn: cao `clamp(640px, 100svh, 760px)`, rộng bằng khung (≤ 480px); các màn xếp ngang trong 1 khung bo góc 14px trên nền tối (máy thấp hơn 672px: bỏ lề + bo góc để vừa khít). Như story: thanh tiến trình 6 đoạn (tĩnh: màn đã qua đầy, màn đang xem nửa, không tự chạy) và tên `tienvahuyen · 23.01.27` **đứng yên** ở trên cùng (dưới tên là dòng nhạc như story: "▶ Romantic Sunday · Car, the Garden"; nút nốt nhạc tắt/bật nhạc sát góc dưới phải; xem §5 Nhạc nền), chỉ các màn trượt bên dưới; chữ trắng trên ảnh/nền tím, mực trên màn giấy. Chạm 28% cạnh phải/trái = sang màn sau/trước (trượt mượt). Vuốt ngang sang đúng 1 màn (`scroll-snap-type: x mandatory` + `scroll-snap-stop: always`). Màn bìa có mũi tên › trắng nhún nhẹ ở mép phải (gợi ý vuốt/chạm sang màn sau), không có chữ.
+Mỗi màn: cao `clamp(640px, 100svh, 760px)`, rộng bằng khung (≤ 480px); các màn xếp ngang trong 1 khung bo góc 14px trên nền tối (máy thấp hơn 672px: bỏ lề + bo góc để vừa khít). Như story: thanh tiến trình 6 đoạn (màn đã qua đầy; màn đang xem chạy đầy trong **15s** rồi tự sang màn sau, trừ màn hồi âm và màn cuối; giữ ngón tay / đang gõ / mở quà thì tạm dừng) và tên `tienvahuyen · 23.01.27` **đứng yên** ở trên cùng (dưới tên là dòng nhạc như story: "▶ Romantic Sunday · Car, the Garden"; nút nốt nhạc tắt/bật nhạc sát góc dưới phải; xem §5 Nhạc nền), chỉ các màn trượt bên dưới; chữ trắng trên ảnh/nền tím, mực trên màn giấy. Chạm 28% cạnh phải/trái = sang màn sau/trước (trượt mượt). Vuốt ngang sang đúng 1 màn (`scroll-snap-type: x mandatory` + `scroll-snap-stop: always`). Màn bìa có mũi tên › trắng nhún nhẹ ở mép phải (gợi ý vuốt/chạm sang màn sau), không có chữ.
 
 | # | Màn | Nội dung | Chức năng |
 |---|---|---|---|

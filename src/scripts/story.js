@@ -3,19 +3,28 @@
   var d = document, main = d.querySelector('main'), ds = main.dataset;
   var api = ds.api, gid = ds.g;
 
-  // Màn đang xem: đổi đoạn tiến trình (--i), màu (.ink), tải trước ảnh màn kế
-  var hud = d.querySelector('.hud'), scr = d.querySelectorAll('.scr'), cur = -1;
+  // Màn đang xem: đổi đoạn tiến trình (--i, .c = đoạn đang chạy 15s), màu (.ink), tải trước ảnh màn kế
+  var hud = d.querySelector('.hud'), scr = d.querySelectorAll('.scr'), bar = hud.querySelectorAll('.bars i'), cur = -1;
   var pre = function (s) { if (s) s.querySelectorAll('img[loading=lazy]').forEach(function (m) { m.loading = 'eager'; }); };
+  var to = function (t) { if (t) t.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' }); };
   var at = function () {
     var i = Math.round(main.scrollLeft / main.clientWidth), s = scr[i];
     if (i == cur || !s) return;
+    if (bar[cur]) bar[cur].className = '';
+    bar[i].className = 'c';
     cur = i;
     hud.style.setProperty('--i', i);
     hud.classList.toggle('ink', !s.matches('.photo,.f6'));
     if (i) pre(scr[i + 1]); // màn 1: đợi ảnh bìa (fr)
   };
-  main.addEventListener('scroll', at, { passive: true });
+  main.addEventListener('scroll', at);
   at();
+  // Như story: đoạn đang xem chạy đầy 15s (CSS) rồi tự sang màn sau; không tự rời màn hồi âm (có form)
+  // và màn cuối. Giữ ngón tay trên màn (:active), đang gõ, mở quà: CSS tự dừng.
+  // (.hud chỉ có animation vô hạn ngoài thanh tiến trình nên animationend chỉ đến từ thanh)
+  hud.addEventListener('animationend', function () { if (!scr[cur].querySelector('form')) to(scr[cur + 1]); });
+  // iPhone chỉ áp :active khi có trình nghe touchstart
+  d.addEventListener('touchstart', function () {}, { passive: true });
 
   // 0. Font viết tay + ảnh màn 2: sau ảnh bìa (tối đa 2.5s)
   var cover = d.querySelector('.bgp'), fr = function () { d.documentElement.classList.add('fr'); pre(scr[1]); };
@@ -38,8 +47,8 @@
     if (on) go(1);
     var b = e.target.closest('[data-go]');
     if (!b) return;
-    var s = b.closest('section'), t = b.dataset.go > 0 ? s.nextElementSibling : s.previousElementSibling;
-    if (t) t.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+    var s = b.closest('section');
+    to(b.dataset.go > 0 ? s.nextElementSibling : s.previousElementSibling);
   });
 
   // 3. Đếm ngược
@@ -137,8 +146,7 @@
   if (api && gid && !/[?&]preview=1/.test(location.search)) {
     setTimeout(function () {
       try { if (localStorage.getItem('noTrack')) return; } catch (_) {}
-      var body = JSON.stringify({ action: 'view', guestID: gid });
-      if (!(navigator.sendBeacon && navigator.sendBeacon(api, body))) post({ action: 'view', guestID: gid }).catch(function () {});
+      navigator.sendBeacon(api, JSON.stringify({ action: 'view', guestID: gid }));
     }, 2000);
   }
 })();

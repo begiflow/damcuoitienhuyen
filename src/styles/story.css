@@ -36,7 +36,7 @@ img { display: block; }
 .tap.prev { left: 0; }
 .tap.next { right: 0; }
 
-/* lớp phủ đứng yên: thanh tiến trình mảnh (tĩnh: màn đã qua đầy, màn đang xem nửa) + dòng tài khoản.
+/* lớp phủ đứng yên: thanh tiến trình mảnh (màn đã qua đầy, màn đang xem chạy 15s) + dòng tài khoản.
    Trắng trên ảnh và nền tím, mực trên màn giấy (.ink) */
 .hud { position: absolute; z-index: 4; inset: 0; color: #fff; pointer-events: none; }
 .hud.ink { color: var(--ink); }
@@ -44,7 +44,13 @@ img { display: block; }
 .bars i { flex: 1; height: 2px; border-radius: 2px; overflow: hidden; position: relative; }
 .bars i::before, .bars i::after { content: ''; position: absolute; inset: 0; background: currentColor; }
 .bars i::before { opacity: .3; }
-.bars i::after { right: auto; width: clamp(0%, (var(--i) - var(--n)) * 100% + 50%, 100%); opacity: .95; transition: width .3s; }
+.bars i::after { transform-origin: left; transform: scaleX(clamp(0, var(--i) - var(--n), 1)); opacity: .95; }
+/* như story: đoạn đang xem chạy đầy 15s rồi JS chuyển màn (animationend). Tạm dừng khi giữ ngón tay (:active),
+   đang gõ lời nhắn, mở quà. Giảm chuyển động: đứng yên nửa đoạn, không tự chuyển */
+.bars i.c::after { animation: bar 15s linear both; }
+.deck:has(.story:active, textarea:focus, input:focus, details[open]) .bars i.c::after { animation-play-state: paused; }
+@keyframes bar { from { transform: scaleX(0); } to { transform: none; } }
+@media (prefers-reduced-motion: reduce) { .bars i.c::after { animation: none; transform: scaleX(.5); } }
 .hud.ink .bars i::before { opacity: .12; }
 .hud.ink .bars i::after { opacity: .55; }
 
