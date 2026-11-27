@@ -267,15 +267,16 @@ input:checked + .num { border-color: var(--accent); background: var(--accent); c
 .f6 .kicker { opacity: .8; }
 .bye { margin: 10px 0 0; font-size: clamp(34px, 10.5vw, 44px); font-weight: 700; line-height: 1.15; color: #fff; }
 .booth { flex: 1; min-height: 0; width: 100%; margin: 14px 0 10px; container-type: size; }
-.booth-in { height: 100%; display: flex; align-items: center; justify-content: center; gap: 6px; }
+.booth-in { height: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; }
 .s6note { margin: 8px 0 0; font-size: 18px; line-height: 1.4; color: var(--soft); }
-.booth-note { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; max-width: 120px; }
-.booth-note .hw { font-size: 21px; text-align: right; transform: rotate(-4deg); }
+.booth-note { display: flex; flex-direction: column; align-items: center; gap: 4px; max-width: 112px; }
+.booth-note .hw { font-size: 21px; text-align: center; transform: rotate(-4deg); }
 .strip { height: 100%; max-height: 280px; aspect-ratio: 10 / 27; flex: 0 0 auto; }
 .strip > div { height: 100%; box-sizing: border-box; transform: rotate(4deg); background: #fff; padding: 6px 6px 18px; display: flex; flex-direction: column; gap: 5px; box-shadow: 0 6px 16px rgba(0,0,0,.25); }
 .strip picture { flex: 1; min-height: 0; display: block; }
 .strip img { width: 100%; height: 100%; object-fit: cover; }
-@container (max-height: 150px) { .booth-in { display: none; } }
+/* chỗ quá thấp: bỏ dải ảnh + chữ + bó hoa, nhưng giữ hộp quà (là nút) */
+@container (max-height: 150px) { .strip, .booth-note, .bq { display: none; } }
 /* màn cuối: nút trên nền tím = nền --soft chữ tím; Nhắc mình + Chỉ đường cùng 1 hàng */
 .f6 .btn { background: var(--soft); color: var(--accent); box-shadow: 0 4px 14px rgba(0,0,0,.25); }
 .acts { display: flex; justify-content: center; gap: 10px; width: 100%; margin-top: 10px; }
@@ -286,9 +287,20 @@ input:checked + .num { border-color: var(--accent); background: var(--accent); c
 .gift-card::backdrop { background: rgba(20, 12, 30, .6); }
 .gift-card .x { position: absolute; top: 0; right: 0; width: 44px; height: 44px; padding: 0; border: 0; background: none; color: var(--muted); font-size: 24px; line-height: 1; cursor: pointer; }
 @supports not selector(:popover-open) { .gbox, .f6 .booth { display: none; } .gift-card { display: flex; margin-top: 12px; } .gift-card .x { display: none; } }
-/* hộp quà = nút: vùng chạm 60px, lắc nhẹ mỗi 3s để khách biết bấm được */
-.gbox { pointer-events: auto; width: 60px; height: 60px; display: grid; place-items: center; padding: 0; border: 0; background: none; color: var(--soft); cursor: pointer; -webkit-tap-highlight-color: transparent; }
-@media (prefers-reduced-motion: no-preference) { .gbox svg { transform-origin: 50% 90%; animation: wig 3s ease-in-out infinite; } }
+/* hộp quà = nút (75px, vùng chạm 84px), có màu theo tông thiệp: thân tím nhạt, nắp tím, ruy băng vàng như băng keo.
+   Biết bấm được: quầng vàng phập phồng phía sau + lắc nhẹ mỗi 3s (tắt khi giảm chuyển động) */
+.gbox { position: relative; pointer-events: auto; width: 84px; height: 84px; flex: none; display: grid; place-items: center; padding: 0; border: 0; background: none; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.gbox::before { content: ''; position: absolute; inset: 4px; border-radius: 50%; background: radial-gradient(circle, rgba(232,194,122,.6), rgba(232,194,122,0) 68%); }
+.gbox svg { position: relative; }
+.gbox .dd { color: #2a2140; stroke-width: 1.7; }
+.gbox .body { fill: #f3eefb; }
+.gbox .lid { fill: #d6c8ee; }
+.gbox .rib { fill: #e8c27a; }
+@media (prefers-reduced-motion: no-preference) {
+  .gbox::before { animation: halo 2.4s ease-in-out infinite; }
+  .gbox svg { transform-origin: 50% 90%; animation: wig 3s ease-in-out infinite; }
+}
+@keyframes halo { 0%, 100% { transform: scale(.8); opacity: .45; } 50% { transform: scale(1.15); opacity: 1; } }
 @keyframes wig { 0%, 78%, 100% { transform: rotate(0); } 84% { transform: rotate(-10deg); } 90% { transform: rotate(9deg); } 95% { transform: rotate(-4deg); } }
 .gift-card img { width: 110px; height: 110px; flex: 0 0 auto; }
 .gift-card p { margin: 0; }

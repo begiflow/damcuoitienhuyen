@@ -26,13 +26,13 @@ const h = WEDDING.helper;
   <p class="s6note">{c.s6note}</p>
   <div class="booth">
     <div class="booth-in">
+      <!-- đối xứng: hộp quà (hoặc bó hoa) bên trái · chữ ở giữa · dải ảnh bên phải. Hộp quà bấm → thẻ QR nổi (popover, không JS) -->
+      {showGift ? (
+        <button class="gbox" type="button" popovertarget="qua" aria-label={c.giftLabel}><Doodle name="gift" w={75} still /></button>
+      ) : (
+        <Doodle name="bouquet" w={56} delay={.6} class="bq" />
+      )}
       <div class="booth-note">
-        <!-- quà mừng: hộp quà bên trái dải ảnh (thay nút chữ, 27/11); bấm → thẻ QR nổi giữa màn (popover, không JS) -->
-        {showGift ? (
-          <button class="gbox" type="button" popovertarget="qua" aria-label={c.giftLabel}><Doodle name="gift" w={50} still /></button>
-        ) : (
-          <Doodle name="bouquet" w={42} delay={.6} />
-        )}
         <p class="hw ink" style="animation-delay:1s">{c.boothNote}</p>
         <svg width="54" height="34" viewBox="0 0 64 40" fill="none" stroke="var(--soft)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path class="draw" pathLength="1" filter="url(#ink)" d="M4 6c18 2 38 10 52 26" style="animation-delay:1.3s"></path>

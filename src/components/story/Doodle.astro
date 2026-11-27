@@ -15,6 +15,9 @@ const step = Math.min(0.15, 0.8 / d.length);
     {d.map((p, k) => {
       const t = +(delay + k * step).toFixed(2);
       // tiền tố a: màu nhấn, f: mảng tô đặc (vẽ viền rồi đổ mực: 2 animation, delay riêng), af: cả hai
+      // "lớp|d": class tô màu riêng (hình có màu, vd. hộp quà)
+      const cm = /^([a-z]+)\|/.exec(p);
+      if (cm) return <path class={cm[1]} d={p.slice(cm[0].length)}></path>;
       const pre = /^([af]+):/.exec(p)?.[1] ?? '';
       const f = pre.includes('f');
       return <path class:list={[{ draw: !still, a: pre.includes('a'), f }]} pathLength="1" d={pre ? p.slice(pre.length + 1) : p} style={still ? undefined : `animation-delay:${f ? `${t}s,${+(t + 0.6).toFixed(2)}s` : `${t}s`}`}></path>;
