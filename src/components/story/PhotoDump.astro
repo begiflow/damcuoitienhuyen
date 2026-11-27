@@ -8,7 +8,7 @@ import { WEDDING } from '../../config/wedding';
 import type { Copy } from '../../lib/copy';
 import Doodle from './Doodle.astro';
 import Screen from './Screen.astro';
-import { DUMP } from './img';
+import { DUMP, ZOOM } from './img';
 
 interface Props { c: Copy; i: number; total: number }
 const { c, i, total } = Astro.props;
@@ -23,8 +23,8 @@ const alt = `Ảnh cưới ${WEDDING.groom} và ${WEDDING.bride}`;
   </div>
   <div class="grow"></div>
   <div class="grid">
-    <div class="frame"><span class="tape" aria-hidden="true"></span><div class="ph"><Picture src={p1} {...DUMP} alt={alt} loading="lazy" /></div></div>
-    <div class="frame"><span class="tape" aria-hidden="true"></span><div class="ph"><Picture src={p2} {...DUMP} alt={alt} loading="lazy" /></div></div>
+    <button class="frame zoom" type="button" popovertarget="anh1" aria-label="Xem ảnh lớn"><span class="tape" aria-hidden="true"></span><span class="ph"><Picture src={p1} {...DUMP} alt={alt} loading="lazy" /></span></button>
+    <button class="frame zoom" type="button" popovertarget="anh2" aria-label="Xem ảnh lớn"><span class="tape" aria-hidden="true"></span><span class="ph"><Picture src={p2} {...DUMP} alt={alt} loading="lazy" /></span></button>
     <Tag class="frame" {...(yt ? { href: yt, target: '_blank', rel: 'noopener', 'aria-label': 'Xem phim cưới trên YouTube' } : {})}>
       <span class="tape" aria-hidden="true"></span>
       <span class="ph">
@@ -33,8 +33,14 @@ const alt = `Ảnh cưới ${WEDDING.groom} và ${WEDDING.bride}`;
       </span>
       <span class="hw cap" aria-hidden="true">{yt ? 'phim cưới nè' : 'phim cưới sắp có'}</span>
     </Tag>
-    <div class="frame"><span class="tape" aria-hidden="true"></span><div class="ph"><Picture src={p3} {...DUMP} alt={alt} loading="lazy" /></div></div>
+    <button class="frame zoom" type="button" popovertarget="anh3" aria-label="Xem ảnh lớn"><span class="tape" aria-hidden="true"></span><span class="ph"><Picture src={p3} {...DUMP} alt={alt} loading="lazy" /></span></button>
   </div>
+  <!-- bấm ảnh nhỏ → ảnh lớn nổi giữa màn (popover, không JS); bấm bất kỳ đâu, kể cả lên ảnh, là đóng. Đang xem thì thanh story dừng (CSS) -->
+  {[p1, p2, p3].map((p, k) => (
+    <div id={`anh${k + 1}`} popover class="lb">
+      <button type="button" popovertarget={`anh${k + 1}`} popovertargetaction="hide" aria-label="Đóng ảnh"><Picture src={p} {...ZOOM} alt={alt} loading="lazy" /></button>
+    </div>
+  ))}
   <div class="grow"></div>
   <p class="hw ink dump-note">{c.dumpNote}</p>
 </Screen>

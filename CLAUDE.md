@@ -74,6 +74,7 @@ apps-script/api/              # web app Anyone: GET guests (token), POST rsvp/vi
 apps-script/admin/            # bound vào Sheet: menu Cập nhật khách từ tab "Khách …", Sinh guestID, Build lại thiệp
 ```
 - Quà mừng (27/11): màn cuối xếp **đối xứng** [hộp quà | chữ viết tay ở giữa | dải 3 ảnh] (khách không quà: bó hoa thay hộp). **Hộp quà vẽ tay có màu** (`.gbox` 75px, vùng chạm 84px; thân tím nhạt, nắp tím, ruy băng vàng như băng keo; mảng màu qua tiền tố `lớp|` trong `doodles.ts`; `Doodle still` để không ẩn chờ hiệu ứng; quầng vàng phập phồng + lắc nhẹ mỗi 3s) mở thẻ QR **popover** (`#qua`, không JS, chạm ra ngoài hoặc × để đóng). Chỉ đặt `display` trên `:popover-open` (đặt cho `[popover]` sẽ làm nó luôn hiện). Máy không có popover (iOS < 17): `@supports not selector(:popover-open)` ẩn dải ảnh, thẻ QR hiện thẳng. Nhắc mình + Chỉ đường là 1 hàng nút ở màn cuối (sau hồi âm), màn 2 và 3 không có nút. RSVP dùng radio + label, nút Gửi bật bằng JS.
+- Ảnh cưới (màn ảnh cưới, 27/11): 3 ảnh nhỏ là nút (`.zoom`) mở ảnh lớn **popover** (`.lb`, `ZOOM` trong `img.ts`: 480/760px), bấm bất kỳ đâu (cả lên ảnh) là đóng; đang xem thì thanh story dừng (rule `:has(.lb:popover-open)` để **riêng**, gộp chung với selector khác thì máy cũ bỏ cả rule). Máy không có popover: ẩn `.lb`.
 - Câu viết tay (class `hw`) chỉ dùng ký tự trong `scripts/hw-chars.txt`; budget fail nếu lệch.
 
 ## Data contract

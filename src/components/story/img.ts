@@ -20,4 +20,11 @@ export const BOOTH = {
   sizes: '100px',
   quality: 60,
 };
-
+// Ảnh cưới xem lớn (bấm ảnh nhỏ ở màn ảnh cưới): ~94% bề ngang máy, tối đa 760px để nhẹ
+export const ZOOM = {
+  formats: ['avif', 'webp'] as Array<'avif' | 'webp'>,
+  fallbackFormat: 'webp' as const,
+  widths: [480, 760],
+  sizes: '(max-width: 480px) 94vw, 450px',
+  quality: 50,
+};
