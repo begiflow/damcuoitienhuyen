@@ -100,9 +100,10 @@ img { display: block; }
 .sheet-wrap > .tape { top: -8px; }
 .sheet { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; align-items: center; padding: 28px 16px 20px; background: var(--paper); clip-path: polygon(0% 6.3px, 2.5% 0.0px, 5% 4.5px, 7.5% 1.8px, 10% 6.3px, 12.5% 0.9px, 15% 2.7px, 17.5% 1.8px, 20% 3.6px, 22.5% 1.8px, 25% 5.4px, 27.5% 5.4px, 30% 0.9px, 32.5% 5.4px, 35% 5.4px, 37.5% 2.7px, 40% 1.8px, 42.5% 0.9px, 45% 3.6px, 47.5% 2.7px, 50% 2.7px, 52.5% 5.4px, 55% 0.0px, 57.5% 3.6px, 60% 4.5px, 62.5% 4.5px, 65% 3.6px, 67.5% 3.6px, 70% 6.3px, 72.5% 1.8px, 75% 6.3px, 77.5% 0.9px, 80% 0.9px, 82.5% 1.8px, 85% 1.8px, 87.5% 2.7px, 90% 3.6px, 92.5% 2.7px, 95% 3.6px, 97.5% 2.7px, 100% 1.8px, 100% calc(100% - 3.6px), 97.5% calc(100% - 3.6px), 95% calc(100% - 3.6px), 92.5% calc(100% - 1.8px), 90% calc(100% - 2.7px), 87.5% calc(100% - 3.6px), 85% calc(100% - 6.3px), 82.5% calc(100% - 0.0px), 80% calc(100% - 0.9px), 77.5% calc(100% - 6.3px), 75% calc(100% - 0.9px), 72.5% calc(100% - 0.0px), 70% calc(100% - 4.5px), 67.5% calc(100% - 0.9px), 65% calc(100% - 3.6px), 62.5% calc(100% - 5.4px), 60% calc(100% - 1.8px), 57.5% calc(100% - 0.0px), 55% calc(100% - 0.9px), 52.5% calc(100% - 5.4px), 50% calc(100% - 1.8px), 47.5% calc(100% - 5.4px), 45% calc(100% - 6.3px), 42.5% calc(100% - 5.4px), 40% calc(100% - 5.4px), 37.5% calc(100% - 1.8px), 35% calc(100% - 1.8px), 32.5% calc(100% - 1.8px), 30% calc(100% - 5.4px), 27.5% calc(100% - 0.0px), 25% calc(100% - 1.8px), 22.5% calc(100% - 2.7px), 20% calc(100% - 6.3px), 17.5% calc(100% - 0.0px), 15% calc(100% - 4.5px), 12.5% calc(100% - 2.7px), 10% calc(100% - 3.6px), 7.5% calc(100% - 5.4px), 5% calc(100% - 1.8px), 2.5% calc(100% - 0.0px), 0% calc(100% - 1.8px)); }
 .scr.soft .sheet { background: var(--soft); }
-/* màn 3: giấy hơi trong (80%) để thấy ảnh phía sau (cô dâu yêu cầu 27/11). Không blur (backdrop-filter nặng khi vuốt
-   trên máy yếu). Chữ phụ đậm hơn: chỗ ảnh tối nhất nền còn ~#c5c2c8, --muted gốc chỉ 3.7:1 → #4d4659 đạt 5:1 */
-.scr.venue .sheet { --muted: #4d4659; background: rgb(246 243 250 / .8); }
+/* màn 3: giấy trong 65% để thấy ảnh phía sau (cô dâu yêu cầu 27/11). Không blur (backdrop-filter nặng khi vuốt
+   trên máy yếu). Chỗ ảnh tối nhất nền giấy chỉ còn ~L 0.36 → chữ phụ + giờ (tím) gốc chỉ 3.5–3.7:1; đậm hơn riêng màn này
+   cho đạt ≥ 4.5:1 (đo trên ảnh thật bằng review/contrast3.js) */
+.scr.venue .sheet { --muted: #36303f; --accent: #3d2b66; background: rgb(246 243 250 / .65); }
 .sheet .grow { flex: 0 1 18px; }
 /* nét vẽ tay & nhãn nằm trên ảnh: nét trắng như bút vẽ của story, bóng nhẹ cho ảnh sáng */
 .dd.w, .dd.w .a { color: #fff; stroke: #fff; }
