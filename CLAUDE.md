@@ -73,7 +73,7 @@ scripts/subset-fonts.sh  scripts/hw-chars.txt
 apps-script/api/              # web app Anyone: GET guests (token), POST rsvp/view
 apps-script/admin/            # bound vào Sheet: menu Cập nhật khách từ tab "Khách …", Sinh guestID, Build lại thiệp
 ```
-- Quà mừng dùng `<details>` (không JS); mở ra thì `:has()` ẩn dải photobooth. RSVP dùng radio + label, nút Gửi bật bằng JS.
+- Quà mừng (27/11): **hộp quà vẽ tay** bên trái dải photobooth (`.gbox`, `Doodle still` để không ẩn chờ hiệu ứng, lắc nhẹ mỗi 3s) mở thẻ QR **popover** (`#qua`, không JS, chạm ra ngoài hoặc × để đóng). Chỉ đặt `display` trên `:popover-open` (đặt cho `[popover]` sẽ làm nó luôn hiện). Máy không có popover (iOS < 17): `@supports not selector(:popover-open)` ẩn dải ảnh, thẻ QR hiện thẳng. Nhắc mình + Chỉ đường là 1 hàng nút ở màn cuối (sau hồi âm), màn 2 và 3 không có nút. RSVP dùng radio + label, nút Gửi bật bằng JS.
 - Câu viết tay (class `hw`) chỉ dùng ký tự trong `scripts/hw-chars.txt`; budget fail nếu lệch.
 
 ## Data contract

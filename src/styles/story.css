@@ -48,7 +48,7 @@ img { display: block; }
 /* như story: đoạn đang xem chạy đầy 15s rồi JS chuyển màn (animationend). Tạm dừng khi giữ ngón tay (:active),
    đang gõ lời nhắn, mở quà. Giảm chuyển động: đứng yên nửa đoạn, không tự chuyển */
 .bars i.c::after { animation: bar 15s linear both; }
-.deck:has(.story:active, textarea:focus, input:focus, details[open]) .bars i.c::after { animation-play-state: paused; }
+.deck:has(.story:active, textarea:focus, input:focus) .bars i.c::after { animation-play-state: paused; }
 @keyframes bar { from { transform: scaleX(0); } to { transform: none; } }
 @media (prefers-reduced-motion: reduce) { .bars i.c::after { animation: none; transform: scaleX(.5); } }
 .hud.ink .bars i::before { opacity: .12; }
@@ -268,8 +268,6 @@ input:checked + .num { border-color: var(--accent); background: var(--accent); c
 .bye { margin: 10px 0 0; font-size: clamp(34px, 10.5vw, 44px); font-weight: 700; line-height: 1.15; color: #fff; }
 .booth { flex: 1; min-height: 0; width: 100%; margin: 14px 0 10px; container-type: size; }
 .booth-in { height: 100%; display: flex; align-items: center; justify-content: center; gap: 6px; }
-.f6:has(.gift[open]) .booth { display: none; }
-.f6:has(.gift[open]) .body { justify-content: center; }
 .s6note { margin: 8px 0 0; font-size: 18px; line-height: 1.4; color: var(--soft); }
 .booth-note { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; max-width: 120px; }
 .booth-note .hw { font-size: 21px; text-align: right; transform: rotate(-4deg); }
@@ -282,10 +280,16 @@ input:checked + .num { border-color: var(--accent); background: var(--accent); c
 .f6 .btn { background: var(--soft); color: var(--accent); box-shadow: 0 4px 14px rgba(0,0,0,.25); }
 .acts { display: flex; justify-content: center; gap: 10px; width: 100%; margin-top: 10px; }
 .acts .btn { flex: 1 1 0; max-width: 170px; padding: 0 10px; letter-spacing: .04em; white-space: nowrap; }
-.gift { margin-top: 14px; max-width: 100%; }
-.gift summary { list-style: none; }
-.gift summary::-webkit-details-marker { display: none; }
-.gift-card { margin-top: 12px; background: #fff; color: var(--ink); border-radius: 14px; padding: 14px; display: flex; gap: 14px; align-items: center; font-size: 16px; line-height: 1.45; text-align: left; }
+.gift-card { position: relative; margin: auto; padding: 16px 18px 16px 16px; border: 0; background: #fff; color: var(--ink); border-radius: 14px; box-shadow: 0 12px 40px rgba(0,0,0,.35); gap: 14px; align-items: center; font-size: 16px; line-height: 1.45; text-align: left; }
+/* chỉ đặt display khi đang mở: đặt display cho [popover] sẽ làm nó luôn hiện */
+.gift-card:popover-open { display: flex; }
+.gift-card::backdrop { background: rgba(20, 12, 30, .6); }
+.gift-card .x { position: absolute; top: 0; right: 0; width: 44px; height: 44px; padding: 0; border: 0; background: none; color: var(--muted); font-size: 24px; line-height: 1; cursor: pointer; }
+@supports not selector(:popover-open) { .gbox, .f6 .booth { display: none; } .gift-card { display: flex; margin-top: 12px; } .gift-card .x { display: none; } }
+/* hộp quà = nút: vùng chạm 60px, lắc nhẹ mỗi 3s để khách biết bấm được */
+.gbox { pointer-events: auto; width: 60px; height: 60px; display: grid; place-items: center; padding: 0; border: 0; background: none; color: var(--soft); cursor: pointer; -webkit-tap-highlight-color: transparent; }
+@media (prefers-reduced-motion: no-preference) { .gbox svg { transform-origin: 50% 90%; animation: wig 3s ease-in-out infinite; } }
+@keyframes wig { 0%, 78%, 100% { transform: rotate(0); } 84% { transform: rotate(-10deg); } 90% { transform: rotate(9deg); } 95% { transform: rotate(-4deg); } }
 .gift-card img { width: 110px; height: 110px; flex: 0 0 auto; }
 .gift-card p { margin: 0; }
 .fam { font-size: 15px; line-height: 1.5; color: var(--soft); }

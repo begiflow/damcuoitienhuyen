@@ -62,7 +62,7 @@ for (const file of pages) {
   if (!/<meta name="robots" content="noindex/.test(html)) errors.push(`${name}: thiếu meta noindex`);
 
   // Quà mừng: trang không bật showGift không được chứa QR/STK
-  const hasGift = /<details class="gift"/.test(html);
+  const hasGift = /<div id="qua" popover/.test(html); // thẻ quà mừng (popover) chỉ có khi showGift
   if (!hasGift && (html.includes(WEDDING.gift.account) || /gift-qr/.test(html))) errors.push(`${name}: lộ QR/STK dù showGift = false`);
 
   // Chữ viết tay phải nằm trong bộ ký tự đã subset của Playwrite VN

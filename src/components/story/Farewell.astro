@@ -27,7 +27,12 @@ const h = WEDDING.helper;
   <div class="booth">
     <div class="booth-in">
       <div class="booth-note">
-        <Doodle name="bouquet" w={42} delay={.6} />
+        <!-- quà mừng: hộp quà bên trái dải ảnh (thay nút chữ, 27/11); bấm → thẻ QR nổi giữa màn (popover, không JS) -->
+        {showGift ? (
+          <button class="gbox" type="button" popovertarget="qua" aria-label={c.giftLabel}><Doodle name="gift" w={50} still /></button>
+        ) : (
+          <Doodle name="bouquet" w={42} delay={.6} />
+        )}
         <p class="hw ink" style="animation-delay:1s">{c.boothNote}</p>
         <svg width="54" height="34" viewBox="0 0 64 40" fill="none" stroke="var(--soft)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path class="draw" pathLength="1" filter="url(#ink)" d="M4 6c18 2 38 10 52 26" style="animation-delay:1.3s"></path>
@@ -52,21 +57,17 @@ const h = WEDDING.helper;
       CHỈ ĐƯỜNG
     </a>
   </div>
+  <!-- máy không hỗ trợ popover (iOS < 17): thẻ hiện thẳng tại đây, dải ảnh ẩn (CSS @supports) -->
   {showGift && (
-    <details class="gift">
-      <summary class="btn">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="8" width="17" height="4"></rect><path d="M5 12v8h14v-8M12 8v12M12 8c-2-4-7-4-6-1s6 1 6 1zM12 8c2-4 7-4 6-1s-6 1-6 1z"></path></svg>
-        {c.giftLabel}
-      </summary>
-      <div class="gift-card">
-        <Image src={qr} alt="Mã QR chuyển khoản" width={110} height={110} densities={[2]} format="png" loading="lazy" />
-        <div style="min-width:0">
-          <p style="color:var(--muted)">{WEDDING.gift.bank}</p>
-          <p style="font-weight:900">{WEDDING.gift.account}</p>
-          <p>{WEDDING.gift.holder}</p>
-        </div>
+    <div id="qua" popover class="gift-card">
+      <button class="x" type="button" popovertarget="qua" popovertargetaction="hide" aria-label="Đóng">×</button>
+      <Image src={qr} alt="Mã QR chuyển khoản" width={110} height={110} densities={[2]} format="png" loading="lazy" />
+      <div style="min-width:0">
+        <p style="color:var(--muted)">{WEDDING.gift.bank}</p>
+        <p style="font-weight:900">{WEDDING.gift.account}</p>
+        <p>{WEDDING.gift.holder}</p>
       </div>
-    </details>
+    </div>
   )}
   <div class="fam" style="margin-top:14px">
     <!-- như thiệp mẫu: "Nhà trai/Nhà gái" thư pháp, tên song thân serif -->
