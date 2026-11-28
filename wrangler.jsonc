@@ -4,6 +4,12 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "damcuoitienhuyen",
   "compatibility_date": "2026-11-01",
+  // tên miền riêng (mua trên Cloudflare 28/11). Giữ workers.dev để link đã gửi trước đó vẫn vào được.
+  "routes": [
+    { "pattern": "tienhuyen.online", "custom_domain": true },
+    { "pattern": "www.tienhuyen.online", "custom_domain": true }
+  ],
+  "workers_dev": true,
   "assets": {
     "directory": "./dist",
     // /k/<id> → dist/k/<id>.html, trả 200 trực tiếp
